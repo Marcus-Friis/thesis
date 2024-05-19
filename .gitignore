@@ -1,3 +1,9 @@
+# ignore video files
+*.mp4
+
+# ignore .csv files
+*.csv
+
 # ignore secrets
 secrets/
 
