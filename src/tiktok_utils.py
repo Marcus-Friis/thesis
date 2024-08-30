@@ -34,7 +34,7 @@ access_token = get_access_token()
 def request_page(start_date, end_date, hashtag=None, max_count=100, search_id=None, cursor=None, 
                 create_date=None, username=None, region_code=None, video_id=None, keyword=None, 
                 music_id=None, effect_id=None, video_length=None):
-    fields = "id,username,create_time,video_description,hashtag_names,view_count,is_stem_verified,voice_to_text"
+    fields = "id,username,create_time,video_description,hashtag_names,view_count,is_stem_verified,voice_to_text,region_code"
     url = f"https://open.tiktokapis.com/v2/research/video/query/?fields={fields}"
     headers = {
         "authorization": f"bearer {access_token}"
@@ -94,6 +94,8 @@ def request_full(*args, sleep_delay=10, **kwargs):
         response = request_page(*args, search_id=search_id, cursor=cursor, **kwargs)
         videos += response['data']['videos']
 
+        print(cursor)
+
     return videos
 
 
@@ -106,8 +108,12 @@ class SourceScraper:
             options = None
         self.driver = webdriver.Firefox(options=options)
 
-    def scrape_stitch(self, id, username):
-        url = f'https://www.tiktok.com/@{username}/video/{id}'
+    def scrape_stitch(self, id=None, username=None, url=None):
+        if url is None and (id is None or username is None):
+            raise ValueError('Either url or id and username must be provided')
+        if url is None:
+            url = f'https://www.tiktok.com/@{username}/video/{id}'
+
         self.driver.get(url)
         sleep(2)
 
@@ -135,6 +141,25 @@ class SourceScraper:
 
 
 if __name__ == '__main__':
+    from sys import argv
+
+    start_date = '20240501'
+    end_date = '20240531'
+
+    hashtag = argv[1]
+
+    scrape_kwargs = {
+        'start_date': start_date,
+        'end_date': end_date,
+        'hashtag': hashtag,
+        'keyword': 'stitch with'
+    }
+    videos = request_full(**scrape_kwargs)
+
+    with open(f'../data/{hashtag}.json', 'w') as f:
+        json.dump(videos, f, indent=2)
+
+    """
     with open('../notebooks/booktok.json', 'r') as f:
         videos = json.load(f)
 
@@ -159,3 +184,4 @@ if __name__ == '__main__':
         sleep(2)
 
     ss.close()
+    """
