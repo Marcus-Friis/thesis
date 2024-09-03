@@ -108,14 +108,14 @@ class SourceScraper:
             options = None
         self.driver = webdriver.Firefox(options=options)
 
-    def scrape_stitch(self, id=None, username=None, url=None):
+    def scrape_stitch(self, id=None, username=None, url=None, sleep_time=5):
         if url is None and (id is None or username is None):
             raise ValueError('Either url or id and username must be provided')
         if url is None:
             url = f'https://www.tiktok.com/@{username}/video/{id}'
 
         self.driver.get(url)
-        sleep(2)
+        sleep(sleep_time)
 
         xpath = '/html/body/div[1]/div[2]/div[2]/div/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div/h1/a[2]'
         links = self.driver.find_elements('xpath', xpath)
@@ -138,50 +138,3 @@ class SourceScraper:
 
     def __del__(self):
         self.close()
-
-
-if __name__ == '__main__':
-    from sys import argv
-
-    start_date = '20240501'
-    end_date = '20240531'
-
-    hashtag = argv[1]
-
-    scrape_kwargs = {
-        'start_date': start_date,
-        'end_date': end_date,
-        'hashtag': hashtag,
-        'keyword': 'stitch with'
-    }
-    videos = request_full(**scrape_kwargs)
-
-    with open(f'../data/{hashtag}.json', 'w') as f:
-        json.dump(videos, f, indent=2)
-
-    """
-    with open('../notebooks/booktok.json', 'r') as f:
-        videos = json.load(f)
-
-    ss = SourceScraper(headless=True)
-
-    stitchers = []
-    stitchees = []
-    N = len(videos)
-    for idx in range(N):
-        # close instance every 100 iterations to prevent memory leak
-        if idx % 100 == 0:
-            ss.close()
-            ss = SourceScraper(headless=True)
-            sleep(2)
-
-        video = videos[idx]
-        stitcher, stitchee = ss.scrape_stitch(video['id'], video['username'])
-
-        stitchers.append(stitcher)
-        stitchees.append(stitchee)
-        print(f'{idx}/{N}\t>>> {stitcher} -> {stitchee}', flush=True)
-        sleep(2)
-
-    ss.close()
-    """
