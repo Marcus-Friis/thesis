@@ -99,14 +99,22 @@ def request_full(*args, sleep_delay=10, **kwargs):
     return videos
 
 
+from selenium import webdriver
+from selenium.common.exceptions import WebDriverException
+
 class SourceScraper:
     def __init__(self, headless: bool = False) -> None:
-        if headless:
-            options = webdriver.FirefoxOptions()
-            options.add_argument('--headless')
-        else:
-            options = None
-        self.driver = webdriver.Firefox(options=options)
+        self.driver = None
+        try:
+            if headless:
+                options = webdriver.FirefoxOptions()
+                options.add_argument('--headless')
+            else:
+                options = None
+            self.driver = webdriver.Firefox(options=options)
+        except WebDriverException as e:
+            print(f"Failed to initialize WebDriver: {e}")
+            raise
 
     def scrape_stitch(self, id=None, username=None, url=None, sleep_time=5):
         if url is None and (id is None or username is None):
@@ -114,27 +122,34 @@ class SourceScraper:
         if url is None:
             url = f'https://www.tiktok.com/@{username}/video/{id}'
 
-        self.driver.get(url)
-        sleep(sleep_time)
+        try:
+            self.driver.get(url)
+            sleep(sleep_time)
+            xpath = '/html/body/div[1]/div[2]/div[2]/div/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div/h1/a[2]'
+            links = self.driver.find_elements('xpath', xpath)
+            hrefs = [link.get_attribute('href') for link in links]
+            hrefs = [href for href in hrefs if '.com/@' in href]
 
-        xpath = '/html/body/div[1]/div[2]/div[2]/div/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div/h1/a[2]'
-        links = self.driver.find_elements('xpath', xpath)
-        hrefs = [link.get_attribute('href') for link in links]
+            if len(hrefs) == 0:
+                return (url, None)
 
-        hrefs = [href for href in hrefs if '.com/@' in href]
+            if len(hrefs) > 1:
+                return (url, hrefs)
 
-        if len(hrefs) == 0:
+            return (url, hrefs[0])
+        
+        except WebDriverException as e:
+            print(f"Error during scrape_stitch for URL {url}: {e}")
             return (url, None)
-        
-        if len(hrefs) > 1:
-            # print(f'Multiple stitches found for {url}')
-            # print(hrefs)
-            return (url, hrefs)
-        
-        return (url, hrefs[0])
 
     def close(self):
-        self.driver.close()
+        if self.driver:
+            try:
+                self.driver.quit()  # Use quit() to close all windows and end the WebDriver session
+            except WebDriverException as e:
+                print(f"Error closing WebDriver: {e}")
+            finally:
+                self.driver = None
 
     def __del__(self):
         self.close()
