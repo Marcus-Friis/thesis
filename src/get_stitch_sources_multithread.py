@@ -14,7 +14,7 @@ def process_video(video, max_retries=3):
                 return stitcher, stitchee
             except Exception as e:
                 print(f"Attempt {attempt + 1} failed for video {video['id']} with error: {e}")
-                sleep(2)  # Sleep before retrying
+                sleep(2*attempt)  # Sleep before retrying
     except Exception as e:
         print(f"Failed to process video {video['id']} after {max_retries} attempts with error: {e}")
     finally:
@@ -23,13 +23,20 @@ def process_video(video, max_retries=3):
 
 def main():
     hashtag = argv[1]
-    start_index = int(argv[2]) if len(argv) > 2 else 0
 
-    with open(f'../data/{hashtag}.json', 'r') as f:
+    duet_or_stitch = argv[2]
+    if duet_or_stitch not in ['duet', 'stitch']:
+        raise ValueError("Second argument must be either 'duet' or 'stitch'")
+        
+    start_index = int(argv[3]) if len(argv) > 3 else 0
+    threads = int(argv[4]) if len(argv) > 4 else 6
+
+    with open(f'../data/{hashtag}_{duet_or_stitch}.json', 'r') as f:
         videos = json.load(f)
 
+    
     N = len(videos)
-    output_file = f'../data/{hashtag}_edges.txt'
+    output_file = f'../data/{hashtag}_{duet_or_stitch}_edges.txt'
 
     # Create a lock object to synchronize file writes
     file_lock = Lock()
@@ -41,9 +48,7 @@ def main():
                     f.write(f'{stitcher},{stitchee}\n')
                     f.flush()
 
-    num_workers = 6   # Number of threads to use
-
-    with ThreadPoolExecutor(max_workers=num_workers) as executor:
+    with ThreadPoolExecutor(max_workers=threads) as executor:
         futures = {
             executor.submit(process_video, videos[idx]): idx for idx in range(start_index, N)
         }
