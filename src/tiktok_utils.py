@@ -2,10 +2,6 @@ import requests
 import json
 from selenium import webdriver
 from time import sleep
-from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_result
-
-def retry_if_none(result):
-    return result[1] is None
 
 def get_access_token():
     # setup api secrets
@@ -119,7 +115,6 @@ class SourceScraper:
             print(f"Failed to initialize WebDriver: {e}")
             raise
 
-    @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=10), retry=retry_if_result(retry_if_none))
     def scrape_stitch(self, id=None, username=None, url=None, sleep_time=5):
         if url is None and (id is None or username is None):
             raise ValueError('Either url or id and username must be provided')
