@@ -2,7 +2,6 @@ import requests
 import json
 from selenium import webdriver
 from time import sleep
-from tqdm import tqdm
 
 def get_access_token():
     # setup api secrets
@@ -116,27 +115,30 @@ class SourceScraper:
             print(f"Failed to initialize WebDriver: {e}")
             raise
 
-    def scrape_stitch(self, id=None, username=None, url=None, sleep_time=5):
+    def scrape_stitch(self, id=None, username=None, url=None, sleep_time=5, retries=3):
         if url is None and (id is None or username is None):
             raise ValueError('Either url or id and username must be provided')
         if url is None:
             url = f'https://www.tiktok.com/@{username}/video/{id}'
 
         try:
-            self.driver.get(url)
-            sleep(sleep_time)
-            xpath = '/html/body/div[1]/div[2]/div[2]/div/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div/h1/a[2]'
-            links = self.driver.find_elements('xpath', xpath)
-            hrefs = [link.get_attribute('href') for link in links]
-            hrefs = [href for href in hrefs if '.com/@' in href]
+            for attempt in range(retries):
+                self.driver.get(url)
+                sleep(attempt * sleep_time)
+                xpath = '/html/body/div[1]/div[2]/div[2]/div/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div/h1/a[2]'
+                links = self.driver.find_elements('xpath', xpath)
+                hrefs = [link.get_attribute('href') for link in links]
+                hrefs = [href for href in hrefs if '.com/@' in href]
+                
+                if len(hrefs) == 1:
+                    return (url, hrefs[0])
 
-            if len(hrefs) == 0:
-                return (url, None)
-
-            if len(hrefs) > 1:
-                return (url, hrefs)
-
-            return (url, hrefs[0])
+                if len(hrefs) > 1:
+                    return (url, hrefs)
+                
+                sleep(2)
+                
+            return (url, None)
         
         except WebDriverException as e:
             print(f"Error during scrape_stitch for URL {url}: {e}")
