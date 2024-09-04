@@ -55,7 +55,7 @@ if __name__ == '__main__':
                     continue
                 print(f'{i}/{N}\t>>> repairing {stitcher}', flush=True)
 
-                new_stitcher, new_stitchee = ss.scrape_stitch(url=stitcher, sleep_time=15)
+                new_stitcher, new_stitchee = ss.scrape_stitch(url=stitcher)
                 new_lines.append(f'{new_stitcher},{new_stitchee}\n')
                 print(f'{i}/{N}\t>>> {new_stitcher} -> {new_stitchee}', flush=True)
                 sleep(2)

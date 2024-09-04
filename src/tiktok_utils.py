@@ -125,7 +125,7 @@ class SourceScraper:
         try:
             for attempt in range(retries):
                 self.driver.get(url)
-                sleep(attempt * sleep_time)
+                sleep((1 + attempt) * sleep_time)
                 xpath = '/html/body/div[1]/div[2]/div[2]/div/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div/h1/a[2]'
                 links = self.driver.find_elements('xpath', xpath)
                 hrefs = [link.get_attribute('href') for link in links]
