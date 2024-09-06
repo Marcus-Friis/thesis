@@ -22,5 +22,5 @@ if __name__ == '__main__':
 
 
 
-    with open(f'../data/hashtags/{duet_or_stitch}/json_files/{hashtag}.json', 'w') as f:
+    with open(f'../data/hashtags/{duet_or_stitch}/vertices/{hashtag}.json', 'w') as f:
         json.dump(videos, f, indent=2)
