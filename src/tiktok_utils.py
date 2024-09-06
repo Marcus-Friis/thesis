@@ -41,24 +41,30 @@ def request_page(start_date, end_date, hashtag=None, max_count=100, search_id=No
     }
     query_conditions = []
 
+    def create_condition(field_name, field_value):
+        if isinstance(field_value, list):
+            return { "operation": "IN", "field_name": field_name, "field_values": field_value }
+        else:
+            return { "operation": "EQ", "field_name": field_name, "field_values": [field_value] }
+
     if keyword:
-        query_conditions.append({ "operation": "EQ", "field_name": "keyword", "field_values": [keyword] })
+        query_conditions.append(create_condition("keyword", keyword))
     if hashtag:
-        query_conditions.append({ "operation": "EQ", "field_name": "hashtag_name", "field_values": [hashtag] })
+        query_conditions.append(create_condition("hashtag_name", hashtag))
     if create_date:
-        query_conditions.append({ "operation": "EQ", "field_name": "create_date", "field_values": [create_date] })
+        query_conditions.append(create_condition("create_date", create_date))
     if username:
-        query_conditions.append({ "operation": "EQ", "field_name": "username", "field_values": [username] })
+        query_conditions.append(create_condition("username", username))
     if region_code:
-        query_conditions.append({ "operation": "EQ", "field_name": "region_code", "field_values": [region_code] })
+        query_conditions.append(create_condition("region_code", region_code))
     if video_id:
-        query_conditions.append({ "operation": "EQ", "field_name": "video_id", "field_values": [video_id] })
+        query_conditions.append(create_condition("video_id", video_id))
     if music_id:
-        query_conditions.append({ "operation": "EQ", "field_name": "music_id", "field_values": [music_id] })
+        query_conditions.append(create_condition("music_id", music_id))
     if effect_id:
-        query_conditions.append({ "operation": "EQ", "field_name": "effect_id", "field_values": [effect_id] })
+        query_conditions.append(create_condition("effect_id", effect_id))
     if video_length:
-        query_conditions.append({ "operation": "EQ", "field_name": "video_length", "field_values": [video_length] })
+        query_conditions.append(create_condition("video_length", video_length))
 
     data = { 
         "query": {
