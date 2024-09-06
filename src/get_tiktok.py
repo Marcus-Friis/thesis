@@ -2,6 +2,7 @@ if __name__ == '__main__':
     import argparse
     from tiktok_utils import request_full
     import json
+    import os
 
     # Set up argument parser
     parser = argparse.ArgumentParser(description='Download TikTok videos using TikTok API.')
@@ -18,5 +19,20 @@ if __name__ == '__main__':
 
     videos = request_full(**vars(args))
 
-    with open(f'../data/non-hashtags/{args.region_code}_{args.start_date}_{args.end_date}.json', 'w') as f:
+    # smart naming logic - thanks ChatGPT!
+    file_parts = [
+        args.start_date, 
+        args.end_date,
+        f"region-{args.region_code}" if args.region_code else None,
+        f"hashtag-{args.hashtag}" if args.hashtag else None,
+        f"keyword-{args.keyword.replace(' ', '')}" if args.keyword else None,
+        f"length-{args.video_length}s" if args.video_length else None,
+        f"user-{args.username}" if args.username else None
+    ]
+
+    file_name = "_".join(filter(None, file_parts)).lower() + '.json'
+
+    output_path = os.path.join('..', 'data', 'non-hashtags', file_name)
+
+    with open(output_path, 'w') as f:
         json.dump(videos, f, indent=2)
