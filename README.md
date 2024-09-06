@@ -43,12 +43,12 @@ python src/get_hashtag.py cooking stitch
 
 ### Stitch/Duet Edge Scraper
 
-The script [`stitch_edge_scraper.py`](/src/stitch_edge_scraper.py) scrapes stitch or duet relationships between TikTok videos using previously downloaded data.
+The script [`get_edges.py`](/src/get_edges.py) scrapes stitch or duet relationships between TikTok videos using previously downloaded data.
 
 #### Usage
 
 ```bash
-python src/stitch_edge_scraper.py HASHTAG_NAME duet_or_stitch [START_INDEX]
+python src/get_edges.py HASHTAG_NAME duet_or_stitch [START_INDEX]
 ```
 
 - `HASHTAG_NAME`: The hashtag to use (required).
@@ -62,7 +62,7 @@ The script processes videos from `{hashtag}_{duet_or_stitch}.json` and outputs t
 To repair incomplete edges:
 
 ```bash
-python src/stitch_edge_scraper.py HASHTAG_NAME duet_or_stitch repair
+python src/get_edges.py HASHTAG_NAME duet_or_stitch repair
 ```
 
 
