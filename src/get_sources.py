@@ -15,13 +15,13 @@ if __name__ == '__main__':
     if len(argv) == 3 or len(argv) > 3 and argv[3].isdigit():
         start_index = int(argv[3]) if len(argv) > 3 else 0
 
-        with open(f'../data/{hashtag}_{duet_or_stitch}.json', 'r') as f:
+        with open(f'../data/{duet_or_stitch}/json_files/{hashtag}.json', 'r') as f:
             videos = json.load(f)
 
         ss = SourceScraper(headless=True)
         sleep(5)
 
-        with open(f'../data/{hashtag}_{duet_or_stitch}_edges.txt', 'a') as f:
+        with open(f'../data/{duet_or_stitch}/edges/{hashtag}_edges.txt', 'a') as f:
             N = len(videos)
             for idx in range(start_index, N):
                 # close instance every 100 iterations to prevent memory leak
@@ -45,11 +45,11 @@ if __name__ == '__main__':
         ss = SourceScraper(headless=True)
         sleep(5)
 
-        with open(f'../data/{hashtag}_edges.txt', 'r') as f:
+        with open(f'../data/hashtags/{duet_or_stitch}/edges/{hashtag}_edges.txt', 'r') as f:
             lines = f.readlines()
             N = len(lines)
 
-        with open(f'../data/{hashtag}_edges_repair.txt', 'w') as f:
+        with open(f'../data/hashtags/{duet_or_stitch}/edges/{hashtag}_edges.txt', 'w') as f:
             for i, line in enumerate(lines):
                 stitcher, stitchee = line.strip().split(',')
                 if stitchee != 'None':

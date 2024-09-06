@@ -20,5 +20,7 @@ if __name__ == '__main__':
     }
     videos = request_full(**scrape_kwargs)
 
-    with open(f'../data/{hashtag}_{duet_or_stitch}.json', 'w') as f:
+
+
+    with open(f'../data/hashtags/{duet_or_stitch}/json_files/{hashtag}.json', 'w') as f:
         json.dump(videos, f, indent=2)

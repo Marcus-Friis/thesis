@@ -18,5 +18,5 @@ if __name__ == '__main__':
 
     videos = request_full(**vars(args))
 
-    with open(f'../data/{args.region_code}_{args.start_date}_{args.end_date}.json', 'w') as f:
+    with open(f'../data/non-hashtags/{args.region_code}_{args.start_date}_{args.end_date}.json', 'w') as f:
         json.dump(videos, f, indent=2)

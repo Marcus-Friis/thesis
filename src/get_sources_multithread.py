@@ -31,12 +31,12 @@ def main():
     start_index = int(argv[3]) if len(argv) > 3 else 0
     threads = int(argv[4]) if len(argv) > 4 else 6
 
-    with open(f'../data/{hashtag}_{duet_or_stitch}.json', 'r') as f:
+    with open(f'../data/hashtags/{duet_or_stitch}/json_files/{hashtag}.json', 'r') as f:
         videos = json.load(f)
 
     
     N = len(videos)
-    output_file = f'../data/{hashtag}_{duet_or_stitch}_edges.txt'
+    output_file = f'../data/hashtags/{duet_or_stitch}/edges/{hashtag}_edges.txt'
 
     # Create a lock object to synchronize file writes
     file_lock = Lock()
