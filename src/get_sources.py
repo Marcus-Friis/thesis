@@ -45,25 +45,25 @@ if __name__ == '__main__':
         ss = SourceScraper(headless=True)
         sleep(5)
 
-        with open(f'../data/{hashtag}_{duet_or_stitch}_edges.txt', 'r') as f:
+        with open(f'../data/{hashtag}_edges.txt', 'r') as f:
             lines = f.readlines()
             N = len(lines)
 
-        with open(f'../data/{hashtag}_{duet_or_stitch}_edges_repair.txt', 'w') as f:
-            new_lines = []
-
+        with open(f'../data/{hashtag}_edges_repair.txt', 'w') as f:
             for i, line in enumerate(lines):
                 stitcher, stitchee = line.strip().split(',')
                 if stitchee != 'None':
-                    new_lines.append(line)
+                    f.write(line)
                     continue
+
                 print(f'{i}/{N}\t>>> repairing {stitcher}', flush=True)
-
+                
                 new_stitcher, new_stitchee = ss.scrape_stitch(url=stitcher)
-                new_lines.append(f'{new_stitcher},{new_stitchee}\n')
+                f.write(f'{new_stitcher},{new_stitchee}\n')
                 print(f'{i}/{N}\t>>> {new_stitcher} -> {new_stitchee}', flush=True)
-                sleep(2)
 
-            f.writelines(new_lines)
+                f.flush()  # Ensure the file is written immediately
+
+                sleep(2)
 
         ss.close()
