@@ -15,7 +15,7 @@ if __name__ == '__main__':
     if len(argv) == 3 or len(argv) > 3 and argv[3].isdigit():
         start_index = int(argv[3]) if len(argv) > 3 else 0
 
-        with open(f'../data/{duet_or_stitch}/vertices/{hashtag}.json', 'r') as f:
+        with open(f'../data/{duet_or_stitch}/vertices/sources/{hashtag}.json', 'r') as f:
             videos = json.load(f)
 
         ss = SourceScraper(headless=True)

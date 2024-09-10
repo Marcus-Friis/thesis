@@ -31,7 +31,7 @@ def main():
     start_index = int(argv[3]) if len(argv) > 3 else 0
     threads = int(argv[4]) if len(argv) > 4 else 6
 
-    with open(f'../data/hashtags/{duet_or_stitch}/vertices/{hashtag}.json', 'r') as f:
+    with open(f'../data/hashtags/{duet_or_stitch}/vertices/sources/{hashtag}.json', 'r') as f:
         videos = json.load(f)
 
     
