@@ -18,8 +18,7 @@ if __name__ == '__main__':
     if len(argv) == 4:
         batch_size = int(argv[3])
     else:
-        batch_size = 1
-
+        batch_size = 10_000
 
     with open(f'../data/hashtags/{duet_or_stitch}/edges/{hashtag}_edges.txt', 'r') as f:
         lines = f.readlines()
@@ -31,23 +30,41 @@ if __name__ == '__main__':
 
     video_ids = [stitchee.split('/')[-1] for stitchee in stitchees if 'None' not in stitchee]
 
-    scrape_kwargs = {
-        'start_date': '20240501',
-        'end_date': '20240531',
-    }
+    date_intervals = [
+        ('20240501', '20240531'),
+        ('20240401', '20240430'),
+        ('20240301', '20240331'),
+        ('20240201', '20240229'),
+        ('20240101', '20240131')
+    ]
 
     N = len(video_ids)
 
-    videos = []
-    for lo in range(0, N, batch_size):
-        try:
-            hi = lo + batch_size
-            batch = video_ids[lo:hi]
-            scrape_kwargs['video_id'] = batch
-            video = request_full(**scrape_kwargs)
-            videos.append(video)
-        except Exception as e:
-            print(f"Failed to scrape batch {lo}:{hi} for videos {batch} with error: {e}")
+    all_videos = []
+    v_ids = set()
+
+    for start_date, end_date in date_intervals:
+        scrape_kwargs = {
+            'start_date': start_date,
+            'end_date': end_date,
+        }
+
+        print(f"Scraping data from {start_date} to {end_date}...")
+
+        for lo in range(0, N, batch_size):
+            try:
+                hi = lo + batch_size
+                batch = video_ids[lo:hi]
+                scrape_kwargs['video_id'] = batch
+                video = request_full(**scrape_kwargs)
+
+                for v in video:
+                    if v['id'] not in v_ids:
+                        v_ids.add(v['id'])
+                        all_videos.append(v)
+
+            except Exception as e:
+                print(f"Failed to scrape batch {lo}:{hi} for videos {batch} with error: {e}")
 
     with open(f'../data/hashtags/{duet_or_stitch}/vertices/targets/{hashtag}.json', 'w') as f:
-        json.dump(videos, f, indent=2)
+        json.dump(all_videos, f, indent=2)
