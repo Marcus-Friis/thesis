@@ -18,7 +18,7 @@ if __name__ == '__main__':
     if len(argv) == 4:
         batch_size = int(argv[3])
     else:
-        batch_size = 1
+        batch_size = 10_000
 
 
     with open(f'../data/hashtags/{duet_or_stitch}/edges/{hashtag}_edges.txt', 'r') as f:
@@ -39,13 +39,19 @@ if __name__ == '__main__':
     N = len(video_ids)
 
     videos = []
+    v_ids = set()
     for lo in range(0, N, batch_size):
         try:
             hi = lo + batch_size
             batch = video_ids[lo:hi]
             scrape_kwargs['video_id'] = batch
             video = request_full(**scrape_kwargs)
-            videos.append(video)
+
+            for v in video:
+                if v['id'] not in v_ids:
+                    v_ids.add(v['id'])
+                    videos.append(v)
+
         except Exception as e:
             print(f"Failed to scrape batch {lo}:{hi} for videos {batch} with error: {e}")
 
