@@ -2,21 +2,21 @@ import igraph as ig
 import numpy as np
 
 def centralization(G: ig.Graph) -> float:
-    num_nodes = len(G.vs)
+    if G.is_directed():
+        raise ValueError('Centralization is only defined for undirected graphs')
     
-    # Get degrees and compute centrality
-    degrees = np.array(G.degree())
-    denominator = num_nodes - 1
-    centrality = np.where(denominator > 0, degrees / denominator, 0)
+    num_nodes = len(G.vs)
+    G2 = ig.Graph.Star(num_nodes, mode = 'undirected')
 
-    # Compute values for centralization
-    n_val = float(len(centrality))
-    c_denominator = (n_val - 1) * (n_val - 2)
-    c_node_max = np.max(centrality)
-    c_node_max_n_val_minus_1 = c_node_max * (n_val - 1)
+    degrees_nominator = np.array(G.degree())
+    degrees_denominator = np.array(G2.degree())
 
-    # Compute centralization
-    c_numerator = np.sum(c_node_max_n_val_minus_1 - centrality * (n_val - 1))
-    network_centralization = float(c_numerator / c_denominator)
+    max_centrality_nominator = np.max(degrees_nominator)
+    max_centrality_denominator = np.max(degrees_denominator)
+
+    centrality_nominator = max_centrality_nominator - degrees_nominator
+    centrality_denominator = np.where(degrees_denominator > 0, max_centrality_denominator - degrees_denominator , 0)
+
+    network_centralization = np.sum(centrality_nominator) / np.sum(centrality_denominator)
     
     return network_centralization
