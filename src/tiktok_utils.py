@@ -81,16 +81,30 @@ def request_page(start_date, end_date, hashtag=None, max_count=100, search_id=No
     if cursor:
         data['cursor'] = cursor
 
-    response = requests.post(url, headers=headers, json=data)
+    response = requests.post(url, headers=headers, json=data, timeout=30)
     
     if response.status_code != 200:
         raise Exception(f"Error: {response.status_code} - {response.text}")
 
     return response.json()
 
+def request_full(*args, sleep_delay=10, **kwargs):
+    response = request_page(**kwargs)
+    videos = response['data']['videos']
 
+    while response['data']['has_more']:
+        sleep(sleep_delay)
 
-def request_full(*args, sleep_delay=10, dump_directory="../data/data_dumps", max_retries=3, pages_per_dump=5, **kwargs):
+        search_id = response['data']['search_id']
+        cursor = response['data']['cursor']
+        response = request_page(*args, search_id=search_id, cursor=cursor, **kwargs)
+        videos += response['data']['videos']
+
+        print(cursor)
+
+    return videos
+
+def request_full_mads_shit(*args, sleep_delay=10, dump_directory="../data/data_dumps", max_retries=3, pages_per_dump=5, **kwargs):
     os.makedirs(dump_directory, exist_ok=True)
     
     def make_request_with_retry(func, *args, **kwargs):
