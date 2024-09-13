@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import re
+import json
 from graph_utils import degree_centralization
 
 
@@ -118,6 +119,15 @@ if __name__ == '__main__':
         raise ValueError('Hashtag must be provided as argument')
     hashtag = argv[1]
 
+    if len(argv) > 2:
+        create_plots = bool(argv[2])
+    else:
+        create_plots = False
+
+    # read vertex data
+    with open(f'../data/hashtags/stitch/vertices/{hashtag}.json', 'r') as f:
+        vertices = json.load(f)
+
     # read edges from file
     edges = pd.read_csv(f'../data/hashtags/stitch/edges/{hashtag}_edges.txt', header=None)
     edges.columns = ['stitcher_url', 'stitchee_url']
@@ -126,26 +136,30 @@ if __name__ == '__main__':
     edges = edges.dropna()
 
     # clean dataset
-    edges['stitcher'] = edges['stitcher_url'].apply(lambda x: x.split('/')[-1])
-    edges['stitchee'] = edges['stitchee_url'].apply(lambda x: x.split('/')[-1])
+    edges['stitcher'] = edges['stitcher_url'].apply(lambda x: x.split('/')[-1]).astype(int)
+    edges['stitchee'] = edges['stitchee_url'].apply(lambda x: x.split('/')[-1]).astype(int)
 
     # construct graph
     G = ig.Graph.TupleList(edges[['stitcher', 'stitchee']].values, directed=True, edge_attrs=['weight'])
     G.es['weight'] = 1
 
+    # add vertex attributes
+    G.vs['username'] = [vertices[str(v)]['username'] if str(v) in vertices else None for v in G.vs['name'] if str(v) in vertices]
+    G.vs['create_time'] = [vertices[str(v)]['create_time'] if str(v) in vertices else None for v in G.vs['name'] if str(v) in vertices]
+
     # output summary statistics
     print('Video Graph')
     output_summary_statistics(G)
 
-    # plot degree distribution
-    plot_degree_distributions(G, hashtag)
+    if create_plots:
+        # plot degree distribution
+        plot_degree_distributions(G, hashtag)
 
-    # plot graph
-    target = f'../figures/video_graphs/{hashtag}-graph.svg'
-    # layout = G.layout("kk")
-    layout = G.layout_graphopt(niter=1000)
-    ig.plot(G, layout=layout, vertex_size=2, vertex_label=None, vertex_frame_width=0, 
-            edge_arrow_size=0, edge_width=0.2, target=target)
+        # plot graph
+        target = f'../figures/video_graphs/{hashtag}-graph.svg'
+        layout = G.layout_graphopt(niter=1000)
+        ig.plot(G, layout=layout, vertex_size=2, vertex_label=None, vertex_frame_width=0, 
+                edge_arrow_size=0, edge_width=0.2, target=target)
 
 
     # repeat for user graph
@@ -155,21 +169,22 @@ if __name__ == '__main__':
     print('\nUser Graph')
     output_summary_statistics(G)
 
-    # plot degree distribution
-    plot_degree_distributions(G, hashtag+'-user')
+    if create_plots:
+        # plot degree distribution
+        plot_degree_distributions(G, hashtag+'-user')
 
-    # plot graph
-    target = f'../figures/user_graphs/{hashtag}-user-graph.svg'
-    layout = G.layout_graphopt(niter=1000)
-    ig.plot(G, layout=layout, vertex_size=2, vertex_label=None, vertex_frame_width=0, 
-            edge_arrow_size=0, edge_width=0.2, target=target)
-    
-    # plot user graph with component size > 2
-    components = G.as_undirected().components()
-    sizes = [len(c) for c in components]
-    components_filtered = [c for c in components if len(c) > 2]
-    G_sub = G.subgraph(sum(components_filtered, []))
-    target = f'../figures/user_graphs_filtered/{hashtag}-user-graph-filtered.svg'
-    layout = G_sub.layout_graphopt(niter=1000)
-    ig.plot(G_sub, layout=layout, vertex_size=2, vertex_label=None, vertex_frame_width=0, 
-            edge_arrow_size=0, edge_width=0.2, target=target)
+        # plot graph
+        target = f'../figures/user_graphs/{hashtag}-user-graph.svg'
+        layout = G.layout_graphopt(niter=1000)
+        ig.plot(G, layout=layout, vertex_size=2, vertex_label=None, vertex_frame_width=0, 
+                edge_arrow_size=0, edge_width=0.2, target=target)
+        
+        # plot user graph with component size > 2
+        components = G.as_undirected().components()
+        sizes = [len(c) for c in components]
+        components_filtered = [c for c in components if len(c) > 2]
+        G_sub = G.subgraph(sum(components_filtered, []))
+        target = f'../figures/user_graphs_filtered/{hashtag}-user-graph-filtered.svg'
+        layout = G_sub.layout_graphopt(niter=1000)
+        ig.plot(G_sub, layout=layout, vertex_size=2, vertex_label=None, vertex_frame_width=0, 
+                edge_arrow_size=0, edge_width=0.2, target=target)
