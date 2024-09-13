@@ -14,6 +14,7 @@ if __name__ == '__main__':
     parser.add_argument('--keyword', help='Keyword(s) to filter by.')
     parser.add_argument('--video_length', type=int, help='Video length(s) to filter by (in seconds).')
     parser.add_argument('--username', help='Username(s) to filter by.')
+    parser.add_argument('--video_id', help='Video ID(s) to filter by.')
 
     args = parser.parse_args()
 
@@ -27,7 +28,8 @@ if __name__ == '__main__':
         f"hashtag-{args.hashtag}" if args.hashtag else None,
         f"keyword-{args.keyword.replace(' ', '')}" if args.keyword else None,
         f"length-{args.video_length}s" if args.video_length else None,
-        f"user-{args.username}" if args.username else None
+        f"user-{args.username}" if args.username else None,
+        f"id-{args.video_id}" if args.video_id else None
     ]
 
     file_name = "_".join(filter(None, file_parts)).lower() + '.json'
