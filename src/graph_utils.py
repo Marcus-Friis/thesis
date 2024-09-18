@@ -92,6 +92,4 @@ def betweenness_centralization(G: ig.Graph) -> float:
 
     
 if __name__ == '__main__':
-    star_graph = ig.Graph.Star(5, mode = 'undirected')  
-    #print(closeness_centralization(star_graph))
-    print(betweenness_centralization(star_graph))
+    pass
