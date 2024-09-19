@@ -3,6 +3,8 @@
 
 if __name__ == '__main__':
     from sys import argv
+    import os
+    from shutil import move
     from time import sleep
     from tenacity import Retrying, RetryError, stop_after_attempt, wait_fixed
     import pyktok as pyk
@@ -38,18 +40,33 @@ if __name__ == '__main__':
             sleep(2)
         except RetryError as e:
             print(f"Error downloading video {stitcher}: {e}")
+
+    # move videos to correct folder
+    for stitcher in stitchers:
+        # create folder if it doesn't exist
+        if not os.path.exists(f'../data/hashtags/stitch/videos/{hashtag}'):
+            os.makedirs(f'../data/hashtags/stitch/videos/{hashtag}')
+
+        # move video to folder
+        username = stitcher.split('/')[-3]
+        videoid = stitcher.split('/')[-1]
+        videopath = f'{username}_video_{videoid}.mp4'
+        if os.path.exists(videopath):
+            print(videopath)
+            move(videopath, f'../data/hashtags/stitch/videos/{hashtag}/{videopath}')
     
-    for stitchee in stitchees:
-        print(f"Downloading {stitchee}")
-        try:
-            for attempt in Retrying(stop=stop_after_attempt(3), wait=wait_fixed(3)):
-                with attempt:
-                    pyk.save_tiktok(
-                        stitchee,
-                        True,
-                        'video_data.csv',
-                        'firefox'
-                    )
-            sleep(2)
-        except RetryError as e:
-            print(f"Error downloading video {stitchee}: {e}")
+    # code for downloading stitchee videos - not necessary for the project ?
+    # for stitchee in stitchees:
+    #     print(f"Downloading {stitchee}")
+    #     try:
+    #         for attempt in Retrying(stop=stop_after_attempt(3), wait=wait_fixed(3)):
+    #             with attempt:
+    #                 pyk.save_tiktok(
+    #                     stitchee,
+    #                     True,
+    #                     'video_data.csv',
+    #                     'firefox'
+    #                 )
+    #         sleep(2)
+    #     except RetryError as e:
+    #         print(f"Error downloading video {stitchee}: {e}")
