@@ -8,11 +8,18 @@ if __name__ == '__main__':
     from time import sleep
     from tenacity import Retrying, RetryError, stop_after_attempt, wait_fixed
     import pyktok as pyk
-    pyk.specify_browser('firefox')
 
     if len(argv) < 2:
         raise ValueError('Hashtag must be provided as argument')
     hashtag = argv[1]
+    
+    if len(argv) == 3:
+        driver = argv[2]
+        if driver not in ['chrome', 'firefox', 'edge']:
+            raise ValueError('Driver must be one of "chrome", "firefox", or "edge"')
+    else:
+        driver = 'chrome'
+    pyk.specify_browser(driver)
 
     with open(f'../data/hashtags/stitch/edges/{hashtag}_edges.txt', 'r') as f:
         edges = f.readlines()
@@ -25,9 +32,9 @@ if __name__ == '__main__':
         if stitchee != 'None':
             stitchees.append(stitchee)
 
-
-    for stitcher in stitchers:
-        print(f"Downloading {stitcher}")
+    N = len(stitchers)
+    for i, stitcher in enumerate(stitchers):
+        print(f"{i}/{N}\t>>> Downloading {stitcher}")
         try:
             for attempt in Retrying(stop=stop_after_attempt(3), wait=wait_fixed(3)):
                 with attempt:
@@ -35,7 +42,7 @@ if __name__ == '__main__':
                         stitcher,
                         True,
                         'video_data.csv',
-                        'firefox'
+                        driver
                     )
             sleep(2)
         except RetryError as e:
@@ -65,7 +72,7 @@ if __name__ == '__main__':
     #                     stitchee,
     #                     True,
     #                     'video_data.csv',
-    #                     'firefox'
+    #                     driver
     #                 )
     #         sleep(2)
     #     except RetryError as e:
