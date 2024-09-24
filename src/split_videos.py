@@ -44,7 +44,7 @@ if __name__ == '__main__':
     dir_path = f'../data/hashtags/stitch/videos/{hashtag}'
     videos = os.listdir(dir_path)
     
-    thresholds = (9, 6, 3, 1)
+    thresholds = (9, 6)
     
     N = len(videos)   
     for i in range(start_idx, N):
