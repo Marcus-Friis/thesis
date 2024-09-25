@@ -78,7 +78,6 @@ if __name__ == '__main__':
         try:
             for threshold in thresholds:
                 scene_list, success = get_scenes(video_path, adaptive_threshold=threshold)
-                print(scene_list)
                 if success:
                     break
         except VideoOpenFailure as e:
