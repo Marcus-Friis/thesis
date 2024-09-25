@@ -21,7 +21,7 @@ if __name__ == '__main__':
         driver = 'chrome'
     pyk.specify_browser(driver)
 
-    with open(f'../data/hashtags/stitch/edges/{hashtag}_edges.txt', 'r') as f:
+    with open(f'../data/hashtags/edges/{hashtag}_edges.txt', 'r') as f:
         edges = f.readlines()
 
     stitchers = []
@@ -51,8 +51,8 @@ if __name__ == '__main__':
     # move videos to correct folder
     for stitcher in stitchers:
         # create folder if it doesn't exist
-        if not os.path.exists(f'../data/hashtags/stitch/videos/{hashtag}'):
-            os.makedirs(f'../data/hashtags/stitch/videos/{hashtag}')
+        if not os.path.exists(f'../data/hashtags/videos/{hashtag}'):
+            os.makedirs(f'../data/hashtags/videos/{hashtag}')
 
         # move video to folder
         username = stitcher.split('/')[-3]
@@ -60,7 +60,7 @@ if __name__ == '__main__':
         videopath = f'{username}_video_{videoid}.mp4'
         if os.path.exists(videopath):
             print(videopath)
-            move(videopath, f'../data/hashtags/stitch/videos/{hashtag}/{videopath}')
+            move(videopath, f'../data/hashtags/videos/{hashtag}/{videopath}')
     
     # code for downloading stitchee videos - not necessary for the project ?
     # for stitchee in stitchees:

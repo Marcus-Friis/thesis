@@ -233,20 +233,36 @@ if __name__ == '__main__':
         all_user_metrics_df = pd.concat([all_user_metrics_df.copy(), user_metrics_df], axis=0)
 
     # Format the metrics DataFrames as LaTeX strings
-    video_formatted_latex = all_video_metrics_df.style.format("{:.2f}").to_latex()
-    user_formatted_latex = all_user_metrics_df.style.format("{:.2f}").to_latex()
+    # video_formatted_latex = all_video_metrics_df.style.format("{:.2f}").to_latex()
+    # user_formatted_latex = all_user_metrics_df.style.format("{:.2f}").to_latex()
 
-    # Output the formatted LaTeX string
-    print('\n\n')
-    print('Video Metrics')
-    print(video_formatted_latex)
-    print('\n\n')
-    print('User Metrics')
-    print(user_formatted_latex)
+    # # Output the formatted LaTeX string
+    # print('\n\n')
+    # print('Video Metrics')
+    # print(video_formatted_latex)
+    # print('\n\n')
+    # print('User Metrics')
+    # print(user_formatted_latex)
+
+
+    #Convert cols to ints
+    all_video_metrics_df[['Vertices', 'Edges', 'Components', 'Largest component size']] = all_video_metrics_df[['Vertices', 'Edges', 'Components', 'Largest component size']].astype(int)
+    #Convert rest of cols to floats with 2 decimal places
+    all_video_metrics_df[[col for col in all_video_metrics_df.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]] = (
+        all_video_metrics_df[[col for col in all_video_metrics_df.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]].astype(float).round(2)
+    )
+
+    #Repeat for user metrics
+    all_user_metrics_df[['Vertices', 'Edges', 'Components', 'Largest component size']] = all_user_metrics_df[['Vertices', 'Edges', 'Components', 'Largest component size']].astype(int)
+    all_user_metrics_df[[col for col in all_user_metrics_df.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]] = (
+        all_user_metrics_df[[col for col in all_user_metrics_df.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]].astype(float).round(2)
+    )
+    
 
     #Save the metrics to a csv file
-    all_video_metrics_df.to_csv('../data/all_video_metrics_df.csv', index=True, index_label='hashtag')
-    all_user_metrics_df.to_csv('../data/all_user_metrics_df.csv', index=True, index_label='hashtag')
+    
+    all_video_metrics_df.fillna('NA').to_csv('../data/all_video_metrics_df.csv', index=True, index_label='hashtag')
+    all_user_metrics_df.fillna('NA').to_csv('../data/all_user_metrics_df.csv', index=True, index_label='hashtag')
 
-
+    print(all_video_metrics_df)
     print('Done')

@@ -7,13 +7,13 @@ if __name__ == '__main__':
         raise ValueError('Hashtag must be provided as argument')
     hashtag = argv[1]
 
-    with open(f'../data/hashtags/stitch/vertices/sources/{hashtag}.json') as f:
+    with open(f'../data/hashtags/vertices/sources/{hashtag}.json') as f:
         sources = json.load(f)
 
-    with open(f'../data/hashtags/stitch/vertices/targets/{hashtag}.json') as f:
+    with open(f'../data/hashtags/vertices/targets/{hashtag}.json') as f:
         targets = json.load(f)
 
-    with open(f'../data/hashtags/stitch/edges/{hashtag}_edges.txt') as f:
+    with open(f'../data/hashtags/edges/{hashtag}_edges.txt') as f:
         edges = f.readlines()
 
     stitcher, stitchee = zip(*[edge.strip().split(',') for edge in edges])
@@ -48,5 +48,5 @@ if __name__ == '__main__':
         else:
             data[video['id']]['is_stitchee'] = False
 
-    with open(f'../data/hashtags/stitch/vertices/{hashtag}.json', 'w') as f:
+    with open(f'../data/hashtags/vertices/{hashtag}.json', 'w') as f:
         json.dump(data, f, indent=2)

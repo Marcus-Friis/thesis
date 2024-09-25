@@ -24,19 +24,15 @@ def process_video(video, max_retries=3):
 def main():
     hashtag = argv[1]
 
-    duet_or_stitch = argv[2]
-    if duet_or_stitch not in ['duet', 'stitch']:
-        raise ValueError("Second argument must be either 'duet' or 'stitch'")
-        
-    start_index = int(argv[3]) if len(argv) > 3 else 0
-    threads = int(argv[4]) if len(argv) > 4 else 6
+    start_index = int(argv[2]) if len(argv) > 2 else 0
+    threads = int(argv[3]) if len(argv) > 3 else 6
 
-    with open(f'../data/hashtags/{duet_or_stitch}/vertices/sources/{hashtag}.json', 'r') as f:
+    with open(f'../data/hashtags/vertices/sources/{hashtag}.json', 'r') as f:
         videos = json.load(f)
 
     
     N = len(videos)
-    output_file = f'../data/hashtags/{duet_or_stitch}/edges/{hashtag}_edges.txt'
+    output_file = f'../data/hashtags/edges/{hashtag}_edges.txt'
 
     # Create a lock object to synchronize file writes
     file_lock = Lock()
@@ -62,7 +58,7 @@ def main():
             except Exception as e:
                 print(f"Error processing video {idx}: {e}")
 
-            sleep(0.1)
+            sleep(1)
 
     print("Done!")
 
