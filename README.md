@@ -7,7 +7,7 @@ In recent times, with the introduction of TikTok, Instagram reels, YouTube Short
 ## Project pipeline
 
 ```mermaid
-%%{init: {'theme': 'dark', 'themeCSS': 'svg {background-color: black}'}}%%
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#4f98ca', 'edgeLabelBackground':'#2b2b2b', 'nodeTextColor': '#ffffff'}}}%%
 graph TD
     A[🤓 Start: Setup TikTok API Access ] --> B[📝Collect Hashtag Videos using get_hashtag.py]
     click A href "https://github.com/Marcus-Friis/thesis/tree/cleanup?tab=readme-ov-file#tiktok-api" "click A"
