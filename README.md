@@ -9,7 +9,9 @@ In recent times, with the introduction of TikTok, Instagram reels, YouTube Short
 ```mermaid
 graph TD
     A[🤓 Start: Setup TikTok API Access ] --> B[📝Collect Hashtag Videos using get_hashtag.py]
-    click B "/src/get_hashtag.py" "Go to get_hashtag.py"
+    click B href "https://github.com/Marcus-Friis/thesis/tree/cleanup?tab=readme-ov-file#get-hashtag-stitches" "hi"
+
+
     B --> C[🤏Extract edges using get_edges.py]
     C --> D[🤏Extract targets using get_targets.py]
     D --> G[📎Combine sources & targets using compose_vertices_files.py]
