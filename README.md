@@ -7,11 +7,18 @@ In recent times, with the introduction of TikTok, Instagram reels, YouTube Short
 ## Project pipeline
 
 
+
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#4f98ca', 'edgeLabelBackground':'#2b2b2b', 'nodeTextColor': '#ffffff', 'background': '#1e1e1e'}}}%%
+
 %%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#4f98ca', 'edgeLabelBackground':'#2b2b2b', 'nodeTextColor': '#ffffff', 'background': '#1e1e1e'}}}%%
 
 graph TD
     A[🤓 Start: Setup TikTok API Access ] --> B[📝Collect Hashtag Videos using get_hashtag.py]
+    click A href "https://github.com/Marcus-Friis/thesis/tree/cleanup?tab=readme-ov-file#tiktok-api" "click A"
+    click B href "https://github.com/Marcus-Friis/thesis/tree/cleanup?tab=readme-ov-file#get-hashtag-stitches" "hi"
+
+
     B --> C[🤏Extract edges using get_edges.py]
     C --> D[🤏Extract targets using get_targets.py]
     D --> G[📎Combine sources & targets using compose_vertices_files.py]
