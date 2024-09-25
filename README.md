@@ -6,6 +6,7 @@ In recent times, with the introduction of TikTok, Instagram reels, YouTube Short
 
 ## Project pipeline
 
+<div style="background-color:#1e1e1e; padding:20px; border-radius: 10px;">
 ```mermaid
 %%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#4f98ca', 'edgeLabelBackground':'#2b2b2b', 'nodeTextColor': '#ffffff', 'background': '#1e1e1e'}}}%%
 
@@ -23,7 +24,7 @@ graph TD
     E --> J[✂Split videos into stichee and stitcher]
     J --> I[🎅Do stuff with stuff??]
 ```
-
+</div>
 ## TikTok API
 ### Getting started
 The [TikTok API documentaiton](https://developers.tiktok.com/doc/about-research-api/) describes how to use it. We have created a [notebook](/notebooks/1.0-mahf-tiktok-api-fun.ipynb) to explore the use of this API. 
