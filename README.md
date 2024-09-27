@@ -2,8 +2,36 @@
 
 In recent times, with the introduction of TikTok, Instagram reels, YouTube Shorts etc., short-form videos have become one of the main mediums for public discourse. This poses an interesting challenge, as understanding the contents of these videos analytically requires analyzing both the visual, auditory, and textual components of the content. Furthermore, platforms such as TikTok allows for responding to other videos through *“stitches”*, creating a network-like structure, where videos can respond to other videos. Fully grasping the nature of such a network requires understanding both the topological structure of the TikTok stitch network, along with the individual contents of each video. That is what this project aims to explore. Using video content, how can we improve our understanding of how people communicate using stitches? To this end, we will use a combination of image processing, NLP methods and network analysis. 
 
-<img src="figures/user_graphs_filtered/maga-user-graph-filtered.svg" width="300">
+<\<img src="figures/user_graphs_filtered/maga-user-graph-filtered.svg" width="300">
 
+## Project pipeline
+
+
+
+```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#4f98ca', 'edgeLabelBackground':'#2b2b2b', 'nodeTextColor': '#ffffff', 'background': '#1e1e1e'}}}%%
+
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#4f98ca', 'edgeLabelBackground':'#2b2b2b', 'nodeTextColor': '#ffffff', 'background': '#1e1e1e'}}}%%
+
+graph TD
+    A[🤓 Start: Setup TikTok API Access ] --> B[📝Collect Hashtag Videos using get_hashtag.py]
+    click A href "https://github.com/Marcus-Friis/thesis/tree/cleanup?tab=readme-ov-file#tiktok-api" "click A"
+    click B href "https://github.com/Marcus-Friis/thesis/tree/cleanup?tab=readme-ov-file#get-hashtag-stitches" "hi"
+
+
+    B --> C[🤏Extract edges using get_edges.py]
+    C --> D[🤏Extract targets using get_targets.py]
+    D --> G[📎Combine sources & targets using compose_vertices_files.py]
+    G --> P[(Datebase)]
+    P -->  E[🔽Download Videos using download_tiktok_vidoes.py]
+    P -->  H[📈Perform Graph Analysis using graph_analysis.py <br> obtaining metrics and plots]
+    E --> J[✂Split videos into stichee and stitcher]
+    J --> I[🎅Do stuff with stuff??]
+
+    click A href "https://github.com/Marcus-Friis/thesis/tree/cleanup?tab=readme-ov-file#tiktok-api" "click A"
+
+    click B href "https://github.com/Marcus-Friis/thesis/tree/cleanup?tab=readme-ov-file#get-hashtag-stitches" "hi"
+```
 
 ## TikTok API
 ### Getting started
@@ -19,50 +47,47 @@ Fill out the `/secrets/tiktok.json` file with your secrets, and it should work.
 
 ### Get Hashtag stitches
 
-The script [`get_hashtag.py`](/src/get_hashtag.py) scrapes TikTok videos using a specific hashtag, filtered by either "duet" or "stitch."
+The script [`get_hashtag.py`](/src/get_hashtag.py) scrapes TikTok videos (that are stitches) using a specific hashtag.
 
 
 #### Usage
 
 ```bash
-python src/get_hashtag.py HASHTAG_NAME duet_or_stitch
+python src/get_hashtag.py HASHTAG_NAME
 ```
 
 - `HASHTAG_NAME`: The hashtag to scrape (required).
-- `duet_or_stitch`: Specify either duet or stitch (required).
 
-The script scrapes videos between `2024-05-01` and `2024-05-31` and saves them as `{hashtag}_{duet_or_stitch}.json` in the [`data/` directory](/data/).
 
+The script scrapes videos between `2024-05-01` and `2024-05-31` and saves them as `{hashtag}.json` in the [`data/` directory](/data/hashtags/vertices/sources).
 
 ##### Example
 
 ```bash
-python src/get_hashtag.py cooking stitch
+python src/get_hashtag.py cooking
 ```
 
+### Stitch Edge Scraper
 
-### Stitch/Duet Edge Scraper
-
-The script [`get_edges.py`](/src/get_edges.py) scrapes stitch or duet relationships between TikTok videos using previously downloaded data.
+The script [`get_edges.py`](/src/get_edges.py) scrapes stitch relationships between TikTok videos using previously downloaded data.
 
 #### Usage
 
 ```bash
-python src/get_edges.py HASHTAG_NAME duet_or_stitch [START_INDEX]
+python src/get_edges.py HASHTAG_NAME [START_INDEX]
 ```
 
 - `HASHTAG_NAME`: The hashtag to use (required).
-- `duet_or_stitch`: Specify either duet or stitch (required).
 - `START_INDEX`: Optional index to resume scraping from.
 
-The script processes videos from `{hashtag}_{duet_or_stitch}.json` and outputs the edges (stitcher -> stitchee) to `{hashtag}_{duet_or_stitch}_edges.txt`.
+The script processes videos from `{hashtag}_.json` and outputs the edges (stitcher -> stitchee) to `{hashtag}_edges.txt`.
 
 ##### Repair Mode
 
 To repair incomplete edges:
 
 ```bash
-python src/get_edges.py HASHTAG_NAME duet_or_stitch repair
+python src/get_edges.py HASHTAG_NAME repair
 ```
 
 
@@ -93,3 +118,19 @@ python src/download_tiktok_videos.py --start_date YYYYMMDD --end_date YYYYMMDD [
 ```bash
 python src/download_tiktok_videos.py --start_date 20240101 --end_date 20240110 --max_count 10 --keyword "stitch with"
 ```
+
+### Graph Analysis. 
+
+The script [graph_analysis.py](src/graph_analysis.py) produces various metrics for our graphs. It produces metrics for both the video- and user graph.  
+
+#### Usage
+
+```bash
+python src/graph_analysis.py HASHTAG_NAME [CREATE_PLOTS]
+```
+#### Options:
+- `HASHTAG_NAME`: Hashtag graph to use.
+Takes multiple inputs in the form of: `hashtag_1 hashtag_2 ... hashtag_n`. <br>Example: `python src/graph_analysis.py anime jazz watermlon` 
+<br> Additionally, it also accepts `all`  which produces metrics for all the hashtags located in [the vertices folder](data/hashtags/vertices/)
+- `CREATE_PLOTS` Optional boolean to create plots for each of the hashtags. *Default = false*
+

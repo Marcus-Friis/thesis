@@ -104,59 +104,6 @@ def request_full(*args, sleep_delay=10, **kwargs):
 
     return videos
 
-def request_full_mads_shit(*args, sleep_delay=10, dump_directory="../data/data_dumps", max_retries=3, pages_per_dump=5, **kwargs):
-    os.makedirs(dump_directory, exist_ok=True)
-    
-    def make_request_with_retry(func, *args, **kwargs):
-        for attempt in range(max_retries):
-            try:
-                return func(*args, **kwargs)
-            except Exception as e:
-                if attempt == max_retries - 1:
-                    raise Exception(f"Failed after {max_retries} attempts: {e}")
-                print(f"Got error {e} while requesting page. Retrying... {attempt+1} out of {max_retries}")
-                sleep(sleep_delay)
-    
-    def append_to_json_file(file_path, data):
-        file_data = []
-        if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
-            try:
-                with open(file_path, 'r', encoding='utf-8') as f:
-                    file_data = json.load(f)
-            except json.JSONDecodeError:
-                print(f"Warning: Couldn't read existing data in {file_path}. Starting with empty list.")
-        
-        file_data.extend(data)
-        
-        with open(file_path, 'w', encoding='utf-8') as f:
-            json.dump(file_data, f, indent=4, ensure_ascii=False)
-    
-    response = make_request_with_retry(request_page, **kwargs)
-    all_videos = []
-    page_number = 1
-    
-    while True:
-        videos = response['data']['videos']
-        all_videos.extend(videos)
-        
-        if page_number % pages_per_dump == 0 or not response['data']['has_more']:
-            dump_file = os.path.join(dump_directory, f"data_dump_{kwargs['start_date']}-{kwargs['end_date']}.json")
-            append_to_json_file(dump_file, all_videos)
-            print(f"Pages {page_number - pages_per_dump + 1}-{page_number} data appended to {dump_file}")
-            all_videos = []
-        
-        if not response['data']['has_more']:
-            break
-        
-        sleep(sleep_delay)
-        search_id = response['data']['search_id']
-        cursor = response['data']['cursor']
-        print(f"Cursor: {cursor}")
-        
-        response = make_request_with_retry(request_page, *args, search_id=search_id, cursor=cursor, **kwargs)
-        page_number += 1
-    
-    return all_videos
 
 
 from selenium import webdriver

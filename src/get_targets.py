@@ -9,19 +9,13 @@ if __name__ == '__main__':
         raise ValueError('Hashtag must be provided as argument')
     hashtag = argv[1]
 
-    if len(argv) == 3:
-        if argv[2] not in ['duet', 'stitch']:
-            raise ValueError('Duet or stitch must be provided as second argument')
-        duet_or_stitch = argv[2]
-    else:
-        duet_or_stitch = 'stitch'
 
-    if len(argv) == 4:
-        batch_size = int(argv[3])
+    if len(argv) == 3:
+        batch_size = int(argv[2])
     else:
         batch_size = 10_000
 
-    with open(f'../data/hashtags/{duet_or_stitch}/edges/{hashtag}_edges.txt', 'r') as f:
+    with open(f'../data/hashtags/edges/{hashtag}_edges.txt', 'r') as f:
         lines = f.readlines()
 
     stitchees = []
@@ -85,5 +79,5 @@ if __name__ == '__main__':
 
         sleep(10)
 
-    with open(f'../data/hashtags/{duet_or_stitch}/vertices/targets/{hashtag}.json', 'w') as f:
+    with open(f'../data/hashtags/vertices/targets/{hashtag}.json', 'w') as f:
         json.dump(all_videos, f, indent=2)

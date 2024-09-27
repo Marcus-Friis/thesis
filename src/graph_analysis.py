@@ -139,17 +139,24 @@ def plot_degree_distributions(G, label):
 
 if __name__ == '__main__':
     plt.style.use('ggplot')
+    import os  
     from sys import argv
 
     if len(argv) < 2:
         raise ValueError('At least one hashtag must be provided as argument')
 
-    # Separate hashtags from the plot flag
-    hashtag_args = [arg for arg in argv[1:] if arg.lower() not in ['true', 'false']]
-    create_plots = 'true' in map(str.lower, argv[1:])
-    print(f'Processing {len(hashtag_args)} hashtags:\n')
+    args_lower = [arg.lower() for arg in argv[1:]]
+    create_plots = 'true' in args_lower
 
-    # Initialize a DataFrame to store all hashtag metrics
+    if 'all' in args_lower:
+        path = "../data/hashtags/vertices"
+        json_files = [f[:-5] for f in os.listdir(path) if f.endswith('.json')]
+        hashtag_args = json_files
+        print(f'Amount of- & Hashtags: {len(hashtag_args)}, {hashtag_args}')
+    else:
+        hashtag_args = [arg for arg in argv[1:] if arg.lower() not in ['true', 'false', 'all']]
+
+
     all_video_metrics_df = pd.DataFrame()
     all_user_metrics_df = pd.DataFrame()
 
@@ -157,7 +164,7 @@ if __name__ == '__main__':
         print(f'\nProcessing hashtag: {hashtag}\n')
         
         # read vertex data
-        with open(f'../data/hashtags/stitch/vertices/{hashtag}.json', 'r') as f:
+        with open(f'../data/hashtags/vertices/{hashtag}.json', 'r') as f:
             vertices = json.load(f)
 
             if isinstance(vertices, list):
@@ -166,7 +173,7 @@ if __name__ == '__main__':
 
 
         # read edges from file
-        edges = pd.read_csv(f'../data/hashtags/stitch/edges/{hashtag}_edges.txt', header=None)
+        edges = pd.read_csv(f'../data/hashtags/edges/{hashtag}_edges.txt', header=None)
 
         edges.columns = ['stitcher_url', 'stitchee_url']
         edges = edges[edges['stitcher_url'].str.contains('None') == False]
@@ -209,7 +216,7 @@ if __name__ == '__main__':
         user_metrics = output_summary_statistics(G)
 
         # Convert user graph metrics to a DataFrame, transpose it to make metrics rows
-        user_metrics_df = pd.DataFrame(user_metrics, index=[f'{hashtag}-user'])
+        user_metrics_df = pd.DataFrame(user_metrics, index=[f'{hashtag}'])
 
         if create_plots:
             plot_degree_distributions(G, hashtag + '-user')
@@ -232,21 +239,36 @@ if __name__ == '__main__':
         all_video_metrics_df = pd.concat([all_video_metrics_df.copy(), video_metrics_df], axis=0)
         all_user_metrics_df = pd.concat([all_user_metrics_df.copy(), user_metrics_df], axis=0)
 
-    # Format the metrics DataFrames as LaTeX strings
-    video_formatted_latex = all_video_metrics_df.style.format("{:.2f}").to_latex()
-    user_formatted_latex = all_user_metrics_df.style.format("{:.2f}").to_latex()
 
-    # Output the formatted LaTeX string
-    print('\n\n')
-    print('Video Metrics')
-    print(video_formatted_latex)
-    print('\n\n')
-    print('User Metrics')
-    print(user_formatted_latex)
+        #Convert cols to ints
+    all_video_metrics_df[['Vertices', 'Edges', 'Components', 'Largest component size']] = all_video_metrics_df[['Vertices', 'Edges', 'Components', 'Largest component size']].astype(int)
+    #Convert rest of cols to floats with 2 decimal places
+    all_video_metrics_df[[col for col in all_video_metrics_df.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]] = (
+        all_video_metrics_df[[col for col in all_video_metrics_df.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]].astype(float).round(2)
+    )
+
+    #Repeat for user metrics
+    all_user_metrics_df[['Vertices', 'Edges', 'Components', 'Largest component size']] = all_user_metrics_df[['Vertices', 'Edges', 'Components', 'Largest component size']].astype(int)
+    all_user_metrics_df[[col for col in all_user_metrics_df.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]] = (
+        all_user_metrics_df[[col for col in all_user_metrics_df.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]].astype(float).round(2)
+    )
+    
 
     #Save the metrics to a csv file
-    all_video_metrics_df.to_csv('../data/all_video_metrics_df.csv', index=True, index_label='hashtag')
-    all_user_metrics_df.to_csv('../data/all_user_metrics_df.csv', index=True, index_label='hashtag')
+    
+    all_video_metrics_df.fillna('NA').to_csv('../data/metrics/all_video_metrics_df.csv', index=True, index_label='hashtag-video')
+    all_user_metrics_df.fillna('NA').to_csv('../data/metrics/all_user_metrics_df.csv', index=True, index_label='hashtag-user')
 
+    # Format the metrics DataFrames as LaTeX strings
+    # video_formatted_latex = all_video_metrics_df.style.format("{:.2f}").to_latex()
+    # user_formatted_latex = all_user_metrics_df.style.format("{:.2f}").to_latex()
+
+    # # Output the formatted LaTeX string
+    # print('\n\n')
+    # print('Video Metrics')
+    # print(video_formatted_latex)
+    # print('\n\n')
+    # print('User Metrics')
+    # print(user_formatted_latex)
 
     print('Done')

@@ -7,7 +7,7 @@ if __name__ == '__main__':
         raise ValueError('Hashtag must be provided as argument')
     hashtag = argv[1]
     
-    dir_path = f'../data/hashtags/stitch/videos/{hashtag}'
+    dir_path = f'../data/hashtags/videos/{hashtag}'
     videos = os.listdir(dir_path)
     
     N = len(videos)
