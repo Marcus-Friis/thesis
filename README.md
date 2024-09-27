@@ -22,8 +22,9 @@ graph TD
     B --> C[🤏Extract edges using get_edges.py]
     C --> D[🤏Extract targets using get_targets.py]
     D --> G[📎Combine sources & targets using compose_vertices_files.py]
-    G -->  E[🔽Download Videos using download_tiktok_vidoes.py]
-    G -->  H[📈Perform Graph Analysis using graph_analysis.py <br> obtaining metrics and plots]
+    G --> P[(Datebase)]
+    P -->  E[🔽Download Videos using download_tiktok_vidoes.py]
+    P -->  H[📈Perform Graph Analysis using graph_analysis.py <br> obtaining metrics and plots]
     E --> J[✂Split videos into stichee and stitcher]
     J --> I[🎅Do stuff with stuff??]
 
