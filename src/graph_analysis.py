@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import re
 import json
 import numpy as np
-from graph_utils import degree_centralization, closeness_centralization, betweenness_centralization
+from graph_utils import degree_centralization, closeness_centralization, betweenness_centralization, project_graph
 
 
 
@@ -147,18 +147,23 @@ if __name__ == '__main__':
 
     args_lower = [arg.lower() for arg in argv[1:]]
     create_plots = 'true' in args_lower
+    do_project = 'project' in args_lower
 
+    # Determine hashtags to process
     if 'all' in args_lower:
         path = "../data/hashtags/vertices"
         json_files = [f[:-5] for f in os.listdir(path) if f.endswith('.json')]
         hashtag_args = json_files
-        print(f'Amount of- & Hashtags: {len(hashtag_args)}, {hashtag_args}')
+        print(f'Amount of Hashtags: {len(hashtag_args)}, {hashtag_args}')
     else:
-        hashtag_args = [arg for arg in argv[1:] if arg.lower() not in ['true', 'false', 'all']]
-
+        # Exclude special arguments from hashtags
+        special_args = ['true', 'false', 'all', 'project']
+        hashtag_args = [arg for arg in argv[1:] if arg.lower() not in special_args]
 
     all_video_metrics_df = pd.DataFrame()
     all_user_metrics_df = pd.DataFrame()
+    all_video_proj_metrics_df = pd.DataFrame()
+    all_user_proj_metrics_df = pd.DataFrame()
 
     for hashtag in hashtag_args:
         print(f'\nProcessing hashtag: {hashtag}\n')
@@ -193,7 +198,7 @@ if __name__ == '__main__':
         # Get metrics
         video_metrics = output_summary_statistics(G)
 
-        # Convert the metrics dictionary to a DataFrame, transpose it to make metrics rows
+        # Convert the metrics dictionary to a DataFrame
         video_metrics_df = pd.DataFrame(video_metrics, index=[hashtag])
         
   
@@ -209,13 +214,28 @@ if __name__ == '__main__':
             print(f"Plotting video graph for {hashtag}")
             ig.plot(G, layout=layout, vertex_size=2, vertex_label=G.vs["name"], vertex_frame_width=0.01, 
                     edge_arrow_size=0.01, edge_width=0.2, target=target, vertex_label_size=0.1)
+        
+        if do_project:
+            print(f'Projecting graph for {hashtag}')
+            G_proj = project_graph(G)
+            G_proj_metrics = output_summary_statistics(G_proj)
+            video_proj_metrics_df = pd.DataFrame(G_proj_metrics, index=[hashtag])
+            all_video_proj_metrics_df = pd.concat([all_video_proj_metrics_df.copy(), video_proj_metrics_df], axis=0)
+
+            if create_plots and do_project:
+                # plot projected graph
+                target = f'../figures/video_graphs/{hashtag}-projected-graph.svg'
+                layout = G_proj.layout_graphopt(niter=1000)
+                print(f"Plotting projected graph for {hashtag}")
+                ig.plot(G_proj, layout=layout, vertex_size=2, vertex_label=None, vertex_frame_width=0.01, 
+                        edge_arrow_size=0.01, edge_width=0.2, target=target)
 
         # Repeat for user graph
         G = get_usergraph(edges)
         print(f'\nUser Graph for {hashtag}')
         user_metrics = output_summary_statistics(G)
 
-        # Convert user graph metrics to a DataFrame, transpose it to make metrics rows
+        # Convert user graph metrics to a DataFrame
         user_metrics_df = pd.DataFrame(user_metrics, index=[f'{hashtag}'])
 
         if create_plots:
@@ -235,12 +255,38 @@ if __name__ == '__main__':
             layout = G_sub.layout_graphopt(niter=1000)
             ig.plot(G_sub, layout=layout, vertex_size=2, vertex_label=None, vertex_frame_width=0.01, 
                     edge_arrow_size=0.01, edge_width=0.2, target=target)
+        
+        if do_project:
+            print(f'Projecting user graph for {hashtag}')
+            G_proj = project_graph(G)
+            G_proj_metrics = output_summary_statistics(G_proj)
+            user_proj_metrics_df = pd.DataFrame(G_proj_metrics, index=[hashtag])
+            all_user_proj_metrics_df = pd.concat([all_user_proj_metrics_df.copy(), user_proj_metrics_df], axis=0)
+
+            if create_plots and do_project:
+                # plot projected graph
+                target = f'../figures/user_graphs/{hashtag}-projected-graph.svg'
+                layout = G_proj.layout_graphopt(niter=1000)
+                print(f"Plotting projected graph for {hashtag}")
+                ig.plot(G_proj, layout=layout, vertex_size=2, vertex_label=None, vertex_frame_width=0.01, 
+                        edge_arrow_size=0.01, edge_width=0.2, target=target)
+                        
+                # plot projected graph with component size > 2
+                components = G_proj.as_undirected().components()
+                sizes = [len(c) for c in components]
+                components_filtered = [c for c in components if len(c) > 2]
+                G_sub = G_proj.subgraph(sum(components_filtered, []))
+                target = f'../figures/user_graphs_filtered/{hashtag}-projected-graph-filtered.svg'
+                layout = G_sub.layout_graphopt(niter=1000)
+                ig.plot(G_sub, layout=layout, vertex_size=2, vertex_label=None, vertex_frame_width=0.01, 
+                        edge_arrow_size=0.01, edge_width=0.2, target=target)
+                
             
         all_video_metrics_df = pd.concat([all_video_metrics_df.copy(), video_metrics_df], axis=0)
         all_user_metrics_df = pd.concat([all_user_metrics_df.copy(), user_metrics_df], axis=0)
 
 
-        #Convert cols to ints
+    #Convert cols to ints
     all_video_metrics_df[['Vertices', 'Edges', 'Components', 'Largest component size']] = all_video_metrics_df[['Vertices', 'Edges', 'Components', 'Largest component size']].astype(int)
     #Convert rest of cols to floats with 2 decimal places
     all_video_metrics_df[[col for col in all_video_metrics_df.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]] = (
@@ -253,22 +299,51 @@ if __name__ == '__main__':
         all_user_metrics_df[[col for col in all_user_metrics_df.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]].astype(float).round(2)
     )
     
+    #Add hashtags to predetermined groups
+    subcultures = ['anime', 'booktok', 'football', 'gym', 'jazz', 'kpop', 'lgbt', 'makeup', 'minecraft', 'plantsoftiktok']
+    political =  ['biden2024', 'blacklivesmatter', 'climatechange', 'conspiracy', 'election', 'gaza', 'isreal', 'maga', 'palenstine', 'trump2024']
+    entertainment = ['asmr', 'challenge', 'comedy', 'learnontiktok', 'movie', 'news', 'science', 'storytime', 'tiktoknews', 'watermelon']
+
+    all_video_metrics_df['group'] = all_video_metrics_df.index.map(lambda x: 'subculture' if x in subcultures else 'political' if x in political else 'entertainment')
+    all_user_metrics_df['group'] = all_user_metrics_df.index.map(lambda x: 'subculture' if x in subcultures else 'political' if x in political else 'entertainment')
+    
+    #Compute the mean of each metric for each group
+    video_group_means = all_video_metrics_df.groupby('group').mean()
+    user_group_means = all_user_metrics_df.groupby('group').mean()
+
+    video_group_means[['Vertices', 'Edges', 'Components', 'Largest component size']] = video_group_means[['Vertices', 'Edges', 'Components', 'Largest component size']].astype(int)
+    video_group_means[[col for col in video_group_means.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]] = (
+        video_group_means[[col for col in video_group_means.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]].round(2)
+    )
+
+    user_group_means[['Vertices', 'Edges', 'Components', 'Largest component size']] = user_group_means[['Vertices', 'Edges', 'Components', 'Largest component size']].astype(int)
+    user_group_means[[col for col in user_group_means.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]] = (
+        user_group_means[[col for col in user_group_means.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]].round(2)
+    )
+
+    all_video_proj_metrics_df[['Vertices', 'Edges', 'Components', 'Largest component size']] = all_video_proj_metrics_df[['Vertices', 'Edges', 'Components', 'Largest component size']].astype(int)
+    all_video_proj_metrics_df[[col for col in all_video_proj_metrics_df.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]] = (
+        all_video_proj_metrics_df[[col for col in all_video_proj_metrics_df.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]].round(2)
+    )
+    all_user_proj_metrics_df[['Vertices', 'Edges', 'Components', 'Largest component size']] = all_user_proj_metrics_df[['Vertices', 'Edges', 'Components', 'Largest component size']].astype(int)
+    all_user_proj_metrics_df[[col for col in all_user_proj_metrics_df.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]] = (
+        all_user_proj_metrics_df[[col for col in all_user_proj_metrics_df.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]].round(2)
+    )
+    
 
     #Save the metrics to a csv file
+    all_video_metrics_df.drop(columns='group').fillna('NA').to_csv('../data/metrics/all_video_metrics_df.csv', index=True, index_label='hashtag-video')
+    all_user_metrics_df.drop(columns='group').fillna('NA').to_csv('../data/metrics/all_user_metrics_df.csv', index=True, index_label='hashtag-user')
     
-    all_video_metrics_df.fillna('NA').to_csv('../data/metrics/all_video_metrics_df.csv', index=True, index_label='hashtag-video')
-    all_user_metrics_df.fillna('NA').to_csv('../data/metrics/all_user_metrics_df.csv', index=True, index_label='hashtag-user')
+    #Save the group means to a csv file but without the group column
+    video_group_means.fillna('NA').to_csv('../data/metrics/video_group_means.csv', index=True, index_label='group')
+    user_group_means.fillna('NA').to_csv('../data/metrics/user_group_means.csv', index=True, index_label='group')
 
-    # Format the metrics DataFrames as LaTeX strings
-    # video_formatted_latex = all_video_metrics_df.style.format("{:.2f}").to_latex()
-    # user_formatted_latex = all_user_metrics_df.style.format("{:.2f}").to_latex()
+    #Save the projected metrics to a csv file
+    all_video_proj_metrics_df.fillna('NA').to_csv('../data/metrics/all_video_proj_metrics_df.csv', index=True, index_label='hashtag-video')
+    all_user_proj_metrics_df.fillna('NA').to_csv('../data/metrics/all_user_proj_metrics_df.csv', index=True, index_label='hashtag-user')
 
-    # # Output the formatted LaTeX string
-    # print('\n\n')
-    # print('Video Metrics')
-    # print(video_formatted_latex)
-    # print('\n\n')
-    # print('User Metrics')
-    # print(user_formatted_latex)
+
+
 
     print('Done')
