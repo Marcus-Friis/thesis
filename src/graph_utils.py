@@ -90,6 +90,14 @@ def betweenness_centralization(G: ig.Graph) -> float:
 
     return betweenness_centralization    
 
+
+def project_graph(G: ig.Graph) -> ig.Graph:
+    A = G.get_adjacency_sparse()
+    A_proj = A @ A.T
+    A_proj.setdiag(0)
+    G_proj = ig.Graph.Adjacency(A_proj, mode='undirected')
+    return G_proj
+
     
 if __name__ == '__main__':
     pass
