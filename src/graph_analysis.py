@@ -278,12 +278,13 @@ if __name__ == '__main__':
 
 
     #Save the metrics to a csv file
+    all_video_metrics_df.drop(columns='group').fillna('NA').to_csv('../data/metrics/all_video_metrics_df.csv', index=True, index_label='hashtag-video')
+    all_user_metrics_df.drop(columns='group').fillna('NA').to_csv('../data/metrics/all_user_metrics_df.csv', index=True, index_label='hashtag-user')
     
-    all_video_metrics_df.fillna('NA').to_csv('../data/metrics/all_video_metrics_df.csv', index=True, index_label='hashtag-video')
-    all_user_metrics_df.fillna('NA').to_csv('../data/metrics/all_user_metrics_df.csv', index=True, index_label='hashtag-user')
+    #Save the group means to a csv file but without the group column
+    video_group_means.fillna('NA').to_csv('../data/metrics/video_group_means.csv', index=True, index_label='group')
+    user_group_means.fillna('NA').to_csv('../data/metrics/user_group_means.csv', index=True, index_label='group')
 
-    video_group_means.fillna('NA').to_csv('../data/metrics/video_group_means.csv', index=True, index_label='group-video')
-    user_group_means.fillna('NA').to_csv('../data/metrics/user_group_means.csv', index=True, index_label='group-user')
 
 
 
