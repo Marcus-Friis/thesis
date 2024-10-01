@@ -240,7 +240,7 @@ if __name__ == '__main__':
         all_user_metrics_df = pd.concat([all_user_metrics_df.copy(), user_metrics_df], axis=0)
 
 
-        #Convert cols to ints
+    #Convert cols to ints
     all_video_metrics_df[['Vertices', 'Edges', 'Components', 'Largest component size']] = all_video_metrics_df[['Vertices', 'Edges', 'Components', 'Largest component size']].astype(int)
     #Convert rest of cols to floats with 2 decimal places
     all_video_metrics_df[[col for col in all_video_metrics_df.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]] = (
@@ -253,22 +253,39 @@ if __name__ == '__main__':
         all_user_metrics_df[[col for col in all_user_metrics_df.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]].astype(float).round(2)
     )
     
+    #Add hashtags to predetermined groups
+    subcultures = ['anime', 'booktok', 'football', 'gym', 'jazz', 'kpop', 'lgbt', 'makeup', 'minecraft', 'plantsoftiktok']
+    political =  ['biden2024', 'blacklivesmatter', 'climatechange', 'conspiracy', 'election', 'gaza', 'isreal', 'maga', 'palenstine', 'trump2024']
+    entertainment = ['asmr', 'challenge', 'comedy', 'learnontiktok', 'movie', 'news', 'science', 'storytime', 'tiktoknews', 'watermelon']
+
+    all_video_metrics_df['group'] = all_video_metrics_df.index.map(lambda x: 'subculture' if x in subcultures else 'political' if x in political else 'entertainment')
+    all_user_metrics_df['group'] = all_user_metrics_df.index.map(lambda x: 'subculture' if x in subcultures else 'political' if x in political else 'entertainment')
+    
+    #Compute the mean of each metric for each group
+    video_group_means = all_video_metrics_df.groupby('group').mean()
+    user_group_means = all_user_metrics_df.groupby('group').mean()
+
+    video_group_means[['Vertices', 'Edges', 'Components', 'Largest component size']] = video_group_means[['Vertices', 'Edges', 'Components', 'Largest component size']].astype(int)
+    video_group_means[[col for col in video_group_means.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]] = (
+        video_group_means[[col for col in video_group_means.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]].round(2)
+    )
+
+    user_group_means[['Vertices', 'Edges', 'Components', 'Largest component size']] = user_group_means[['Vertices', 'Edges', 'Components', 'Largest component size']].astype(int)
+    user_group_means[[col for col in user_group_means.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]] = (
+        user_group_means[[col for col in user_group_means.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]].round(2)
+    )
+
+
 
     #Save the metrics to a csv file
     
     all_video_metrics_df.fillna('NA').to_csv('../data/metrics/all_video_metrics_df.csv', index=True, index_label='hashtag-video')
     all_user_metrics_df.fillna('NA').to_csv('../data/metrics/all_user_metrics_df.csv', index=True, index_label='hashtag-user')
 
-    # Format the metrics DataFrames as LaTeX strings
-    # video_formatted_latex = all_video_metrics_df.style.format("{:.2f}").to_latex()
-    # user_formatted_latex = all_user_metrics_df.style.format("{:.2f}").to_latex()
+    video_group_means.fillna('NA').to_csv('../data/metrics/video_group_means.csv', index=True, index_label='group-video')
+    user_group_means.fillna('NA').to_csv('../data/metrics/user_group_means.csv', index=True, index_label='group-user')
 
-    # # Output the formatted LaTeX string
-    # print('\n\n')
-    # print('Video Metrics')
-    # print(video_formatted_latex)
-    # print('\n\n')
-    # print('User Metrics')
-    # print(user_formatted_latex)
+
+
 
     print('Done')
