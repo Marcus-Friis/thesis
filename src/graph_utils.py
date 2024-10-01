@@ -1,5 +1,6 @@
 import igraph as ig
 import numpy as np
+from scipy.sparse import lil_matrix
 
 def degree_centralization(G: ig.Graph) -> float:
     if G.is_directed():
@@ -89,6 +90,16 @@ def betweenness_centralization(G: ig.Graph) -> float:
 
 
     return betweenness_centralization    
+
+
+def project_graph(G: ig.Graph) -> ig.Graph:
+    A = G.get_adjacency_sparse()
+    A_proj = A @ A.T
+    A_proj = lil_matrix(A_proj)  # Convert to lil_matrix for efficient modification
+    A_proj.setdiag(0)  # Set diagonal to 0
+    A_proj = A_proj.tocsr()  # Convert back to csr_matrix for efficient operations
+    G_proj = ig.Graph.Adjacency(A_proj, mode='undirected')
+    return G_proj
 
     
 if __name__ == '__main__':
