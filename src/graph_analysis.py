@@ -34,7 +34,7 @@ def output_summary_statistics(G: ig.Graph) -> dict:
     metrics['Clustering Coefficient'] = G.transitivity_undirected()
     metrics['Diameter'] = G.diameter()
     metrics['Undirected Diameter'] = G_un.diameter()
-    #metrics['Reciprocity'] = G.reciprocity()
+    metrics['Reciprocity'] = G.reciprocity()
     metrics['% of vertices in the largest component'] = max(G_un.components().sizes()) / G.vcount()
 
     components = G_simple.components()
@@ -321,15 +321,19 @@ if __name__ == '__main__':
         user_group_means[[col for col in user_group_means.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]].round(2)
     )
 
-    all_video_proj_metrics_df[['Vertices', 'Edges', 'Components', 'Largest component size']] = all_video_proj_metrics_df[['Vertices', 'Edges', 'Components', 'Largest component size']].astype(int)
-    all_video_proj_metrics_df[[col for col in all_video_proj_metrics_df.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]] = (
-        all_video_proj_metrics_df[[col for col in all_video_proj_metrics_df.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]].round(2)
-    )
-    all_user_proj_metrics_df[['Vertices', 'Edges', 'Components', 'Largest component size']] = all_user_proj_metrics_df[['Vertices', 'Edges', 'Components', 'Largest component size']].astype(int)
-    all_user_proj_metrics_df[[col for col in all_user_proj_metrics_df.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]] = (
-        all_user_proj_metrics_df[[col for col in all_user_proj_metrics_df.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]].round(2)
-    )
+    if do_project:
+        all_video_proj_metrics_df[['Vertices', 'Edges', 'Components', 'Largest component size']] = all_video_proj_metrics_df[['Vertices', 'Edges', 'Components', 'Largest component size']].astype(int)
+        all_video_proj_metrics_df[[col for col in all_video_proj_metrics_df.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]] = (
+            all_video_proj_metrics_df[[col for col in all_video_proj_metrics_df.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]].round(2)
+        )
+        all_user_proj_metrics_df[['Vertices', 'Edges', 'Components', 'Largest component size']] = all_user_proj_metrics_df[['Vertices', 'Edges', 'Components', 'Largest component size']].astype(int)
+        all_user_proj_metrics_df[[col for col in all_user_proj_metrics_df.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]] = (
+            all_user_proj_metrics_df[[col for col in all_user_proj_metrics_df.columns if col not in ['Vertices', 'Edges', 'Components', 'Largest component size']]].round(2)
+        )
     
+        #Save the projected metrics to a csv file
+        all_video_proj_metrics_df.fillna('NA').to_csv('../data/metrics/all_video_proj_metrics_df.csv', index=True, index_label='hashtag-video')
+        all_user_proj_metrics_df.fillna('NA').to_csv('../data/metrics/all_user_proj_metrics_df.csv', index=True, index_label='hashtag-user')
 
     #Save the metrics to a csv file
     all_video_metrics_df.drop(columns='group').fillna('NA').to_csv('../data/metrics/all_video_metrics_df.csv', index=True, index_label='hashtag-video')
@@ -339,11 +343,7 @@ if __name__ == '__main__':
     video_group_means.fillna('NA').to_csv('../data/metrics/video_group_means.csv', index=True, index_label='group')
     user_group_means.fillna('NA').to_csv('../data/metrics/user_group_means.csv', index=True, index_label='group')
 
-    #Save the projected metrics to a csv file
-    all_video_proj_metrics_df.fillna('NA').to_csv('../data/metrics/all_video_proj_metrics_df.csv', index=True, index_label='hashtag-video')
-    all_user_proj_metrics_df.fillna('NA').to_csv('../data/metrics/all_user_proj_metrics_df.csv', index=True, index_label='hashtag-user')
-
-
+    
 
 
     print('Done')

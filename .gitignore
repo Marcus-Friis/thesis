@@ -1,3 +1,6 @@
+# ignore virtual environments
+venvs/
+
 # ignore data dumps
 data/data_dumps/*
 
