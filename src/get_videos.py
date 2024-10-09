@@ -13,13 +13,18 @@ if __name__ == '__main__':
         raise ValueError('Hashtag must be provided as argument')
     hashtag = argv[1]
     
-    if len(argv) == 3:
+    if len(argv) >= 3:
         driver = argv[2]
         if driver not in ['chrome', 'firefox', 'edge']:
             raise ValueError('Driver must be one of "chrome", "firefox", or "edge"')
     else:
         driver = 'chrome'
     pyk.specify_browser(driver)
+
+    if len(argv) == 4:
+        start_idx = int(argv[3])
+    else:
+        start_idx = 0
 
     with open(f'../data/hashtags/edges/{hashtag}_edges.txt', 'r') as f:
         edges = f.readlines()
@@ -33,7 +38,8 @@ if __name__ == '__main__':
             stitchees.append(stitchee)
 
     N = len(stitchers)
-    for i, stitcher in enumerate(stitchers):
+    for i in range(start_idx, N):
+        stitcher = stitchers[i]
         print(f"{i}/{N}\t>>> Downloading {stitcher}")
         try:
             for attempt in Retrying(stop=stop_after_attempt(3), wait=wait_fixed(3)):
