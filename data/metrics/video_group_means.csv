@@ -1,4 +1,4 @@
-group,Vertices,Edges,Components,Largest component size,Degree Assortativity,Clustering Coefficient,Diameter,Undirected Diameter,% of vertices in the largest component,Global degree centralization,Largest component degree centralization,Global closeness centralization,Largest component closeness centralization,Global betweenness centralization,Largest component betweenness centralization
-entertainment,1332,736,596,21,0.0,0.0,1.0,1.92,0.02,0.01,1.0,0.09,1.0,0.0,1.0
-political,650,343,306,8,NA,0.0,1.0,1.88,0.01,0.01,1.0,0.06,1.0,0.0,1.0
-subculture,1400,804,596,57,NA,0.0,1.0,1.9,0.06,0.05,1.0,0.14,1.0,0.01,1.0
+group,Vertices,Edges,Components,Largest component size,Degree Assortativity,Clustering Coefficient,Diameter,Undirected Diameter,Reciprocity,% of vertices in the largest component,Global degree centralization,Largest component degree centralization,Global closeness centralization,Largest component closeness centralization,Global betweenness centralization,Largest component betweenness centralization
+entertainment,1332,736,596,21,0.0,0.0,1.0,1.92,0.0,0.02,0.01,1.0,0.09,1.0,0.0,1.0
+political,650,343,306,8,NA,0.0,1.0,1.88,0.0,0.01,0.01,1.0,0.06,1.0,0.0,1.0
+subculture,1400,804,596,57,NA,0.0,1.0,1.9,0.0,0.06,0.05,1.0,0.14,1.0,0.01,1.0
