@@ -1,0 +1,17 @@
+a,0,c1:c:c(:c:c2:c:1C1C(CC2)C2C(CC1)(C(CC2)(O)C#C)C)O
+b,0,c1:c:c(:c:c2:c:1C1C(CC2)C2C(CC1)(C(CC2)O)C)Br
+c,0,c1:c:c(:c:c2:c:1C1C(CC2)C2C(CC1)(C(CC2)O)C)F
+d,0,c1:c(:c(:c:c2:c:1C1C(CC2)C2C(CC1)(C(CC2)(O)C#C)C)O)OC
+e,0,c1:c(:c(:c:c2:c:1C1C(CC2)C2C(CC1)(C(CC2)O)C)O)OC
+f,0,c1:c(:c(:c:c2:c:1C1C(CC2)C2C(CC1)(C(CC2)O)C)OC)OC
+g,0,c1:c(:c(:c:c2:c:1C1C(CC2)C2C(CC1)(C(C(C2)O)O)C)O)OC
+h,0,c1:c(:c(:c:c2:c:1C1C(CC2)C2C(CC1)(C(=O)CC2)C)O)OC
+i,0,c1:c(:c(:c:c2:c:1C1C(CC2)C2C(CC1)(C(CC2)O)C)OC)O
+j,0,c1:c:c(:c(:c2:c:1C1C(CC2)C2C(CC1)(C(CC2)O)C)OC)O
+k,0,C1CC(CC2(CCC3C(C12C)CCC1(C23C(C(C1C1=COC(=O)C=C1)OC(=O)C)O2)C)O)O
+l,0,c1:c:c(:c:c2:c:1C1C(CC2)C2C(CC1)(C(CC2)O)C)O
+m,0,c1:c:c(:c:c2:c:1C1C(CC2)C2C(CC1)(C(CC2)O)C)OC
+n,0,c1:c:c(:c:c2:c:1C1C(CC2)C2C(CC1)(C(C(C2)O)O)C)O
+o,0,c1:c:c(:c:c2:c:1C1C(CC2)C2C(CC1)(C(=O)CC2)C)O
+p,0,C1CC(=O)C=C2CCC3C(C12)CCC1(C3CCC1(OC(=O)C)C#C)C
+q,0,C1C(N2(C)CCCCC2)C(OC(=O)C)CC2C1(C)C1C(C3C(C)(CC1)C(C(N1(CCCCC1)C)C3)OC(=O)C)CC2

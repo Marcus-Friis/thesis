@@ -1,0 +1,1562 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!-- ===================================================================
+  File    : moss.html
+  Contents: Description of molecular substructure miner
+  Author  : Christian Borgelt
+==================================================================== -->
+<html>
+<head>
+<title>MoSS Documentation</title>
+</head>
+
+<!-- =============================================================== -->
+
+<body style="background:white">
+<h1><a name="top">MoSS</a></h1>
+<h3>Molecular Substructure Miner</h3>
+
+<p>(aka <b>MoFa</b> - <b>Mo</b>lecular <b>F</b>r<b>a</b>gment Miner)</p>
+
+<!-- =============================================================== -->
+<p><img src="line.gif" alt="" height=7 width=704></p>
+
+<p><a href="http://www.borgelt.net/moss.html">
+Download page</a> with most recent version.</p>
+<p>This documentation refers to GUI version 2.5 (2011.02.24)
+and Miner version 6.2 (2011.02.24) of the MoSS program.
+Older versions of the program may differ in some aspects.</p>
+
+<!-- =============================================================== -->
+<p><img src="line.gif" alt="" height=7 width=704></p>
+
+<h3>Contents</h3>
+
+<ul>
+<li><a href="#intro">Introduction</a></li>
+<li><a href="#langs">Molecule Description Languages</a>
+<li><a href="#gui">Graphical User Interface</a>
+<li><a href="#invoke">Command Line Program</a>
+<li><a href="#options">Command Line Options</a>
+<li><a href="#input">Format of the Input File</a>
+<li><a href="#output">Formats of the Output Files</a>
+<li><a href="#example1">Example&nbsp;1: Artificial Data</a>
+<li><a href="#example2">Example&nbsp;2: Steroids Data</a>
+<li><a href="#publ">Publications</a></li>
+<li><a href="#download">Download</a></li>
+<li><a href="#license">License</a></li>
+<li><a href="#contact">Contact</a></li>
+<li><a href="#links">Useful Links</a></li>
+</ul>
+
+<!-- =============================================================== -->
+<p><img src="line.gif" alt="" height=7 width=704></p>
+
+<h3><a name="intro">Introduction</a></h3>
+
+<p>MoSS is mainly a program to find frequent molecular substructures
+and discriminative fragments in a database of molecule descriptions.
+It can be used in the context of drug discovery and synthesis prediction
+for the purpose of analyzing the outcome of screening tests.</p>
+
+<p>However, since Miner version 5.3, MoSS is no longer restricted to
+molecular data sets, but can mine arbitrary data sets of attributed
+(or labeled or typed) graphs. The set of supported input formats for
+such general attributed graphs is currently still fairly limited,
+though, and they are not described in this documentation. In the
+following it is generally assumed that the input is a set of
+molecules.</p>
+
+<p>Given a database of graphs, MoSS finds all (closed) frequent
+substructures, that is, all substructures that appear with a
+user-specified minimum frequency in the database (and do not have
+super-structures that occur with the same frequency). Alternatively,
+it finds molecular fragments that are frequent in the focus part
+of the database, but rare in the complement part, that is, that
+appear with at least a user-specified minimum frequency in the focus
+part of the database (and do not have super-structures that occur with
+the same frequency), but with no more than a user-specified maximum
+frequency in the complement part of the database. Such molecular
+substructures discriminate between the two parts of the database
+and thus may be called <i>discriminative fragments</i>.</p>
+
+<p>The algorithm underlying MoSS is inspired by the Eclat algorithm
+for frequent item set mining [Zaki <i>et al.</i> 1997] (although it
+does <i>not</i> intersect transaction lists) and was first published in
+<a href="#borgelt_and_berthold_2002">[Borgelt and Berthold 2002]</a>.
+Apart from the default MoSS/MoFa algorithm, this program also contains
+the gSpan algorithm [Yan and Han 2002] (and its extension CloseGraph
+[Yan and Han 2003]) as a special processing mode.</p>
+
+<p>The first version of the MoSS program was developed in cooperation
+with <a href="http://www.tripos.com">Tripos, Inc.</a>, Data Analysis
+Research Lab, South San Francisco, CA, USA. I am very grateful to
+Tripos, Inc., for giving me the opportunity to carry out the research
+that led to the development of this program.</p>
+
+<p>The MoSS algorithm is currently also studied at the
+<a href="http://www.inf.uni-konstanz.de/bioml/">
+ALTANA Chair of Applied Computer Science (M.R. Berthold)</a> of the
+<a href="http://www.uni-konstanz.de/">University of Konstanz</a>,
+where a
+<a href="http://www.inf.uni-konstanz.de/bioml/research/mofa/overview.html">
+sister page</a> can be found.</p>
+
+<p>Enjoy,<br>
+<a href="mailto:christian.borgelt@softcomputing.es">
+Christian Borgelt</a></p>
+
+<table style="width:100%;border:0px" cellpadding=0 cellspacing=0>
+<tr><td style="width:95%" align=right>
+    <a href="#top">back to the top</a>&nbsp;</td>
+    <td><a href="#top">
+    <img src="up.gif" alt="" style="border:0px"></a></td></tr>
+</table>
+
+<!-- =============================================================== -->
+<p><img src="line.gif" alt="" height=7 width=704></p>
+
+<h3><a name="langs">Molecule Description Languages</a></h3>
+
+<p>The MoSS program works on textual descriptions of molecules.
+In order to describe molecules by simple texts, so that they can be fed
+into a computer program, one needs a notation for the structure of a
+molecule. MoSS supports three such notation languages for molecules:</p>
+<ul>
+<li><b>SMILES</b> -
+    <b>S</b>implified <b>M</b>olecular <b>I</b>nput <b>L</b>ine
+    <b>E</b>ntry <b>S</b>ystem<br>
+    SMILES was developed in 1986 by David Weiniger at USEP
+    (US Environmental Research Laboratory). It is a commonly used
+    exchange format for molecular structures. A very detailed
+    <a href="http://www.daylight.com/dayhtml_tutorials/languages/smiles/index.html">
+    tutorial</a> that describes this language is available from
+    <a href="http://www.daylight.com/">Daylight, Inc.</a>,
+    which also provides a
+    <a href="http://www.daylight.com/daycgi_tutorials/depict.cgi">
+    molecule renderer</a>.</li>
+<li><b>SLN</b> -
+    <b>S</b>YBYL<sup>&reg;</sup> <b>L</b>ine <b>N</b>otation<br>
+    SLN was developed by
+    <a href="http://www.tripos.com/">Tripos, Inc.</a> for their
+    product SYBYL<sup>&reg;</sup> (a software for molecular modelers).
+    An overview and a fairly detailed description of SLN can be found
+    in <a href="http://www.ncbi.nlm.nih.gov/pubmed/18998666">this paper
+    [Homer <i>et al.</i> 2008]</a></li>
+<li><b>SDfile/Ctab</b> -
+    <b>S</b>tructure-<b>D</b>ata <b>file</b> /
+    <b>C</b>onnection <b>tab</b>le<br>
+    SDfile and Ctab are part of the CTfile formats, developed by
+    MDL Information Systems, Inc. ("Elsevier MDL"). They are multi-line
+    formats, which can also handle a lot of additional information
+    about molecules. Most of this information is not evaluated by
+    MoSS, though. It only looks for a property called "value", which
+    is then used to split the data set.</li>
+</ul>
+
+<table>
+<tr><td valign="top"><b>Example:</b></td>
+    <td style="width:20px">&nbsp;</td>
+    <td><img src="steroid_a.png" alt="steroid_a"></td></tr>
+<tr><td valign="top"><b>SMILES</b>:</td><td></td>
+    <td>c1:c:c(:c:c2:c:1C1C(CC2)C2C(CC1)(C(CC2)(O)C#C)C)O</td></tr>
+<tr><td valign="top"><b>SLN</b>:</td><td></td>
+    <td>C[1]H:CH:C(:CH:C[8]:C:@1C[10]HCH(CH2CH2@8)C[20]HC(CH2CH2@10)(C(CH2CH2@20)(OH)C#CH)CH3)OH</td></tr>
+</table>
+
+<p>Example data files can be found in the <tt>data</tt> directory of
+the source code package</p>
+
+<p>MoSS can read and write all of the above description languages, but
+may make mistakes in interpreting certain codes in the SMILES format
+due to the fact that SMILES uses implicit single <i>and</i> aromatic
+bonds. A simple example illustrating the problem is the SMILES code
+<tt>c1ccccc1c2ccccc2</tt> where the type of the bond between the two
+benzene rings, when considered locally, looks like <i>aromatic</i>
+instead of <i>single</i>, because it is implicit and the two adjacent
+atoms are aromatic (indicated by the lowercase letters).</p>
+
+<p>Since version 6.5 MoSS tries to handle these cases by checking
+whether a bridge is labeled as an aromatic bond (which is clearly
+impossible) and changes all such bridges to single bonds. This
+approach helps in many cases (it helps for <tt>c1ccccc1c2ccccc2</tt>),
+but not necessarily in all. A problematic situation that can still be
+imagined is the SMILES code <tt>c12c(cccc2)c3c(cccc3)c4c1cccc4</tt>,
+where the middle ring, in order to satisfy valence rules, should not
+be aromatic, but would be interpreted by MoSS as such, because none
+of the implicit bonds connecting the three benzene rings is a bridge.
+Such misinterpretations can only be removed by including valence rules
+into the parser, which is a lot of tedious work I have not found time
+to do yet. (However, maybe I am wrong in my interpretation of this
+structure? Or maybe it is chemically impossible? I am not a chemist
+after all and the
+<a href="http://www.daylight.com/daycgi/depict?633132632863636363322963336328636363633329633463316363636334">Daylight Renderer</a> shows the middle
+ring as aromatic. There are also chemical compounds like
+<a href="http://en.wikipedia.org/wiki/Coronene">Coronene</a>,
+which look very similar and in which the valences also do not work
+out if one counts an aromatic bond as representing 1.5 electrons.)</p>
+
+<p>To prevent such mistakes (or at least ambiguities) with certainty,
+it is therefore recommended to avoid implicit bonds, or at least to
+write molecules like the ones above as <tt>c1ccccc1-c2ccccc2</tt> and
+<tt>c12c(cccc2)-c3c(cccc3)-c4c-1cccc4</tt> in SMILES. (Note: the
+<a href="http://www.daylight.com/daycgi/depict?63313263286363636332292d633363286363636333292d6334632d316363636334">Daylight Renderer</a> still shows
+the middle ring of the second structure as aromatic even for this
+SMILES code, which irritates me.)</p>
+
+<p>MoSS output <i>never</i> contains implicit bonds: all bonds are
+stated explicitly to avoid such problems.</p>
+
+<p>By default MoSS ignores hydrogen atoms (they are read, but the atoms
+are trimmed from the molecules before the search). It is possible to
+change this default, so that hydrogens are treated like all other atom
+types.</p>
+
+<table style="width:100%;border:0px" cellpadding=0 cellspacing=0>
+<tr><td style="width:95%" align=right>
+    <a href="#top">back to the top</a>&nbsp;</td>
+    <td><a href="#top">
+    <img src="up.gif" alt="" style="border:0px"></a></td></tr>
+</table>
+
+<!-- =============================================================== -->
+<p><img src="line.gif" alt="" height=7 width=704></p>
+
+<h3><a name="gui">Graphical User Interface</a></h3>
+
+<p>The MoSS program comes in two flavors: one has a simple graphical
+user interface, which allows to set all parameters in a tabbed dialog
+box, while the other has to be invoked on the command line, providing
+the files to work on and the processing options as arguments to the
+program. This section describes the version with a graphical user
+interface, which may be easier to use for novice users. The command
+line version is described in the <a href="#invoke">next section</a></p>
+
+<p>The MoSS version with a graphical user interface can be started
+with the command</p>
+<pre>
+java -jar moss.jar [&lt;config&gt;]
+</pre>
+<p>for the Java archive (under Windows it may also be started by simply
+clicking on the file <tt>moss.jar</tt>) or</p>
+<pre>
+java moss.MoSS [&lt;config&gt;]
+</pre>
+<p>for the compiled source code (assuming in the latter case that the
+current working directory is the parent directory of the <tt>moss</tt>
+source directory, the <tt>CLASSPATH</tt> environment variable has been
+set appropriately, or a proper class path is set with the command line
+option <tt>-classpath</tt> (or <tt>-cp</tt>) of the <tt>java</tt>
+command). The only parameter, which is optional, is the name of a
+configuration file, from which the different fields in the dialog
+can be preset.</p>
+
+<p>The dialog window contains a set of tabs, which can be selected from
+the list on the left and which are displayed on the right. In these tabs
+parameters and options can be set. At the bottom of the window is a bar
+of buttons, with which the search can be started, the program can be
+terminated, and the configuration of the dialog window can be saved and
+loaded.</p>
+
+<p>Since it is inconvenient to set all needed parameters anew every time
+the MoSS program is started, it is possible to save the configuration of
+the dialog window to a file. To do so, simply press the <tt>Save</tt>
+button at the bottom of the window and select the file into which you
+want the configuration to be written. To load a configuration, press
+the <tt>Load</tt> button and select the configuration file to be
+loaded. Note that configuration files from different GUI versions
+may be incompatible.</p>
+
+<p>After all parameters have been specified, the search can be started
+by pressing the <tt>Run</tt> button. While the search is running, the
+number of loaded graphs or the number of found substructures is printed
+in the status line (this number is updated once per second). The
+<tt>Run</tt> button changes into an <tt>Abort</tt> button, with which
+the search can be aborted. Note that in this case all substructures
+that were found up to this point have already been written to the
+output file and thus a (partial) result is available even in this
+case. At the end of a (not aborted) search a dialog box informs about
+the number of found substructures and the total search time.</p>
+
+<p>On the first tab the input and output files and formats can be
+selected and a seed substructure, from which the search is to be
+started, may be specified:</p>
+
+<p><img src="files.png" alt="Files &amp; Formats"></p>
+
+<p>By default, the SMILES format is used for all input and output
+and the names <tt>moss.dat</tt> and <tt>moss.sub</tt> are used for
+the molecule input file and substructure output file. The name of
+the molecule identifier file is left empty, indicating that this
+file will not be written. It is written only if the corresponding
+field is filled. Information about the format of the input and
+output files can be found <a href="#input">here (input file)</a>
+and <a href="#output">here (output files)</a>.</p>
+
+<p>By default, the seed is a star (or may also be left empty),
+meaning that the search is started from an empty substructure.
+In this case all possible atom types are tried as seeds one by one,
+starting with the type that is rarest in the given data set and
+proceeding to the more frequent ones.</p>
+
+<p>On the second tab some basic parameters may be specified:</p>
+
+<p><img src="basics.png" alt="Basic Parameters"></p>
+
+<p>The input molecule data set is split into two subsets, which are
+called the <i>focus</i> and the <i>complement</i>. By default, all
+molecules which have an associated value no greater than 0.5 (the
+threshold for the split) are placed into the focus, all other molecules
+are placed into the complement. This division into focus and complement
+may be inverted by checking the "Invert split" box.</p>
+
+<p>The next fields allow to constrain the substructures that are
+reported by their size, which is measured by the number of nodes/atoms
+that are contained in a substructure. If the maximal size is 0, this
+means that substructures of arbitrary size may be reported. Restricting
+the (maximum) substructure size is not recommended for novice users,
+as this can have surprising horizon effects.</p>
+
+<p>One may specify to exclude certain node/atom types from the search
+(meaning that no substructures containing them are to be reported).
+They can be listed in the next input field and have to be specified
+as a molecule, using the notation language that was specified for the
+seed structure (see first tab). The bonds that are used to specify the
+molecule are ignored. Nevertheless it may be best to use the null bond
+"." for all bonds.</p>
+
+<p>Finally, node/atom types that should not be considered as seeds (when
+searching without an explicit seed) can be listed. These types are not
+generally excluded from the search, as they may appear with other seeds.
+It is guaranteed that only substructures that consist exclusively of the
+node/atom types listed here (and no other types) will be discarded.</p>
+
+<p>To be more precise, the program works like this: if no explicit seed
+is given, all possible single node/atom seeds are tried, in the order
+of increasing frequency of the node type in the given database. That is,
+the least frequent node type/chemical element (that exceeds the minimum
+support) is used as the first seed. After this seed has been processed,
+this node type/chemical element is removed from all graphs/molecules,
+thus ensuring that future frequent substructures will not contain this
+chemical element. Then the second least frequent node type/chemical
+element is used as a seed and afterwards removed from the
+graphs/molecules etc. until the most frequent node type/chemical element
+(usually carbon) is reached.</p>
+
+<p>If a chemical element is to be excluded as a seed, it is moved to
+the end of the sorted list of node types/chemical elements (that is,
+to where the most frequent types/elements are), regardless of its
+frequency in the database, but it is not processed as a seed. This
+scheme guarantees that only substructures that consist of no other
+types/elements than those excluded as seeds are suppressed and hence
+leads to a strictly controlled loss of results. Especially suppressing
+substructures that consist solely of carbon atoms or solely of carbon
+and oxygen atoms (oxygen is usually the second most frequent chemical
+element) can considerably speed up the search.</p>
+
+<p>On the third tab all support related parameters can be specified:</p>
+
+<p><img src="support.png" alt="Support"></p>
+
+<p>In the first two fields it can be specified what minimum support
+a substructure must have in the focus and what maximum support it may
+have in the complement in order to be reported. Both values are usually
+given in percent of the size (number of molecules or number of nodes,
+depending on the support type) of the respective subset. That is, the
+minimal support in the focus is the percentage of graphs/molecules in
+the focus set, the maximal support in the complement the percentage
+of graphs/molecules in the complement set. Hence the bases for the
+percentages are different and therefore they cannot be compared
+directly. Alternatively, the support thresholds may be specified
+as absolute numbers of graphs/molecules, namely by checking the
+"Absolute support" box.</p>
+
+<p>The standard choice for the support of a substructure is the number
+of database graphs/molecules that contain it. However, one may also
+choose to compute it as the size of a maximum independent set of the
+(normal or harmful) overlap graph of the embeddings of the substructure.
+With these support definitions it is possible to find frequent subgraphs
+in a single large graph, see
+<a href="#fiedler_and_borgelt_2007">[Fiedler and Borgelt 2007]</a>.
+Since the problem of finding a maximum independent node set of a graph
+is NP-complete, it is usually not advisable to use an exact algorithm,
+since it can be very slow (even though this depends heavily on the
+structure of the overlap graph). Therefore the default is to use a
+greedy algorithm, which most of the time yields a result that differs
+only very slightly from the exact result, if at all.</p>
+
+<p>Reporting only closed substructures is a lossless way of reducing
+the size of the output. A substructure is called closed if no supergraph
+of it has the same support. However, this restriction is currently only
+possible if the support of a substructure is the number of containing
+graphs. For all other support types all frequent substructures are
+reported.</p>
+
+<p>The options on the fourth tab control how atoms and bonds are
+matched (all of the options on this tab have an effect only if
+the database consists of molecules - they are ignored for general
+attributed graphs):</p>
+
+<p><img src="match.png" alt="Matching"></p>
+
+<p>By default, aromatic bonds are treated as an extra type, but they
+may also be downgraded (that is, treated as equivalent to single bonds)
+or upgraded (that is, treated as equivalent to double bonds). The type
+of bonds is usually taken into account, but it may be ignored in rings
+or even for all bonds. Similarly, the type of atoms (chemical element)
+is usually taken into account, but it may be ignored in rings or even
+for all atoms. Other properties of atoms that may be matched (apart
+from their type, i.e., chemical element) are their charge and their
+aromaticity (i.e., whether they are part of an aromatic ring, which
+is determined by checking whether they are incident to an aromatic
+bond). Note that in order to be able to ignore the atom type or the
+bond type in rings, ring bonds must be distinguished from other bonds
+(see next tab).</p>
+
+<p>On the fifth tab parameters connected to ring and chain extensions
+can be specified:</p>
+
+<p><img src="rings.png" alt="Rings &amp; Chains"></p>
+
+<p>There are two different representations of aromatic rings, namely
+using actual aromatic bonds or so-called Kekul&eacute; representations,
+which use alternating single and double bonds. Since this is, of course,
+a hindrance to matching aromatic rings, it is recommended to convert
+Kekul&eacute; representations to actual aromatic bonds. Deactivate this
+option only if you know what you are doing. (Note that this option
+has an effect only if the database contains molecules.)</p>
+
+<p>It can be useful to distinguish bonds in rings from other bonds,
+namely if one wants to be sure that a bond in a fragment is either
+a ring bond or a non-ring bond in all supporting molecules (and not
+a ring bond in some, but a non-ring bond in others). To distinguish
+ring bonds from other bonds, a range of ring sizes (measured as the
+number of bonds of the ring) has to be specified, since only rings
+in the specified range will actually be considered as rings. For
+most chemical applications a range from 5 to 6 bonds is best.</p>
+
+<p>Ring extensions can be very useful if one is not interested in
+fragments that contain only part of a ring. There are three flavors
+to do this, which differ only in the efficiency of the search, not
+in the result. Usually full ring extensions are by far the fastest
+method and it is therefore recommended to use them, if any. (Note
+that distinguishing ring bonds from other bonds also has an effect
+if ring extensions are not used.)</p>
+
+<p>Finding variable length carbon chains can be useful if one is
+interested in considering substructures as equivalent that only differ
+in the length of carbon chains between their parts. (Note that this
+option has an effect only if the database contains molecules.)</p>
+
+<p>The sixth tab contains miscellaneous options that control the
+search carried out by the program and how it is pruned. These options
+are important for an expert user only:</p>
+
+<p><img src="search.png" alt="Search &amp; Pruning"></p>
+
+<p>The options on this tab do not affect the output of the program
+(provided there is no bug), but only affect the performance in terms
+of execution time and memory usage. It is recommended not to change
+the default settings. Explanations about the extension types and
+most of the pruning methods can be found in
+<a href="#borgelt_et_al_2004">[Borgelt et al. 2004]</a> and
+<a href="#borgelt_2005">[Borgelt 2005]</a>.</p>
+
+<p>The seventh tab contains options that concern the treatment of
+substructure embeddings. They can help to save memory, but usually
+increase the processing time:</p>
+
+<p><img src="embed.png" alt="Embeddings"></p>
+
+<p>All of these options are important if the program runs out of memory
+on a large dataset. In such a case setting a small maximal number of
+embeddings per graph/molecule and unembedding siblings of currently
+processed search tree nodes can considerably reduce the amount of
+memory needed. In extreme cases one may try to abandon embeddings
+altogether (specify to use embeddings from level -1, which means
+not at all). However, all of these options increase the processing
+time, usually in direct relation to the memory saved.</p>
+
+<p>The eighth tab contains debugging options, which, under normal
+conditions, are not relevant to a standard user, but provide means
+to find bugs in the program.</p>
+
+<p><img src="debug.png" alt="Debugging"></p>
+
+<p>Normalizing the output makes it possible to check whether two found
+substructures are identical by simple string matching. This can help
+to detect differences in the output of different algorithm variants.</p>
+
+<p>With verbose message output the program prints the nodes of the
+search tree that is traversed. Each node is described by the fragment
+corresponding to it and a list of database graphs in which it is
+contained (together with the number of embeddings in this graph if
+embeddings are used). Since search trees can become very large and
+the list of containing database graphs can be very long for standard
+data sets, this option should be activated only for very small data
+sets.</p>
+
+<p>The last tab only states the version of the MoSS program, and
+provides contact and license information:</p>
+
+<p><img src="about.png" alt="About"></p>
+
+<table style="width:100%;border:0px" cellpadding=0 cellspacing=0>
+<tr><td style="width:95%" align=right>
+    <a href="#top">back to the top</a>&nbsp;</td>
+    <td><a href="#top">
+    <img src="up.gif" alt="" style="border:0px"></a></td></tr>
+</table>
+
+<!-- =============================================================== -->
+<p><img src="line.gif" alt="" height=7 width=704></p>
+
+<h3><a name="invoke">Command Line Program</a></h3>
+
+<p>The general form of invoking the command line version of the
+MoSS program is:</p>
+<pre>
+java -cp moss.jar moss.Miner [options] &lt;in&gt; [&lt;out&gt;] [&lt;ids&gt;]
+</pre>
+<p>for the Java archive or</p>
+<pre>
+java moss.Miner [options] &lt;in&gt; [&lt;out&gt;] [&lt;ids&gt;]
+</pre>
+<p>for the compiled source code (assuming in the latter case that the
+current working directory is the parent directory of the <tt>moss</tt>
+source directory or that the <tt>CLASSPATH</tt> environment variable
+has been set appropriately).</p>
+
+<p>The meaning of the arguments is:</p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td valign="top"><tt>&lt;in&gt;</tt>&nbsp;&nbsp;</td>
+    <td>is the input file with the molecular/graph database to analyze.
+        It is expected to be in the format described
+        <a href="#input">here</a>.
+        This argument is mandatory.</td></tr>
+<tr><td valign="top"><tt>&lt;out&gt;</tt>&nbsp;&nbsp;</td>
+    <td>is the output file to which the found substructures are
+        written, together with some additional information about them.
+        By default (i.e., if no output file name is given) this file
+        will be named "moss.sub". The format of this file is described
+        <a href="#output">here</a>.</td></tr>
+<tr><td valign="top"><tt>&lt;ids&gt;</tt>&nbsp;&nbsp;</td>
+    <td>is the output file to which lists of containing graphs/molecules
+        are written for each found substructure. It is optional and
+        is not written if no file name is provided for it. The format
+        of this file is described <a href="#output">here</a>.</td></tr>
+</table>
+<p>The possible options, by which the search can be controlled,
+are described in the next section. If MoSS is invoked without any
+arguments, it prints a list of possible options together with a short
+description of their meaning.</p>
+
+<table style="width:100%;border:0px" cellpadding=0 cellspacing=0>
+<tr><td style="width:95%" align=right>
+    <a href="#top">back to the top</a>&nbsp;</td>
+    <td><a href="#top">
+    <img src="up.gif" alt="" style="border:0px"></a></td></tr>
+</table>
+
+<!-- =============================================================== -->
+<p><img src="line.gif" alt="" height=7 width=704></p>
+
+<h3><a name="options">Command Line Options</a></h3>
+
+<p>MoSS supports a variety of options, with which the search for
+frequent substructures can be controlled. For the command line version,
+these options may be specified in any place on the command line (before,
+between, or after the normal program arguments). In the graphical user
+interface, which is described <a href="#gui">here</a>, these options
+are specified in the dialog window.</p>
+
+<p><b>Format Options</b> control the format of the molecule
+descriptions for the seed and in the input and output files
+(see <a href="#langs">Molecule Description Languages</a>).</p>
+<table>
+<tr><td valign="top"><tt>-i#</tt>&nbsp;&nbsp;</td>
+    <td>input data format (default: smiles)</td></tr>
+<tr><td valign="top"><tt>-o#</tt>&nbsp;&nbsp;</td>
+    <td>substructure output format (default: smiles)</td></tr>
+<tr><td valign="top"><tt>-f#</tt>&nbsp;&nbsp;</td>
+    <td>seed format (line notation) (default: smiles)</td></tr>
+</table>
+<p>Possible formats include <tt>smiles</tt> and <tt>smi</tt> for
+the SMILES format, <tt>sln</tt> for the SLN format, <tt>ctab</tt>,
+<tt>mdl</tt> and <tt>sdf</tt> for the SDfile format, <tt>linog</tt>
+and <tt>lng</tt> for the LiNoG (Linear Notation for Graphs) format
+and finally <tt>list</tt>, <tt>nelist</tt> and <tt>nel</tt> for the
+node/edge list format. Unfortunately the last two formats, which
+allow processing arbitrary graphs, are not yet described in this
+documentation. However, the source package contains example input
+files in these formats (see the directory <tt>moss/data</tt>).</p>
+
+<p><b>Seed Option</b> is used to specify the seed structure to
+start the search from.</p>
+<table>
+<tr><td valign="top"><tt>-j#</tt>&nbsp;&nbsp;</td>
+    <td>seed structure to start the search from</td></tr>
+</table>
+<p>By default it is expected to be in SMILES format, but this may be
+changed with the option <tt>-f#</tt>. If this option is not given, an
+empty seed is used.</p>
+
+<p><b>Exclusion Options</b> allow to restrict the set of node/atom
+types (chemical elements) that are considered in the search</p>
+<table>
+<tr><td valign="top"><tt>-x#</tt>&nbsp;&nbsp;</td>
+    <td>node types to exclude
+        (as a graph in seed format, default: H)</td></tr>
+<tr><td valign="top"><tt>-y#</tt>&nbsp;&nbsp;</td>
+    <td>seed types to exclude
+        (as a graph in seed format, default: none)</td></tr>
+</table>
+
+<p><b>Split Options</b> control how the graph/molecule database
+is split into the focus part and the complement part.</p>
+<table>
+<tr><td valign="top"><tt>-t#</tt>&nbsp;&nbsp;</td>
+    <td>threshold value for the split (default: 0.5)</td></tr>
+<tr><td valign="top"><tt>-z</tt>&nbsp;&nbsp;</td>
+    <td>invert split (&gt; versus &lt;= instead of &lt;= versus &gt;)
+    </td></tr>
+</table>
+<p>If one does not want to find discriminative fragments, the complement
+part should be empty. This can be achieved by specifying a threshold
+that is larger than any value associated with a molecule in the
+database.</p>
+
+<p><b>Size Options</b> control the size a substructure must have
+in order to be reported.</p>
+<table>
+<tr><td valign="top"><tt>-m#</tt>&nbsp;&nbsp;</td>
+    <td>minimum size of a substructure (default: 1)</td></tr>
+<tr><td valign="top"><tt>-n#</tt>&nbsp;&nbsp;</td>
+    <td>maximum size of a substructure (default: no limit)</td></tr>
+</table>
+
+<p><b>Support Options</b> control the minimum frequency for the
+focus and the maximum frequency for the complement with which a
+substructure must occur in order to be reported.</p>
+<table>
+<tr><td valign="top"><tt>-s#</tt>&nbsp;&nbsp;</td>
+    <td>minimum support in focus      (default: 10.0%)</td></tr>
+<tr><td valign="top"><tt>-S#</tt>&nbsp;&nbsp;</td>
+    <td>maximum support in complement (default: 2.0%)</td></tr>
+<tr><td valign="top"><tt>-k#</tt>&nbsp;&nbsp;</td>
+    <td>support type (1:MIS, 2:HO, 3:MNI) (default: 0:graphs)</td></tr>
+<tr><td valign="top"><tt>-G</tt>&nbsp;&nbsp;</td>
+    <td>do not use greedy algorithm for MIS computation
+        (slower)</td></tr>
+<tr><td valign="top"><tt>-C</tt>&nbsp;&nbsp;</td>
+    <td>do not restrict the output to closed substructures</td></tr>
+</table>
+<p>Note that the support values are interpreted as percentages (of
+the number of graphs or the total number of nodes, depending on the
+chosen support type) if they are positive and as absolute numbers
+if they are negative.</p>
+<p>Details about other support types than the number of containing
+graphs/molecules can be found in
+<a href="#fiedler_and_borgelt_2007">[Fiedler and Borgelt 2007]</a>.</p>
+
+<p><b>Matching Options</b> control how atoms and bonds in the molecules
+are matched by substructures. In particular, they control which atom
+and bond types are seen as equivalent.</p>
+<table>
+<tr><td valign="top"><tt>+/-a</tt>&nbsp;</td>
+    <td>match/ignore aromaticity of atoms (default: ignore/-)</td></tr>
+<tr><td valign="top"><tt>+/-c</tt>&nbsp;</td>
+    <td>match/ignore charge of atoms      (default: ignore/-)</td></tr>
+<tr><td valign="top"><tt>+/-d</tt>&nbsp;</td>
+    <td>match/ignore atom type            (default: match/+)</td></tr>
+<tr><td valign="top"><tt>+/-D</tt>&nbsp;</td>
+    <td>match/ignore atom type in rings   (default: match/+)</td></tr>
+<tr><td valign="top"><tt>+/-:</tt>&nbsp;</td>
+    <td>upgrade/downgrade aromatic bonds  (default: extra type)</td></tr>
+<tr><td valign="top"><tt>+/-b</tt>&nbsp;</td>
+    <td>match/ignore bond type            (default: match/+)</td></tr>
+<tr><td valign="top"><tt>+/-B</tt>&nbsp;</td>
+    <td>match/ignore bond type in rings   (default: match/+)</td></tr>
+</table>
+<p>An atom is aromatic if it is part of an aromatic ring. Downgrading
+an aromatic bond means treating it as a single bond, upgrading means
+treating it as a double bond. The option <tt>-B</tt> only has an effect
+if rings are marked with the option <tt>-r</tt> (see below) and then
+only for the marked rings.</p>
+
+<p><b>Ring Mining Options</b> lead to rings (or at least ring bonds)
+being treated differently from other bonds. In addition, they allow
+switching to extensions by full rings rather than individual bonds in
+one step (see <a href="#hofer_et_al_2004">[Hofer <i>et al.</i> 2004]</a>
+and <a href="#borgelt_2006">[Borgelt 2006]</a>).</p>
+<table>
+<tr><td valign="top"><tt>-K</tt>&nbsp;&nbsp;</td>
+    <td>do not convert Kekul&eacute; representations
+        to aromatic rings</td></tr>
+<tr><td valign="top"><tt>-r#:#</tt>&nbsp;</td>
+    <td>mark rings of size # to # bonds (default: no marking)</td></tr>
+<tr><td valign="top"><tt>-R</tt>&nbsp;&nbsp;</td>
+    <td>extend with rings of marked sizes (default: indiv. bonds)</td></tr>
+<tr><td valign="top"><tt>-E</tt>&nbsp;&nbsp;</td>
+    <td>bond-by-bond support-filtered ring extensions (includes -O)</td></tr>
+<tr><td valign="top"><tt>-O</tt>&nbsp;&nbsp;</td>
+    <td>do not record fragments with open rings of marked sizes</td></tr>
+</table>
+<p>In a Kekul&eacute; representation an aromatic ring has alternating
+single and double bonds. In order to avoid mismatches due to a different
+representation of aromatic rings it is recommended to convert all
+Kekul&eacute; representations to rings with aromatic bonds.</p>
+
+<p><b>Carbon Chain Option</b> allows to find and match chains of varying
+length that consist only of carbon atoms that are connected by single
+bonds and do not have any branches.</p>
+<table>
+<tr><td valign="top"><tt>-H</tt>&nbsp;&nbsp;&nbsp;</td>
+    <td>find and match variable length chains of carbon atoms</td></tr>
+</table>
+
+<p><b>Extension Options</b> switch between different restricted
+extensions that are used in the search. Details about restricted
+extensions can be found in <a href="#borgelt_2005">[Borgelt 2005]</a>.
+<table>
+<tr><td valign="top"><tt>-g</tt>&nbsp;&nbsp;&nbsp;</td>
+    <td>use rightmost path extensions (default: max. source)</td></tr>
+</table>
+<p>Rightmost path extensions are the extension type used in the
+gSpan algorithm [Yan and Han 2002] and its extension CloseGraph
+[Yan and Han 2003]. Hence, by specifying <tt>-g</tt> one can switch
+to these algorithms. The MoSS/MoFa algorithm, which is the default,
+uses maximum source index extensions, see
+<a href="#borgelt_2005">[Borgelt 2005]</a>.</p>
+
+<p><b>Pruning Options</b> control the pruning of the search tree.
+The default is usually the best choice. For details about the
+pruning methods, see <a href="#borgelt_2005">[Borgelt 2005]</a>
+(canonical form pruning) and <a href="#borgelt_et_al_2004">
+[Borgelt et al. 2004]</a> (other pruning methods).</p>
+<table>
+<tr><td valign="top"><tt>+/-P</tt>&nbsp;</td>
+    <td>partial perfect extension pruning (default: no/-)</td></tr>
+<tr><td valign="top"><tt>+/-p</tt>&nbsp;</td>
+    <td>full    perfect extension pruning (default: yes/+)</td></tr>
+<tr><td valign="top"><tt>+/-e</tt>&nbsp;</td>
+    <td>equivalent sibling pruning        (default: no/-)</td></tr>
+<tr><td valign="top"><tt>+/-q</tt>&nbsp;</td>
+    <td>canonical form pruning            (default: yes/+)</td></tr>
+<tr><td valign="top"><tt>+/-h</tt>&nbsp;</td>
+    <td>filter extensions with orbits     (default: yes/+)</td></tr>
+</table>
+<p>If canonical form pruning is not used, duplicate substructures are
+found and eliminated with the help of a repository of already processed
+substructures.</p>
+
+<p><b>Embedding Options</b> control how the embeddings of
+substructures are handled during the search.</p>
+<table>
+<tr><td valign="top"><tt>-u#</tt>&nbsp;&nbsp;</td>
+    <td>use embeddings only from level #
+        (default: use always)<br>
+        (< 0: do not use embeddings at all, 0: use always)</td></tr>
+<tr><td valign="top"><tt>-M#</tt>&nbsp;&nbsp;</td>
+    <td>maximal number of embeddings per molecule
+        (to save memory)</td></tr>
+<tr><td valign="top"><tt>-U</tt>&nbsp;&nbsp;</td>
+    <td>unembed siblings of current search tree node
+        (to save memory)</td></tr>
+</table>
+<p>These options can reduce the amount of memory needed in the search,
+but usually slow down the search process. Not using embeddings at all
+is advantageous if the graph data set contains (very) few labels.</p>
+
+<p><b>Debug Options</b> have been introduced for debugging purposes,
+but may also be useful for testing the program and understanding how
+the algorithms work.</p>
+<table>
+<tr><td valign="top"><tt>-N</tt>&nbsp;&nbsp;&nbsp;</td>
+    <td>normalize fragment output form (for result comparisons)</td></tr>
+<tr><td valign="top"><tt>-v</tt>&nbsp;&nbsp;&nbsp;</td>
+    <td>verbose output during search (show search tree)</td></tr>
+<tr><td valign="top"><tt>-T</tt>&nbsp;&nbsp;&nbsp;</td>
+    <td>do not print search statistic</td></tr>
+</table>
+
+<p><b>Conversion Options</b> allow to convert data files between
+different formats. If any of them is given, no substructure search
+is carried out.</p>
+<table>
+<tr><td valign="top"><tt>-l</tt>&nbsp;&nbsp;&nbsp;</td>
+    <td>do not search, only convert input to the output format</td></tr>
+<tr><td valign="top"><tt>-L</tt>&nbsp;&nbsp;&nbsp;</td>
+    <td>do not search, only convert input to a logic format</td></tr>
+</table>
+
+<table style="width:100%;border:0px" cellpadding=0 cellspacing=0>
+<tr><td style="width:95%" align=right>
+    <a href="#top">back to the top</a>&nbsp;</td>
+    <td><a href="#top">
+    <img src="up.gif" alt="" style="border:0px"></a></td></tr>
+</table>
+
+<!-- =============================================================== -->
+<p><img src="line.gif" alt="" height=7 width=704></p>
+
+<h3><a name="input">Format of the Input File</a></h3>
+
+<p>The input file, which contains the molecular database, is expected
+to be either an SDfile or a text file with one graph/molecule
+description per line. In the latter case each graph/molecule is
+described by an identifier, a value that is used for classifying the
+graph/molecule into the focus or the complement part of the database,
+and a description of the graph's/molecule's structure, using either
+the SMILES or the SLN format (see <a href="#langs">Molecule Description
+Languages</a>) or the LiNoG or NEList formats (for general graphs).</p>
+
+<p>The first line of such an input file may be</p>
+<pre>
+id,value,description
+</pre>
+<p>This line may be present or absent (automatically checked).</p>
+<p>Each (following) line of the input file has the general format</p>
+<pre>
+&lt;id&gt; , &lt;value&gt; , &lt;desc&gt;
+</pre>
+<p>where</p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td valign="top"><tt>&lt;id&gt;</tt>&nbsp;&nbsp;</td>
+    <td>is a graph/molecule identifier that may be any string,
+        provided it does not contain a comma, a space, or a
+        tabulator (which are interpreted as field separators).
+        The graph/molecule identifier is used to refer to
+        graphs/molecules in the output of the program and thus it is
+        recommended that it is unique for the database to analyze.
+        However, the program does not require nor check uniqueness
+        and will work also if the same identifier is used twice or
+        even more often.</td></tr>
+<tr><td valign="top"><tt>&lt;value&gt;</tt>&nbsp;&nbsp;</td>
+    <td>is a real value that is compared to a user-specified
+        threshold in order to split the database into a focus
+        part and its complement. By default, all molecules with
+        a value &lt;= 0.5 are placed into the focus, all other
+        molecules are placed into the complement. This behavior
+        can be changed with the options <tt>-t#</tt> (threshold
+        value) and <tt>-z</tt> (invert split), see
+        <a href="#options">Options</a>.</td></tr>
+<tr><td valign="top"><tt>&lt;desc&gt;</tt>&nbsp;&nbsp;</td>
+    <td>is a description of the graph/molecule in a linear notation
+        language. Currently the SMILES format and the SLN format
+        are supported (see <a href="#langs">Molecule Description
+        Languages</a>) as well as the LiNoG and the NEList format
+        for general graphs. By default the SMILES format is used,
+        but this may be changed using the option <tt>-i#</tt>
+        (see <a href="#options">Options</a>).</td></tr>
+</table>
+
+<p>Instead of commas, spaces and tabulators may also be used to separate
+the three fields. This implies that the molecule identifier must not
+contain spaces or tabulators, since otherwise an input line cannot be
+split correctly into the three fields.</p>
+
+<p>Empty lines in the input file are simply ignored, as well as lines
+starting with a hash symbol '<tt>#</tt>', which may be used to put
+comments into an input file.</p>
+
+<p>If the input is an SDfile, the field name "value" is used to find
+and read the value that is associated with each graph and which is used
+to split the database into a focus part and a complement part.</p>
+
+<table style="width:100%;border:0px" cellpadding=0 cellspacing=0>
+<tr><td style="width:95%" align=right>
+    <a href="#top">back to the top</a>&nbsp;</td>
+    <td><a href="#top">
+    <img src="up.gif" alt="" style="border:0px"></a></td></tr>
+</table>
+
+<!-- =============================================================== -->
+<p><img src="line.gif" alt="" height=7 width=704></p>
+
+<h3><a name="output">Formats of the Output Files</a></h3>
+
+<p>MoSS writes one or two output files, depending on how many file
+names were provided on the command line: a substructure file (always
+written) and an graph/molecule identifier file (optional).</p>
+
+<h4>Substructure File</h4>
+
+<p>The substructure output file contains the found substructures.
+This file may either be an SDfile or a text file with one substructure
+per line, together with some additional information. Each found
+substructure is described by six fields.</p>
+
+<p>The first line of such an output file is always</p>
+<pre>
+id,description,nodes,edges,s_abs,s_rel,c_abs,c_rel
+</pre>
+<p>which indicates the meaning of the fields in the following lines.<br>
+Consequently the following lines have the general form</p>
+<pre>
+&lt;id&gt; , &lt;desc&gt; , &lt;nodes&gt; , &lt;edges&gt; , &lt;s_abs&gt; , &lt;s_rel&gt; , &lt;c_abs&gt; , &lt;c_rel&gt;
+</pre>
+
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td valign="top"><tt>&lt;id&gt;</tt>&nbsp;&nbsp;</td>
+    <td>is an identifier for the substructure, which is a simple
+        consecutive number, starting with 1 for the first substructure.
+        Note that the order in which substructures are reported depends
+        on the search process and may differ depending on the selected
+        search mode.</td></tr>
+<tr><td valign="top"><tt>&lt;desc&gt;</tt>&nbsp;&nbsp;</td>
+    <td>is a description of the substructure in either SMILES
+        or SLN format (see <a href="#langs">Molecule Description
+        Languages</a>) or LiNoG or NEList formal (for general graphs).
+        By default SMILES is used, but this may be changed using the
+        option <tt>-o#</tt>.</td></tr>
+<tr><td valign="top"><tt>&lt;nodes&gt;</tt>&nbsp;&nbsp;</td>
+    <td>is the number of nodes/atoms of the substructure.</td></tr>
+<tr><td valign="top"><tt>&lt;edges&gt;</tt>&nbsp;&nbsp;</td>
+    <td>is the number of edges/bonds of the substructure.</td></tr>
+<tr><td valign="top"><tt>&lt;s_abs&gt;</tt>&nbsp;&nbsp;</td>
+    <td>is the absolute support of the substructure in the focus part
+        of the database, that is, the number of graphs/molecules in
+        the focus part that contain this substructure.</td></tr>
+<tr><td valign="top"><tt>&lt;s_rel&gt;</tt>&nbsp;&nbsp;</td>
+    <td>is the relative support of the substructure in the focus part
+        of the database, that is, the percentage of graphs/molecules
+        in the focus part that contain this substructure.</td></tr>
+<tr><td valign="top"><tt>&lt;c_abs&gt;</tt>&nbsp;&nbsp;</td>
+    <td>is the absolute support of the substructure in the complement
+        part of the database, that is, the number of graphs/molecules
+        in the complement part that contain this substructure.</td></tr>
+<tr><td valign="top"><tt>&lt;c_rel&gt;</tt>&nbsp;&nbsp;</td>
+    <td>is the relative support of the substructure in the complement
+        part of the database, that is, the percentage of
+        graphs/molecules in the complement part that contain this
+        substructure.</td></tr>
+</table>
+
+<p>If the output file is an SDfile, the support information is stored
+together with the field name "support", in two lines: one for the
+support in the focus (first the absolute support, than the relative
+supprt) and one for the support in the complement (ditto).</p>
+
+<h4>Molecule Identifier File</h4>
+
+<p>The molecule identifier output file contains, for each found
+substructure, a list of the graphs/molecules the substructure is
+contained in. Each line corresponds to one substructure, which is
+referred to by its identifier (see above). The containing
+graphs/molecules are also referred to by their identifiers
+as they were specified in the input file
+(see <a href="#input">Input File</a>).</p>
+
+<p>The first line of such an identifier file is always</p>
+<pre>
+id:list
+</pre>
+<p>Each line of this output file has the general format</p>
+<pre>
+&lt;subid&gt; : &lt;graphid&gt; [ , &lt;graphid&gt; ]*
+</pre>
+<p>where</p>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td valign="top"><tt>&lt;subid&gt;</tt>&nbsp;&nbsp;</td>
+    <td>is the identifier of a substructure as it is specified
+        in the substructure output file, that is, a number between
+        1 and the number of found substructures.</td></tr>
+<tr><td valign="top"><tt>&lt;graphid&gt;</tt>&nbsp;&nbsp;</td>
+    <td>is the identifier of a graph/molecule that contains the
+        substructure as it was specified in the input file.</td></tr>
+</table>
+<p>The order in which the graphs/molecules are listed is the same
+as the order in the input file, with the only exception that the
+graphs/molecules in the focus part of the database precede the
+molecules in the complement part.</p>
+
+<table style="width:100%;border:0px" cellpadding=0 cellspacing=0>
+<tr><td style="width:95%" align=right>
+    <a href="#top">back to the top</a>&nbsp;</td>
+    <td><a href="#top">
+    <img src="up.gif" alt="" style="border:0px"></a></td></tr>
+</table>
+
+<!-- =============================================================== -->
+<p><img src="line.gif" alt="" height=7 width=704></p>
+
+<h3><a name="example1">Example&nbsp;1: Artificial Data</a></h3>
+
+<p>As a first example of how to apply the MoSS program, we consider
+the artificial data set used in <a href="#borgelt_and_berthold_2002">
+[Borgelt and Berthold 2002]</a>, which consists of six simple molecules.
+(Note that these molecules were constructed to demonstrate certain
+properties of the search algorithm and have no chemical significance,
+may not even be possible as actual molecules.)</p>
+
+<table border=1 cellpadding=4>
+<tr><th>id</th><th>molecule</th><th>SMILES description</th></tr>
+<tr><td>a</td><td><img src="ex_a.png" alt="ex_a"></td><td>CCS(O)(O)N</td></tr>
+<tr><td>b</td><td><img src="ex_b.png" alt="ex_b"></td><td>CCS(O)(C)N</td></tr>
+<tr><td>c</td><td><img src="ex_c.png" alt="ex_c"></td><td>CS(O)(C)N</td></tr>
+<tr><td>d</td><td><img src="ex_d.png" alt="ex_d"></td><td>CCS(=N)N</td></tr>
+<tr><td>e</td><td><img src="ex_e.png" alt="ex_e"></td><td>CS(=N)N</td></tr>
+<tr><td>f</td><td><img src="ex_f.png" alt="ex_f"></td><td>CS(=N)O</td></tr>
+</table>
+
+<p>This data set can be found on the
+<a href="http://www.borgelt.net/moss.html">
+download page</a> for the MoSS program and in the source package
+(directory <tt>moss/data</tt>). It is available in both SMILES and
+SLN format.</p>
+<p>For the SMILES format, the file is called <tt>example1.smi</tt>
+and looks like this:</p>
+<pre>
+a,0,CCS(O)(O)N
+b,0,CCS(O)(C)N
+c,0,CS(O)(C)N
+d,0,CCS(=N)N
+e,0,CS(=N)N
+f,0,CS(=N)O
+</pre>
+<p>For the SLN format, the file is called <tt>example1.sln</tt>,
+and it looks the same, since I omitted hydrogen atoms and thus there
+is no difference in this case between the two description languages.</p>
+
+<p>The first column states the identifiers of the molecules, which are
+simply the letters <tt>a</tt> to <tt>f</tt>. The value associated with
+each molecule (second column) is 0, so that by default all molecules
+are placed into the focus part of the database while the complement
+part is empty.</p>
+
+<p>We now process the file in SMILES format with the graphical user
+interface. To do so, select <tt>example1.smi</tt> as the "Molecule
+input file", <tt>example1.sub</tt> as the "Substructure output file",
+and <tt>example1.ids</tt> as the "Molecule identifier file" (all on
+first tab). Then go to the "Support" tab and set the minimum support
+in the focus to 50%. Finally go to the "Search &amp; Pruning" tab and
+check "Verbose message output". Then press the <tt>Run</tt> button at
+the bottom of the dialog window.</p>
+
+<p>To process the file in SMILES format with the command line version,
+use the command</p>
+<pre>
+java -cp moss.jar moss.Miner -s50 -v -jS example1.smi example1.sub example1.ids
+</pre>
+<p>The option <tt>-s50</tt> means that a substructure has to be
+contained in at least 50% of the molecules (that is, in 3 molecules)
+in order to be reported. The option <tt>-v</tt> enables us to inspect
+the search tree that is traversed. The first argument, <tt>"S"</tt>,
+specifies that the search should be started from a sulphur atom, which
+is contained in all molecules. <tt>example1.smi</tt> obviously is the
+input file with the database to process. <tt>example1.sub</tt> is the
+name of the output file to which the found substructures are to be
+written, <tt>examples2.ids</tt> the name of the output file, to
+which the lists of molecule identifiers are to be written.</p>
+
+<p>Running the MoSS program from the graphical user interface or
+invoking it with the above command line yields the following terminal
+output:</p>
+<pre>
+moss.Miner - molecular substructure miner (MoSS)
+version 6.2 (2011.02.24)    (c) 2002-2011 Christian Borgelt
+parsing seed description ... [1 atom(s), 0 bond(s)] done.
+parsing excluded atom types ... [1 atom(s)] done.
+reading molecules ... [6 (6+0) molecule(s)] done [0.002s].
+marking bridges ... [6 molecule(s)] done [0.0s].
+masking atom and bond types ... [6 molecule(s)] done [0.0s].
+preparing/recoding molecules ... [6 molecule(s)] done [0.001s].
+embedding the seed ... [6 (6+0) molecule(s)] done [0.006s].
+</pre>
+<p>After having loaded the data file, but before starting its actual
+work, MoSS performs several preprocessing tasks, the progress of which
+is reported as show above. Then the actual search starts. Since we
+specified the option <tt>-v</tt> the search tree is printed to the
+terminal:</p>
+<pre>
+searching for substructures ... 
+S  abcdef (6)
+   S-C  ab2c2def (6)
+      S(-O)-C  a2b2c2f (4)
+         S(-O)(-N)-C  a2b2c2 (3)
+      S(-N)-C  ab2c2de (5)
+         S(-N)-C-C  abd (3)
+      S(-C)=N  def (3)
+      S-C-C  abd (3)
+[6 substructure(s)] done [0.01s].
+</pre>
+<p>Each line refers to one node of the search tree, with the indentation
+indicating the level of the search tree the node is located on.
+The line starts with a description of the substructure (which is
+always in SMILES format), followed by a list of identifiers of the
+molecules that contain the substructure. If a molecule contains
+the substructure more than once, the number of occurrences of the
+substructure in the molecule is printed after the molecule identifier.
+At the end of the line the number of molecules containing the fragment
+is printed in parentheses.</p>
+
+<p>After the MoSS program finishes the search, it prints the number
+of found substructures as well as some statistics about the search
+(in the terminal window):</p>
+<pre>
+search statistics:
+maximum search tree height   : 3
+number of search tree nodes  : 8
+number of created fragments  : 21
+number of created embeddings : 84
+insufficient support pruning : 10
+perfect extension pruning    : 1
+equivalent sibling pruning   : 0
+canonical form pruning       : 0
+ring order pruning           : 0
+duplicate fragment pruning   : 0
+non-closed fragments         : 2
+fragments with open rings    : 0
+fragments with invalid chains: 0
+auxiliary invalid fragments  : 0
+accesses to repository       : 0
+comparisons with fragments   : 0
+actual isomorphism tests     : 0
+comparisons with embeddings  : 0
+</pre>
+<p>These statistics give an impression of the complexity of the
+search and of how effective the different pruning methods are.</p>
+
+<p>The first output file written by the above execution of the MoSS
+program is the substructure file <tt>example1.sub</tt>. It looks
+like this:</p>
+<pre>
+id,description,nodes,edges,s_abs,s_rel,c_abs,c_rel
+1,S(-O)(-N)-C,4,3,3,50.0,0,0.0
+2,S(-O)-C,3,2,4,66.666664,0,0.0
+3,S(-N)-C-C,4,3,3,50.0,0,0.0
+4,S(-N)-C,3,2,5,83.333336,0,0.0
+5,S(-C)=N,3,2,3,50.0,0,0.0
+6,S-C,2,1,6,100.0,0,0.0
+</pre>
+<p>It lists the six closed substructures that were found, which are
+depicted in the table below.</p>
+<table border=1 cellpadding=4>
+<tr><th>id</th><th>fragment</th><th>SMILES description</th></tr>
+<tr><td>1</td><td><img src="ex_1.png" alt="ex_1"></td><td>CS(O)N</td></tr>
+<tr><td>2</td><td><img src="ex_4.png" alt="ex_2"></td><td>CSO</td></tr>
+<tr><td>3</td><td><img src="ex_2.png" alt="ex_3"></td><td>CCSN</td></tr>
+<tr><td>4</td><td><img src="ex_3.png" alt="ex_4"></td><td>CSN</td></tr>
+<tr><td>5</td><td><img src="ex_5.png" alt="ex_5"></td><td>CS=N</td></tr>
+<tr><td>6</td><td><img src="ex_6.png" alt="ex_6"></td><td>CS</td></tr>
+</table>
+<p>Note that, for example, <tt>O-S-N</tt> is not reported, since
+it is not closed (the superstructure <tt>C-S(-O)-N</tt> has the
+same support).</p>
+
+<p>The second output file (that is, <tt>example1.ids</tt>) lists the
+molecules each found substructure is contained in. It looks like
+this:</p>
+<pre>
+1:a,b,c
+2:a,b,c,f
+3:a,b,d
+4:a,b,c,d,e
+5:d,e,f
+6:a,b,c,d,e,f
+</pre>
+<p>It tells us, for example, that substructure&nbsp;1 (that is,
+<tt>S(-O)(-N)-C</tt>) is contained in the molecules <tt>a</tt>,
+<tt>b</tt>, and <tt>c</tt> and that substructure&nbsp;5 (that is,
+<tt>S(-C)=N</tt>) is contained in the molecules <tt>d</tt>,
+<tt>e</tt>, and <tt>f</tt>.</p>
+
+<table style="width:100%;border:0px" cellpadding=0 cellspacing=0>
+<tr><td style="width:95%" align=right>
+    <a href="#top">back to the top</a>&nbsp;</td>
+    <td><a href="#top">
+    <img src="up.gif" alt="" style="border:0px"></a></td></tr>
+</table>
+
+<!-- =============================================================== -->
+<p><img src="line.gif" alt="" height=7 width=704></p>
+
+<h3><a name="example2">Example&nbsp;2: Steroids Data</a></h3>
+
+<p>The steroids data set consists of 17 molecules, each of which has
+at least 4 rings. These molecules, which are shown in the table below,
+provide an excellent test data set for ring mining.</p>
+<table border=1 cellpadding=4>
+<tr><th>id</th><th>molecule</th>
+    <th>SMILES description</th></tr>
+<tr><td>a</td><td><img src="steroid_a.png" alt="steroid_a"></td>
+    <td>c1:c:c(:c:c2:c:1C1C(CC2)C2C(CC1)(C(CC2)(O)C#C)C)O</td></tr>
+<tr><td>b</td><td><img src="steroid_b.png" alt="steroid_b"></td>
+    <td>c1:c:c(:c:c2:c:1C1C(CC2)C2C(CC1)(C(CC2)O)C)Br</td></tr>
+<tr><td>c</td><td><img src="steroid_c.png" alt="steroid_c"></td>
+    <td>c1:c:c(:c:c2:c:1C1C(CC2)C2C(CC1)(C(CC2)O)C)F</td></tr>
+<tr><td>d</td><td><img src="steroid_d.png" alt="steroid_d"></td>
+    <td>c1:c(:c(:c:c2:c:1C1C(CC2)C2C(CC1)(C(CC2)(O)C#C)C)O)OC</td></tr>
+<tr><td>e</td><td><img src="steroid_e.png" alt="steroid_e"></td>
+    <td>c1:c(:c(:c:c2:c:1C1C(CC2)C2C(CC1)(C(CC2)O)C)O)OC</td></tr>
+<tr><td>f</td><td><img src="steroid_f.png" alt="steroid_f"></td>
+    <td>c1:c(:c(:c:c2:c:1C1C(CC2)C2C(CC1)(C(CC2)O)C)OC)OC</td></tr>
+<tr><td>g</td><td><img src="steroid_g.png" alt="steroid_g"></td>
+    <td>c1:c(:c(:c:c2:c:1C1C(CC2)C2C(CC1)(C(C(C2)O)O)C)O)OC</td></tr>
+<tr><td>h</td><td><img src="steroid_h.png" alt="steroid_h"></td>
+    <td>c1:c(:c(:c:c2:c:1C1C(CC2)C2C(CC1)(C(=O)CC2)C)O)OC</td></tr>
+<tr><td>i</td><td><img src="steroid_i.png" alt="steroid_i"></td>
+    <td>c1:c(:c(:c:c2:c:1C1C(CC2)C2C(CC1)(C(CC2)O)C)OC)O</td></tr>
+<tr><td>j</td><td><img src="steroid_j.png" alt="steroid_j"></td>
+    <td>c1:c:c(:c(:c2:c:1C1C(CC2)C2C(CC1)(C(CC2)O)C)OC)O</td></tr>
+<tr><td>k</td><td><img src="steroid_k.png" alt="steroid_k"></td>
+    <td>C1CC(CC2(CCC3C(C12C)CCC1(C23C(C(C1C1=COC(=O)C=C1)OC(=O)C)O2)C)O)O</td></tr>
+<tr><td>l</td><td><img src="steroid_l.png" alt="steroid_l"></td>
+    <td>c1:c:c(:c:c2:c:1C1C(CC2)C2C(CC1)(C(CC2)O)C)O</td></tr>
+<tr><td>m</td><td><img src="steroid_m.png" alt="steroid_m"></td>
+    <td>c1:c:c(:c:c2:c:1C1C(CC2)C2C(CC1)(C(CC2)O)C)OC</td></tr>
+<tr><td>n</td><td><img src="steroid_n.png" alt="steroid_n"></td>
+    <td>c1:c:c(:c:c2:c:1C1C(CC2)C2C(CC1)(C(C(C2)O)O)C)O</td></tr>
+<tr><td>o</td><td><img src="steroid_o.png" alt="steroid_o"></td>
+    <td>c1:c:c(:c:c2:c:1C1C(CC2)C2C(CC1)(C(=O)CC2)C)O</td></tr>
+<tr><td>p</td><td><img src="steroid_p.png" alt="steroid_p"></td>
+    <td>C1CC(=O)C=C2CCC3C(C12)CCC1(C3CCC1(OC(=O)C)C#C)C</td></tr>
+<tr><td>q</td><td><img src="steroid_q.png" alt="steroid_q"></td>
+    <td>C1C(N2(C)CCCCC2)C(OC(=O)C)CC2C1(C)C1C(C3C(C)(CC1)C(C(N1(CCCCC1)C)C3)OC(=O)C)CC2</td></tr>
+</table>
+<p>This data set can be found on the
+<a href="http://www.borgelt.net/moss.html">
+download page</a> for the MoSS program and in the source package
+(directory <tt>moss/data</tt>). It is available in both SMILES and
+SLN format. We process this dataset in two ways, both times using the
+ring mining capabilities of the MoSS program.</p>
+
+<p>In the graphical user interface we set in both cases the "Molecule
+input file" in the first tab to <tt>steroids.smi</tt> and the
+"Substructure output file" to <tt>steroids.sub</tt>. In addition, we
+set the minimal support in the focus (second tab) to 100% (that is,
+substructures must be contained in all molecules), switch on full
+ring extensions on the fourth tab, and specify a ring size range
+from 5 to 6 bonds. All other fields keep their default setting.
+The search is stated by pressing the <tt>Run</tt> button.</p>
+
+<p>Alternatively, we may use the command line</p>
+<pre>
+java -cp moss.jar moss.Miner -s100 -r5:6 -R steroids.smi steroids.sub
+</pre>
+<p>By this we try to find all substructures that are contained in all
+of the molecules (minimum support = 100%, option <tt>-s</tt>). Rings
+of sizes 5 and 6 atoms (option <tt>-r</tt>) are marked, and extensions
+leading into rings add the whole ring in one step, not just individual
+bonds (option <tt>-R</tt>). After the program terminates, the file
+<tt>steroids.sub</tt> looks like this:</p>
+<pre>
+1,O-C,2,1,17,100.0,0,0.0
+2,C12(-C(-C-C-C-2)-C-C-C-C-1)-C,10,11,17,100.0,0,0.0
+</pre>
+<p>These substructures are depicted in the table below.</p>
+<table border=1 cellpadding=4>
+<tr><th>id</th><th>fragment</th><th>SMILES description</th></tr>
+<tr><td>1</td><td><img src="common_1.png" alt="common_1"></td>
+              <td>OC</td></tr>
+<tr><td>2</td><td><img src="common_2.png" alt="common_2"></td>
+              <td>C12(C(CCC2)CCCC1)C</td></tr>
+</table>
+<p>Maybe it is surprising that the second fragment consists only of
+two rings, since there is a third 6-bond ring, which is attached to
+6-bond ring in the fragment, and which looks (at first sight) the
+same in all fragments. However, this is not the case, as is explained
+below.</p>
+
+<p>In a second run, we set (in addition to the settings described above)
+"Ignore bond type" on the "Matching" tab of the graphical user interface
+to "in rings" and run the program again.</p>
+
+<p>Alternatively, we may use the command line</p>
+<pre>
+java -cp moss.jar moss.Miner -s100 -r5:6 -R -B steroids.smi steroids.sub
+</pre>
+<p>which differs from the first run only in the additional option
+<tt>-B</tt>. It instructs the program to ignore the bond type within
+(marked) rings. This call yields the output</p>
+<pre>
+1,O-C,2,1,17,100.0,0,0.0
+2,C12(-C(-C-C-C-2)-C2-C(-C-C-1)-C1-C(-C-C-2)-C-C-C-C-1)-C,18,21,17,100.0,0,0.0
+</pre>
+<p>in the file <tt>steroids.sub</tt>. The found substructures are
+depicted in the table below.</p>
+<table border=1 cellpadding=4>
+<tr><th>id</th><th>fragment</th><th>SMILES description</th></tr>
+<tr><td>1</td><td><img src="common_1.png" alt="common_1"></td>
+              <td>OC</td></tr>
+<tr><td>2</td><td><img src="common_3.png" alt="common_3"></td>
+              <td>C12(C(CCC2)C2C(CC1)C1C(CC2)CCCC1)C</td></tr>
+</table>
+<p>As can be seen, the second found substructure contains the third
+and the fourth ring, which are present in all molecules, but differ
+slightly. For the fourth ring (on the right) this is obvious, since
+it is an aromatic ring in most molecules, but not in molecules
+k, p, and q. However, this also leads to a difference in the third
+ring, since the bond that is shared by the third and fourth ring is
+an aromatic bond if the fourth ring is aromatic, but only a single
+bond in the three other cases.</p>
+
+<p>Note that in this case the second substructure cannot be found
+in exactly this form in all fragments, but only approximately.
+Nevertheless it can be useful and may provide a deeper insight into
+the structural properties of the molecules in the dataset.</p>
+
+<p>Note also that in the first run the part of the third ring that
+is identical in all molecules (all bonds with the exception of the
+one that is shared by the third and fourth ring) is not part of the
+fragment, because ring mining requires that a ring must be present
+as a whole. Since the ring cannot be closed in the same way in all
+molecules, it has to be left out completely. If, however, ring mining
+is deactivated (by <i>not</i> specifying the option <tt>-R</tt> or
+by setting "Ring extensions" to "none") these common ring bonds will
+be part of a found fragment, which then contains a partial ring.</p>
+
+<table style="width:100%;border:0px" cellpadding=0 cellspacing=0>
+<tr><td style="width:95%" align=right>
+    <a href="#top">back to the top</a>&nbsp;</td>
+    <td><a href="#top">
+    <img src="up.gif" alt="" style="border:0px"></a></td></tr>
+</table>
+
+<!-- =============================================================== -->
+<p><img src="line.gif" alt="" height=7 width=704></p>
+
+<h3><a name="publ">Publications</a></h3>
+
+<p>Details about the algorithm underlying the MoSS program can be found
+in these papers:</p>
+
+<ul>
+<li><b><a name="fiedler_and_borgelt_2007">
+       Subgraph Support in a Single Large Graph</a></b><br>
+    Mathias Fiedler and Christian Borgelt<br>
+    <i>Proc. Int. Workshop on Mining Graphs and Complex Structures
+    (MGCS 2007 at ICDM 2007, Omaha, NE)</i>.<br>
+    IEEE Press, Piscataway, NJ, USA 2007<br>
+    <a href="http://www.borgelt.net/papers/mgcs_07.pdf">mgcs_07.pdf</a> (241 kb)
+    <a href="http://www.borgelt.net/papers/mgcs_07.ps.gz">mgcs_07.ps.gz</a> (154 kb)
+    (6 pages)</li>
+<li><b>Support Computation
+       for Mining Frequent Subgraphs in a Single Graph</b><br>
+    Mathias Fiedler and Christian Borgelt<br>
+    <i>Proc. 5th Int. Workshop on Mining and Learning with Graphs
+    (MLG 2007, Florence, Italy)</i>, 25-30.<br>
+    University of Florence, Italy, 2007<br>
+    <a href="http://www.borgelt.net/papers/mlg_07.pdf">mlg_07.pdf</a> (232 kb)
+    <a href="http://www.borgelt.net/papers/mlg_07.ps.gz">mlg_07.ps.gz</a> (144 kb)
+    (6 pages)</li>
+<li><b>Full Perfect Extension Pruning for Frequent Graph Mining</b><br>
+    Christian Borgelt and Thorsten Meinl<br>
+    <i>Proc. Workshop on Mining Complex Data
+    (MCD 2006 at ICDM 2006, Hong Kong, China)</i>.<br>
+    IEEE Press, Piscataway, NJ, USA 2006<br>
+    <a href="http://www.borgelt.net/papers/mcd_06.pdf">mcd_06.pdf</a> (240 kb)
+    <a href="http://www.borgelt.net/papers/mcd_06.ps.gz">mcd_06.ps.gz</a> (180 kb)
+    (6 pages)</li>
+<li><b><a name="borgelt_2006">
+    Combining Ring Extensions and Canonical Form Pruning</a></b><br>
+    Christian Borgelt<br>
+    <i>Proc. 4th Int. Workshop on Mining and Learning with Graphs
+    (MLG 2006, Berlin, Germany)</i>.<br>
+    ECML/PKDD Organization Committee, Berlin, Germany 2006<br>
+    <a href="http://www.borgelt.net/papers/mlg_06.pdf">mlg_06.pdf</a> (266 kb)
+    <a href="http://www.borgelt.net/papers/mlg_06.ps.gz">mlg_06.ps.gz</a> (131 kb)
+    (8 pages)</li>
+<li><b><a name="borgelt_2005">
+    On Canonical Forms for Frequent Graph Mining</a></b><br>
+    Christian Borgelt<br>
+    <i>Workshop on Mining Graphs, Trees, and Sequences
+       (MGTS'05 at PKDD'05, Porto, Portugal)</i>, 1-12.<br>
+    ECML/PKDD'05 Organization Committee, Porto, Portugal 2005.<br>
+    <a href="http://www.borgelt.net/papers/mgts_05.pdf">mgts_05.pdf</a> (210 kb)
+    <a href="http://www.borgelt.net/papers/mgts_05.ps.gz">mgts_05.ps.gz</a> (152 kb)
+    (12 pages)</li>
+<li><b>MoSS: A Program for Molecular Substructure Mining</b><br>
+    Christian Borgelt, Thorsten Meinl, and Michael R. Berthold<br>
+    <i>Workshop Open Source Data Mining Software
+       (OSDM'05, Chicago, IL)</i>, 6--15.<br>
+    ACM Press, New York, NY, USA 2005.<br>
+    <a href="http://www.borgelt.net/papers/moss_ecs.pdf">moss_ecs.pdf</a> (247 kb)
+    <a href="http://www.borgelt.net/papers/moss_ecs.ps.gz">moss_ecs.ps.gz</a> (160 kb)
+    (10 pages)</li>
+<li><b><a name="borgelt_et_al_2004">Advanced Pruning Strategies to
+    Speed Up Mining Closed Molecular Fragments</a></b><br>
+    Christian Borgelt, Thorsten Meinl, and Michael R. Berthold.<br>
+    <i>Proc. IEEE Conf. on Systems, Man and Cybernetics
+    (SMC 2004, The Hague, Netherlands)</i>, on CD-ROM.<br>
+    IEEE Press, Piscataway, NJ, USA 2004<br>
+    <a href="http://www.borgelt.net/papers/smc_04.pdf">smc_04.pdf</a> (122 kb)
+    <a href="http://www.borgelt.net/papers/smc_04.ps.gz">smc_04.ps.gz</a> (65 kb)
+    (6 pages)</li>
+<li><b><a name="hofer_et_al_2004">Large Scale Mining
+    of Molecular Fragments with Wildcards</a></b><br>
+    Heiko Hofer, Christian Borgelt and Michael R. Berthold.<br>
+    <i>Intelligent Data Analysis</i> 8:495-504.<br>
+    IOS Press, Amsterdam, Netherlands 2004<br>
+    (10 pages)</li>
+<li><b><a name="Meinl_et_al_2004">Mining Fragments
+    with Fuzzy Chains in Molecular Databases</a></b><br>
+    Thorsten Meinl, Christian Borgelt, and Michael R. Berthold.<br>
+    <i>Proc. 2nd Int. Workshop on Mining Graphs, Trees and Sequences
+    (MGTS 2004, Pisa, Italy)</i>, 49-60.<br>
+    University of Pisa, Pisa, Italy 2004<br>
+    <a href="http://www.borgelt.net/papers/mgts_04.pdf">mgts_04.pdf</a> (546 kb)
+    <a href="http://www.borgelt.net/papers/mgts_04.ps.gz">mgts_04.ps.gz</a> (211 kb)
+    (12 pages)</li>
+<li><b>Discriminative Closed Fragment Mining
+       and Perfect Extensions in MoFa</b><br>
+    Thorsten Meinl, Christian Borgelt, and Michael R. Berthold<br>
+    <i>Proc. 2nd Starting AI Researchers' Symposium
+       (STAIRS 2004, Valencia, Spain)</i>, 3-14<br>
+    IOS Press, Amsterdam, Netherlands 2004<br>
+    <a href="http://www.borgelt.net/papers/stairs_04.pdf">stairs_04.pdf</a> (382 kb)
+    <a href="http://www.borgelt.net/papers/stairs_04.ps.gz">stairs_04.ps.gz</a> (205 kb)
+    (12 pages)</li>
+<li><b>Finding Discriminative Molecular Fragments</b><br>
+    Christian Borgelt, Heiko Hofer, and Michael Berthold<br>
+    <i>Workshop Information Mining - Navigating Large Heterogeneous Spaces
+    of Multimedia Information</i><br>
+    German Conference on Artificial Intelligence,
+    Hamburg, Germany 2003<br>
+    <a href="http://www.borgelt.net/papers/wsim_03.pdf">wsim_03.pdf</a> (303 kb)
+    <a href="http://www.borgelt.net/papers/wsim_03.ps.gz">wsim_03.ps.gz</a> (143 kb)
+    (13 pages)</li>
+<li><b>Large Scale Mining of Molecular Fragments with Wildcards</b><br>
+    Heiko Hofer, Christian Borgelt, and Michael Berthold.<br>
+    <i>Proc. 5th International Symposium on Intelligent Data Analysis</i>
+    (IDA 2003, Berlin, Germany), 380-389.<br>
+    Springer-Verlag, Heidelberg, Germany 2003<br>
+    <a href="http://www.borgelt.net/papers/ida_03.pdf">ida_03.pdf</a> (187 kb)
+    <a href="http://www.borgelt.net/papers/ida_03.ps.gz">ida_03.ps.gz</a> (125 kb)
+    (10 pages)</li>
+<li><b><a name="borgelt_and_berthold_2002">Mining Molecular Fragments:
+       Finding Relevant Substructures of Molecules</a></b><br>
+    Christian Borgelt and Michael R. Berthold<br>
+    <i>IEEE International Conference on Data Mining</i>
+    (ICDM 2002, Maebashi, Japan), 51-58<br>
+    IEEE Press, Piscataway, NJ, USA 2002<br>
+    <a href="http://www.borgelt.net/papers/icdm_02.pdf">icdm_02.pdf</a> (112 kb)
+    <a href="http://www.borgelt.net/papers/icdm_02.ps.gz">icdm_02.ps.gz</a> (69 kb)
+    (8 pages)</li>
+</ul>
+
+<table style="width:100%;border:0px" cellpadding=0 cellspacing=0>
+<tr><td style="width:95%" align=right>
+    <a href="#top">back to the top</a>&nbsp;</td>
+    <td><a href="#top">
+    <img src="up.gif" alt="" style="border:0px"></a></td></tr>
+</table>
+
+<!-- =============================================================== -->
+<p><img src="line.gif" alt="" height=7 width=704></p>
+
+<h3><a name="download">Download</a></h3>
+
+<p><a href="http://www.borgelt.net/moss.html">
+Download page</a> with most recent version.</p>
+
+<table style="width:100%;border:0px" cellpadding=0 cellspacing=0>
+<tr><td style="width:95%" align=right>
+    <a href="#top">back to the top</a>&nbsp;</td>
+    <td><a href="#top">
+    <img src="up.gif" alt="" style="border:0px"></a></td></tr>
+</table>
+
+<!-- =============================================================== -->
+<p><img src="line.gif" alt="" height=7 width=704></p>
+
+<h3><a name="license">License</a></h3>
+
+<p>(MIT license, or more precisely Expat License;
+to be found in the file <tt>mit-license.txt</tt> in the directory
+<tt>moss/doc</tt> in the source package, see also
+<a href="http://www.opensource.org/licenses/MIT">opensource.org</a> and
+<a href="http://en.wikipedia.org/wiki/MIT_license">wikipedia.org</a>)
+</p>
+
+<p>&copy; 2002-2014 Christian Borgelt</p>
+
+<p>Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of the Software,
+and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.</p>
+
+<table style="width:100%;border:0px" cellpadding=0 cellspacing=0>
+<tr><td style="width:95%" align=right>
+    <a href="#top">back to the top</a>&nbsp;</td>
+    <td><a href="#top">
+    <img src="up.gif" alt="" style="border:0px"></a></td></tr>
+</table>
+
+<!-- =============================================================== -->
+<p><img src="line.gif" alt="" height=7 width=704></p>
+
+<h3><a name="contact">Contact</a></h3>
+
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td valign=top>E-mail:</td><td style="width:16px"></td>
+    <td><a href="mailto:christian.borgelt@softcomputing.es">
+        christian.borgelt@softcomputing.es</a><br>
+        <a href="mailto:christian@borgelt.net">
+        christian@borgelt.net</a></td></tr>
+<tr><td valign=top>Snail mail:</td><td></td>
+    <td><a href="http://www.softcomputing.es/cv_html/cv_cborgelt.html">
+        Christian Borgelt</a><br>
+        <a href="http://www.softcomputing.es/ru_html/ru_ida.htm"> 
+        Intelligent Data Analysis and Graphical Models Research Unit</a><br>
+        <a href="http://www.softcomputing.es/">
+        European Centre for Soft Computing</a><br>
+        Edificio Cientifico-Tecnol&oacute;gico, 3<sup>a</sup> Planta<br>
+        c/ Gonzalo Guti&eacute;rrez Quir&oacute;s s/n<br>
+        E-33600 Mieres<br>
+        Asturias, Spain</td></tr>
+<tr><td>Phone:</td><td></td>
+    <td>+34 985 456545</td></tr>
+<tr><td>Fax:</td><td></td>
+    <td>+34 985 456699</td></tr>
+</table>
+
+<table style="width:100%;border:0px" cellpadding=0 cellspacing=0>
+<tr><td style="width:95%" align=right>
+    <a href="#top">back to the top</a>&nbsp;</td>
+    <td><a href="#top">
+    <img src="up.gif" alt="" style="border:0px"></a></td></tr>
+</table>
+
+<!-- =============================================================== -->
+<p><img src="line.gif" alt="" height=7 width=704></p>
+
+<h3><a name="links">Useful Links</a></h3>
+
+<ul>
+<li><a href="http://www.daylight.com/dayhtml_tutorials/languages/smiles/index.html">
+    SMILES Tutorial by Daylight, Inc.</a></li>
+<li><a href="http://www.daylight.com/daycgi_tutorials/depict.cgi">
+    Molecule renderer by Daylight, Inc. (for SMILES format)</a></li>
+</ul>
+
+<table style="width:100%;border:0px" cellpadding=0 cellspacing=0>
+<tr><td style="width:95%" align=right>
+    <a href="#top">back to the top</a>&nbsp;</td>
+    <td><a href="#top">
+    <img src="up.gif" alt="" style="border:0px"></a></td></tr>
+</table>
+
+<!-- =============================================================== -->
+<p><img src="line.gif" alt="" height=7 width=704></p>
+
+<address>&copy;&nbsp;2002-2014&nbsp;Christian Borgelt
+(<a href="mailto:christian@borgelt.net">christian@borgelt.net</a>)
+</address>
+</body>
+</html>

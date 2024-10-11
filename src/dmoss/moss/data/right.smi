@@ -1,0 +1,42 @@
+a,0,C1CC1(C)N
+#-----------------------------------------------------------------------
+# maximum source (canonical form pruning: 3)
+#-----------------------------------------------------------------------
+# N  i (1)
+#    N-C  i (1)
+#       N-C-C  i3 (1)
+#          N-C(-C)-C  i6 (1)
+#            N-C(-C)(-C)-C  i6 (1)
+#               N-C1(-C-C-1)-C  i2 (1)
+#               0 1   2 3    4
+#               N-C1(-C-C-1)-C ***
+#               0 1   2 4    3
+#               N-C1(-C)-C-C-1 ***
+#               0 1   2  3 4
+#            N-C1-C-C-1  i2 (1)
+#            N-C(-C-C)-C  i2 (1)
+#            N-C(-C)-C-C ***
+#         N-C-C-C  i2 (1)
+#-----------------------------------------------------------------------
+# rightmost path (canonical form pruning: 1)
+#-----------------------------------------------------------------------
+# N  i (1)
+#    N-C  i (1)
+#       N-C-C  i3 (1)
+#          N-C-C-C  i2 (1)
+#             N-C1-C-C-1  i2 (1)
+#                N-C1(-C-C-1)-C  i2 (1)
+#             N-C(-C-C)-C  i2 (1)
+#          N-C(-C)-C  i6 (1)
+#             N-C(-C)-C-C ***
+#             N-C(-C)(-C)-C  i6 (1)
+#
+#-----------------------------------------------------------------------
+# *** mark non-canonical fragments
+# Adding another branch to the central C (e.g. C1CC1(C)(C)N) worsens
+# the ratio (10 non-canonical fragments for maximum source extensions
+# to 2 non canonical fragments for rightmost path extensions).
+# The size of the ring is only 3 in this example in order to keep the
+# search tree small. The same effect occurs with larger rings if only
+# the carbon chain is extended accordingly, e.g. C1CCCCC1(CCC)N.
+#-----------------------------------------------------------------------
