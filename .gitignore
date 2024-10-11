@@ -10,6 +10,9 @@ data/data_dumps/*
 # ignore .csv files
 *.csv
 
+#ignore personal notebooks
+notebooks/*_playground.ipynb
+
 # ignore secrets
 secrets/
 
