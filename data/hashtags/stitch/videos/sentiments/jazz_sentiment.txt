@@ -1,0 +1,5 @@
+0 positive
+1 positive
+2 negative
+3 positive
+4 negative
