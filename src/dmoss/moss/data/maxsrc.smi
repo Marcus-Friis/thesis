@@ -1,0 +1,66 @@
+a,0,OCNCC(O)C
+#-----------------------------------------------------------------------
+# maximum source (canonical form pruning: 3)
+#-----------------------------------------------------------------------
+# N  a (1)
+#    N-C  a2 (1)
+#       N(-C)-C  a2 (1)
+#          N(-C-O)-C  a (1)
+#             N(-C-O)-C-C  a (1)
+#                N(-C-O)-C-C-O  a (1)
+#                   N(-C-O)-C-C(-O)-C  a (1)
+#                N(-C-O)-C-C-C  a (1)
+#          N(-C-C)-C  a (1)
+#             N(-C-C-O)-C  a (1)
+#                N(-C-C(-O)-C)-C  a (1)
+#             N(-C-C-C)-C  a (1)
+#             N(-C-C)-C-O ***
+#          N(-C)-C-O ***
+#          N(-C)-C-C ***
+#       N-C-O  a (1)
+#       N-C-C  a (1)
+#          N-C-C-O  a (1)
+#             N-C-C(-O)-C  a (1)
+#          N-C-C-C  a (1)
+#
+#-----------------------------------------------------------------------
+# rightmost path (canonical form pruning: 6)
+#-----------------------------------------------------------------------
+# N  a (1)
+#    N-C  a2 (1)
+#       N-C-O  a (1)
+#          N(-C-O)-C  a (1)
+#             N(-C-O)-C-C  a (1)
+#                N(-C-O)-C-C-O  a (1)
+#                   N(-C-O)-C-C(-O)-C  a (1)
+#                N(-C-O)-C-C-C  a (1)
+#       N-C-C  a (1)
+#          N-C-C-O  a (1)
+#             N-C-C(-O)-C  a (1)
+#                N(-C-C(-O)-C)-C  a (1)
+#                   N(-C-C(-O)-C)-C-O ***
+#             N(-C-C-O)-C  a (1)
+#                N(-C-C-O)-C-O ***
+#          N-C-C-C  a (1)
+#             N(-C-C-C)-C  a (1)
+#                N(-C-C-C)-C-O ***
+#          N(-C-C)-C  a (1)
+#             N(-C-C)-C-O ***
+#       N(-C)-C  a2 (1)
+#          N(-C)-C-O ***
+#          N(-C)-C-C ***
+#
+#-----------------------------------------------------------------------
+# *** mark non-canonical fragments
+# Extending the molecule to the right worsens the ratio: each additional
+# atom added at the end of the molecule (e.g. OCNCC(O)CC or OCNCC(O)CO)
+# adds two non-canonical fragments for rightmost path extensions, while
+# the number of non-canonical fragments for maximum source extensions
+# remains constant.
+#-----------------------------------------------------------------------
+# 
+# b,0,OCC(O)CCCCO
+#-----------------------------------------------------------------------
+# Alternative example: The longer the chain to the right, the more
+# non-canonical fragments are created with rightmost extensions.
+#-----------------------------------------------------------------------

@@ -1,0 +1,5 @@
+# These two simple structures show why perfect extension pruning has
+# to be restricted to bonds that are bridges. If it is not, the common
+# fragment N-O-C-C-C-C is lost (since N-C is then a perfect extension).
+a,0,N1-O-C-C-C-C1
+b,0,N1-O-C-C-C1-C
