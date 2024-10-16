@@ -11,8 +11,6 @@ In recent times, with the introduction of TikTok, Instagram reels, YouTube Short
 ```mermaid
 %%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#4f98ca', 'edgeLabelBackground':'#2b2b2b', 'nodeTextColor': '#ffffff', 'background': '#1e1e1e'}}}%%
 
-%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#4f98ca', 'edgeLabelBackground':'#2b2b2b', 'nodeTextColor': '#ffffff', 'background': '#1e1e1e'}}}%%
-
 graph TD
     A[🤓 Start: Setup TikTok API Access ] --> B[📝Collect Hashtag Videos using get_hashtag.py]
     click A href "https://github.com/Marcus-Friis/thesis/tree/cleanup?tab=readme-ov-file#tiktok-api" "click A"
@@ -22,7 +20,7 @@ graph TD
     B --> C[🤏Extract edges using get_edges.py]
     C --> D[🤏Extract targets using get_targets.py]
     D --> G[📎Combine sources & targets using compose_vertices_files.py]
-    G --> P[(Datebase)]
+    G --> P[(File storage)]
     P -->  E[🔽Download Videos using download_tiktok_vidoes.py]
     P -->  H[📈Perform Graph Analysis using graph_analysis.py <br> obtaining metrics and plots]
     E --> J[✂Split videos into stichee and stitcher]
@@ -126,11 +124,42 @@ The script [graph_analysis.py](src/graph_analysis.py) produces various metrics f
 #### Usage
 
 ```bash
-python src/graph_analysis.py HASHTAG_NAME [CREATE_PLOTS]
+python src/graph_analysis.py HASHTAG_NAME [CREATE_PLOTS] [DO_PROJECTION]
 ```
-#### Options:
-- `HASHTAG_NAME`: Hashtag graph to use.
-Takes multiple inputs in the form of: `hashtag_1 hashtag_2 ... hashtag_n`. <br>Example: `python src/graph_analysis.py anime jazz watermlon` 
-<br> Additionally, it also accepts `all`  which produces metrics for all the hashtags located in [the vertices folder](data/hashtags/vertices/)
-- `CREATE_PLOTS` Optional boolean to create plots for each of the hashtags. *Default = false*
+#### Arguments:
+- `HASHTAG_NAME`: **(Required)**  Specifies the hashtag graph(s) to use. You can provide one or multiple hashtag names in the form:
+    -  `hashtag_1 hashtag_2 ... hashtag_n`.
 
+Alternatively, you can use `all` to run the script on all hashtag graphs located in [the vertices folder.](data/hashtags/vertices/)
+
+- `CREATE_PLOTS`: **(Optional)**  Set to `true` to generate plots for the specified hashtags. If not provided or set to `false`, no plots will be created.
+
+- `DO PROJECTION`: **(Optional)**  Use the keyword `project` to enable user projections. This feature performs analysis on user projections, which are based on users that have edges to the same vertice.
+
+Example usage: `python src/graph_analysis.py all true project` <br>
+The above example will perform graph analysis on all hashtags, as well as their projections, and plots everything.
+
+### Graph Embeddings
+This script [graph_embed.py](src/graph_embed.py) allows you to embed graphs using various algorithms and provides additional options for graph manipulation, visualization, and clustering. It embeds all the graphs created from the hashtags located it in [the vertices folder.](data/hashtags/vertices/)
+
+```bash
+python src/graph_embed.py ALGORITHM [DIRECTED][CREATE_PLOTS][ADD_RANDOM][CLUSTER][SAVE_PLOT][HELP]
+```
+#### Arguments:
+- `ALGORITHM`: **(Required)**. Which embedding algorithm to use. Available algorithms:
+    - graph2vec
+    - feathergraph
+    - sf
+    - fgsd
+    - gl2vec
+    - ldp
+- `DIRECTED`: **(Optional)**: By default, the script uses undirected graphs. To enable directed graphs, include the keyword directed.  
+- `CREATE_PLOTS` **(Optional)**: If you want to generate a 2D plot of the embeddings, include the keyword `plot`. Without this argument, no plots will be generated.
+- `ADD_RANDOM`: **(Optional)** If you want to add random graphs to the dataset, use the `random` argument. 
+- `CLUSTER`: **(Optional)** This option allows you to cluster the generated embeddings using the HDBSCAN algorithm. To activate it, use the keyword `cluster`.
+- `SAVE_PLOT`: **(Optional)**: By default, any generated plots are displayed interactively. If you prefer to save the plot as a file instead of displaying it, include the `save` keyword. 
+- `HELP`:  **(Optional)**: Use the `help` argument to display usage instructions, including the accepted algorithms and available options. 
+
+
+### How Argument Parsing Works
+These scripts ([graph_analysis.py](src/graph_analysis.py) & [graph_embed.py](src/graph_embed.py)) use a flexible, keyword-based argument system. Instead of requiring flags (e.g., --flag), users can input keywords directly, with the order being unimportant and case ignored (e.g., true or True both work). The scripts scan for specific keywords to activate different features or modes of operation.
