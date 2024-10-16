@@ -24,7 +24,11 @@ graph TD
     G[🔽Download Videos using download_tiktok_vidoes.py]
     H[📈Perform Graph Analysis using graph_analysis.py <br> obtaining metrics and plots]
     I[✂Split videos into stichee and stitcher]
-    J[DO STUFF WITH STUFF]
+    J[🗣️Get Transcriptions]
+    K[🙈Sentiment Analysis]
+
+    %% I dont know the alphabet
+    %% KLMNOPQRTSUVXYZ
 
     %% Connect the steps together
 
@@ -37,19 +41,20 @@ graph TD
     F --> H
     G --> I
     I --> J
-   
+    J --> K
    %% Add hrefs to the steps
 
 
-    click A href "#tiktok-api" "click A"
+    click A href "https://github.com/Marcus-Friis/thesis/tree/cleanup?tab=readme-ov-file#tiktok-api" "click A"
 
     click B href "https://github.com/Marcus-Friis/thesis/tree/cleanup?tab=readme-ov-file#get-hashtag-stitches" "click B"
 
-    click C href "#stitch-edge-scraper" "click C"
+    click C href "https://github.com/Marcus-Friis/thesis?tab=readme-ov-file#stitch-edge-scraper" "click C"
 
-   %% MISSING README PART click D href "" "click D"
+    click D href "https://github.com/Marcus-Friis/thesis?tab=readme-ov-file#extract-targets" "click D"
 
-   %% MISSING README PART click E "" "click E"
+    click E "https://github.com/Marcus-Friis/thesis?tab=readme-ov-file#script-1-stitcher-and-stitchee-data-processing" "click E"
+
     click F "https://github.com/Marcus-Friis/thesis/tree/main/data" "click F"
 
     click G "https://github.com/Marcus-Friis/thesis?tab=readme-ov-file#helper-script-for-quickly-downloading-videos" "click G"
@@ -63,7 +68,7 @@ graph TD
 
 ```
 
-## TikTok API
+# TikTok API
 ### Getting started
 The [TikTok API documentaiton](https://developers.tiktok.com/doc/about-research-api/) describes how to use it. We have created a [notebook](/notebooks/1.0-mahf-tiktok-api-fun.ipynb) to explore the use of this API. 
 
