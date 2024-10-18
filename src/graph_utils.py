@@ -1,6 +1,39 @@
 import igraph as ig
 import numpy as np
 from scipy.sparse import lil_matrix
+import re
+import pandas as pd
+
+def load_edges(filepath: str) -> pd.DataFrame:
+    # read edges from file
+    edges = pd.read_csv(filepath, header=None)
+
+    edges.columns = ['stitcher_url', 'stitchee_url']
+    edges = edges[edges['stitcher_url'].str.contains('None') == False]
+    edges = edges[edges['stitchee_url'].str.contains('None') == False]
+
+    edges['stitcher'] = edges['stitcher_url'].apply(lambda x: x.split('/')[-1]).astype(np.int64)
+    edges['stitchee'] = edges['stitchee_url'].apply(lambda x: x.split('/')[-1]).astype(np.int64)
+
+    expression = re.compile(r'@[\w\d\.]+')
+    edges['stitcher_user'] = edges['stitcher_url'].apply(lambda x: re.findall(expression, x)[0])
+    edges['stitchee_user'] = edges['stitchee_url'].apply(lambda x: re.findall(expression, x)[0])
+
+    return edges
+
+def get_video_graph(edges: pd.DataFrame) -> ig.Graph:
+    # construct graph
+    G = ig.Graph.TupleList(edges[['stitcher', 'stitchee']].values, directed=True, edge_attrs=['weight'])
+    G.es['weight'] = 1
+    return G
+
+def get_user_graph(edges: pd.DataFrame) -> ig.Graph:
+    edges = edges.groupby(['stitcher_user', 'stitchee_user']).size().reset_index()
+
+    G = ig.Graph.TupleList(edges[['stitcher_user', 'stitchee_user']].values, directed=True, edge_attrs=['weight'])
+    G.es['weight'] = edges[0]
+
+    return G
 
 def degree_centralization(G: ig.Graph) -> float:
     if G.is_directed():
