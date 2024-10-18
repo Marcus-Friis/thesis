@@ -1,8 +1,13 @@
 import igraph as ig
-import networkx as nx
 import os
 
 def igraph_to_gspan(graphs: list) -> str:
+    """
+    t # 0
+    v 1 a
+    v 2 b
+    e 1 2 a
+    """
     output = ''
     for i, g in enumerate(graphs):
         g = g.as_undirected()  # gspan only works with undirected graphs
@@ -51,6 +56,13 @@ def igraph_to_nel(graphs: list) -> str:
     return output
 
 def nel_to_igraph(nel_content: str) -> list:
+    """
+    v 1
+    v 2
+    e 1 2
+    g 1
+    x 0
+    """
     graphs = []
     current_graph_edges = []
     in_graph = False
@@ -77,6 +89,7 @@ if __name__ == '__main__':
 
     # load and process graphs
     graphs = []
+    lcc_graphs = []
     for i, edge_file in enumerate(edge_files):
         # read edge file
         edge_file_path = os.path.join(data_path, edge_file)
@@ -95,21 +108,26 @@ if __name__ == '__main__':
                 users.append((u_user, v_user))
 
         # construct lcc graph
-        g = ig.Graph.TupleList(users, directed=True)
+        g = ig.Graph.TupleList(users, directed=True).simplify()
         lcc = g.as_undirected().components().giant()
         largest_components_nodes = lcc.vs.indices
         g_lcc = g.subgraph(largest_components_nodes)
-        g_lcc = g_lcc.simplify()
-        graphs.append(g_lcc)
+        graphs.append(g)
+        lcc_graphs.append(g_lcc)
 
     # format into gspan and nel files
     gspan = igraph_to_gspan(graphs)
     nel = igraph_to_nel(graphs)
+    gspan_lcc = igraph_to_gspan(lcc_graphs)
+    nel_lcc = igraph_to_nel(lcc_graphs)
 
-    graphs = gspan_to_igraph(gspan)
-
+    # dump data files
     data_path = '../data'
-    with open(os.path.join(data_path, 'lcc.gspan'), 'w') as f:
+    with open(os.path.join(data_path, 'graph.gspan'), 'w') as f:
         f.write(gspan)
-    with open(os.path.join(data_path, 'lcc.nel'), 'w') as f:
+    with open(os.path.join(data_path, 'graph.nel'), 'w') as f:
         f.write(nel)
+    with open(os.path.join(data_path, 'lcc.gspan'), 'w') as f:
+        f.write(gspan_lcc)
+    with open(os.path.join(data_path, 'lcc.nel'), 'w') as f:
+        f.write(nel_lcc)
