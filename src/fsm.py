@@ -39,20 +39,34 @@ def igraph_to_nel(graphs: list) -> str:
     return output
 
 def gspan_to_igraph(gspan_content: str) -> list:
-    graphs = []
+    graphs_with_support = []
     edges = []
+    support = None
     lines = gspan_content.strip().split('\n')
+
     for line in lines:
         if line.startswith('e'):
+            # Parse the edge information
             u, v = int(line.split(' ')[1]), int(line.split(' ')[2])
             edges.append((u, v))
-        elif line.startswith('t') and line != 't # 0':
-            g = ig.Graph.TupleList(edges, directed=False)
-            graphs.append(g)
-            edges = []
-    g = ig.Graph.TupleList(edges, directed=False)
-    graphs.append(g)
-    return graphs
+        elif line.startswith('t'):
+            # If it's a new graph and not the first one, store the previous graph
+            if edges:  # Avoid creating empty graphs on first iteration
+                g = ig.Graph.TupleList(edges, directed=False)
+                graphs_with_support.append((g, support))
+                edges = []
+            # Parse the support if it exists
+            parts = line.split(' ')
+            if len(parts) > 3 and parts[3] == '*':
+                support = int(parts[4])
+            else:
+                support = None  # No support value found, set to None
+    # Add the last graph
+    if edges:
+        g = ig.Graph.TupleList(edges, directed=False)
+        graphs_with_support.append((g, support))
+
+    return graphs_with_support
 
 def nel_to_igraph(nel_content: str) -> list:
     graphs = []
@@ -83,8 +97,7 @@ if __name__ == '__main__':
         g = get_user_graph(edges)
 
         # get lcc
-        lcc = g.as_undirected().components().giant()
-        g_lcc = g.subgraph(lcc.vs.indices)
+        g_lcc = g.as_undirected().components(mode='weak').giant()
 
         # append graphs
         graphs.append(g)
