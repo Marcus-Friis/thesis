@@ -5,21 +5,8 @@ import matplotlib.pyplot as plt
 import re
 import json
 import numpy as np
-from graph_utils import degree_centralization, closeness_centralization, betweenness_centralization, project_graph
+from graph_utils import load_edges, get_video_graph, get_user_graph, degree_centralization, closeness_centralization, betweenness_centralization, project_graph
 
-
-
-def get_usergraph(edges: pd.DataFrame) -> ig.Graph:
-    expression = re.compile(r'@[\w\d\.]+')
-    edges['stitcher'] = edges['stitcher_url'].apply(lambda x: re.findall(expression, x)[0])
-    edges['stitchee'] = edges['stitchee_url'].apply(lambda x: re.findall(expression, x)[0])
-
-    edges = edges.groupby(['stitcher', 'stitchee']).size().reset_index()
-
-    G = ig.Graph.TupleList(edges[['stitcher', 'stitchee']].values, directed=True, edge_attrs=['weight'])
-    G.es['weight'] = edges[0]
-
-    return G
 
 def output_summary_statistics(G: ig.Graph) -> dict:
     G_un = G.as_undirected()
@@ -178,19 +165,10 @@ if __name__ == '__main__':
 
 
         # read edges from file
-        edges = pd.read_csv(f'../data/hashtags/edges/{hashtag}_edges.txt', header=None)
+        edges = load_edges(f'../data/hashtags/edges/{hashtag}_edges.txt')
 
-        edges.columns = ['stitcher_url', 'stitchee_url']
-        edges = edges[edges['stitcher_url'].str.contains('None') == False]
-        edges = edges[edges['stitchee_url'].str.contains('None') == False]
-
-
-        edges['stitcher'] = edges['stitcher_url'].apply(lambda x: x.split('/')[-1]).astype(np.int64)
-        edges['stitchee'] = edges['stitchee_url'].apply(lambda x: x.split('/')[-1]).astype(np.int64)
-        
         # construct graph
-        G = ig.Graph.TupleList(edges[['stitcher', 'stitchee']].values, directed=True, edge_attrs=['weight'])
-        G.es['weight'] = 1
+        G = get_video_graph(edges)
 
         # add vertex attributes
         G.vs['username'] = [vertices[str(v)]['username'] if str(v) in vertices else None for v in G.vs['name'] if str(v) in vertices]
@@ -231,7 +209,7 @@ if __name__ == '__main__':
                         edge_arrow_size=0.01, edge_width=0.2, target=target)
 
         # Repeat for user graph
-        G = get_usergraph(edges)
+        G = get_user_graph(edges)
         print(f'\nUser Graph for {hashtag}')
         user_metrics = output_summary_statistics(G)
 
