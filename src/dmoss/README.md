@@ -12,6 +12,7 @@ Args:
 - `-D` is the one telling Moss the input is directed.
 - `-n` limits the size of the structures Moss will look for, in number of nodes.
 - `-s` is the support threshold.
+- `-C` allows for closed substructures (we should do this)
 
 _Java pro tip:_
 Increase Java's heap space with `-Xmx` followed by the allocated space e.g. `Xmx6g`.
