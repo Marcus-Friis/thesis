@@ -68,6 +68,34 @@ def gspan_to_igraph(gspan_content: str) -> list:
 
     return graphs_with_support
 
+def gspan_to_igraph(gspan_content: str) -> list:
+    graphs = []
+    edges = []
+    support = None
+    lines = gspan_content.strip().split('\n')
+    for line in lines:
+        if line.startswith('e'):
+            u, v = int(line.split(' ')[1]), int(line.split(' ')[2])
+            edges.append((u, v))
+        elif line.startswith('t') and not line.startswith('t # 0'):
+            g = ig.Graph.TupleList(edges, directed=False)
+            if support is not None:
+                g['support'] = support
+            graphs.append(g)
+            edges = []
+            if len(line.split(' ')) > 3 and line.split(' ')[3] == '*':
+                support = int(line.split(' ')[4])
+        elif line.startswith('t # 0'):
+            parts = line.split(' ')
+            if len(parts) > 3 and parts[3] == '*':
+                support = int(parts[4])
+            else:
+                support = None
+    g = ig.Graph.TupleList(edges, directed=False)
+    g['support'] = support
+    graphs.append(g)
+    return graphs
+
 def nel_to_igraph(nel_content: str) -> list:
     graphs = []
     vertices = set()
