@@ -70,17 +70,29 @@ def gspan_to_igraph(gspan_content: str) -> list:
 
 def nel_to_igraph(nel_content: str) -> list:
     graphs = []
+    vertices = set()
     edges = []
     lines = nel_content.strip().split('\n')
     for line in lines:
-        if line.startswith('e'):
-            u, v = int(line.split(' ')[1]), int(line.split(' ')[2])
+        if line.startswith('v') or line.startswith('n'):
+            u = int(line.split(' ')[1]) - 1
+            vertices.add(u)
+        elif line.startswith('e') or line.startswith('d'):
+            u, v = int(line.split(' ')[1]) - 1, int(line.split(' ')[2]) - 1
             edges.append((u, v))
         elif line.startswith('g'):
-            g = ig.Graph.TupleList(edges, directed=True)
+            g = ig.Graph(directed=True)
+            for v in vertices:
+                g.add_vertex(v)
+            for u, v in edges:
+                g.add_edge(u, v)
             graphs.append(g)
+            vertices = set()
             edges = []
-    return graphs            
+        elif line.startswith('s'):
+            support = int(line.split(' ')[3])
+            graphs[-1]['support'] = support
+    return graphs
 
 
 if __name__ == '__main__':
@@ -97,7 +109,7 @@ if __name__ == '__main__':
         g = get_user_graph(edges)
 
         # get lcc
-        g_lcc = g.as_undirected().components(mode='weak').giant()
+        g_lcc = g.components(mode='weak').giant()
 
         # append graphs
         graphs.append(g)
