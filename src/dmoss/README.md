@@ -12,11 +12,17 @@ Args:
 - `-D` is the one telling Moss the input is directed.
 - `-n` limits the size of the structures Moss will look for, in number of nodes.
 - `-s` is the support threshold.
+- `-C` allows for closed substructures (we should do this)
 
 _Java pro tip:_
 Increase Java's heap space with `-Xmx` followed by the allocated space e.g. `Xmx6g`.
 ```
 java -Xmx6g -cp moss.jar moss.Miner -inel -onel -x -D -m2 -n5 -s50 INPUT_FILE OUTPUT_FILE
+```
+
+Our results are produced with the following command
+```
+java -Xmx6g -cp moss.jar moss.Miner -inel -onel -x -D -m2 -n4 -s10 -C -A ../../data/graph.nel ../../data/graph.nel.moss
 ```
 
 ## Michele's lovely email

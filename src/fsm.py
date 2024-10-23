@@ -68,19 +68,59 @@ def gspan_to_igraph(gspan_content: str) -> list:
 
     return graphs_with_support
 
-def nel_to_igraph(nel_content: str) -> list:
+def gspan_to_igraph(gspan_content: str) -> list:
     graphs = []
     edges = []
-    lines = nel_content.strip().split('\n')
+    support = None
+    lines = gspan_content.strip().split('\n')
     for line in lines:
         if line.startswith('e'):
             u, v = int(line.split(' ')[1]), int(line.split(' ')[2])
             edges.append((u, v))
-        elif line.startswith('g'):
-            g = ig.Graph.TupleList(edges, directed=True)
+        elif line.startswith('t') and not line.startswith('t # 0'):
+            g = ig.Graph.TupleList(edges, directed=False)
+            if support is not None:
+                g['support'] = support
             graphs.append(g)
             edges = []
-    return graphs            
+            if len(line.split(' ')) > 3 and line.split(' ')[3] == '*':
+                support = int(line.split(' ')[4])
+        elif line.startswith('t # 0'):
+            parts = line.split(' ')
+            if len(parts) > 3 and parts[3] == '*':
+                support = int(parts[4])
+            else:
+                support = None
+    g = ig.Graph.TupleList(edges, directed=False)
+    g['support'] = support
+    graphs.append(g)
+    return graphs
+
+def nel_to_igraph(nel_content: str) -> list:
+    graphs = []
+    vertices = set()
+    edges = []
+    lines = nel_content.strip().split('\n')
+    for line in lines:
+        if line.startswith('v') or line.startswith('n'):
+            u = int(line.split(' ')[1]) - 1
+            vertices.add(u)
+        elif line.startswith('e') or line.startswith('d'):
+            u, v = int(line.split(' ')[1]) - 1, int(line.split(' ')[2]) - 1
+            edges.append((u, v))
+        elif line.startswith('g'):
+            g = ig.Graph(directed=True)
+            for v in vertices:
+                g.add_vertex(v)
+            for u, v in edges:
+                g.add_edge(u, v)
+            graphs.append(g)
+            vertices = set()
+            edges = []
+        elif line.startswith('s'):
+            support = int(line.split(' ')[3])
+            graphs[-1]['support'] = support
+    return graphs
 
 
 if __name__ == '__main__':
@@ -97,7 +137,7 @@ if __name__ == '__main__':
         g = get_user_graph(edges)
 
         # get lcc
-        g_lcc = g.as_undirected().components(mode='weak').giant()
+        g_lcc = g.components(mode='weak').giant()
 
         # append graphs
         graphs.append(g)

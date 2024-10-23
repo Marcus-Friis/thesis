@@ -191,7 +191,7 @@ if __name__ == '__main__':
             layout = G.layout_graphopt(niter=1000)
             print(f"Plotting video graph for {hashtag}")
             ig.plot(G, layout=layout, vertex_size=2, vertex_label=G.vs["name"], vertex_frame_width=0.01, 
-                    edge_arrow_size=0.01, edge_width=0.2, target=target, vertex_label_size=0.1)
+                    edge_arrow_size=0.15, edge_width=0.2, target=target, vertex_label_size=0.1)
         
         if do_project:
             print(f'Projecting graph for {hashtag}')
@@ -206,7 +206,7 @@ if __name__ == '__main__':
                 layout = G_proj.layout_graphopt(niter=1000)
                 print(f"Plotting projected graph for {hashtag}")
                 ig.plot(G_proj, layout=layout, vertex_size=2, vertex_label=None, vertex_frame_width=0.01, 
-                        edge_arrow_size=0.01, edge_width=0.2, target=target)
+                        edge_arrow_size=0.15, edge_width=0.2, target=target)
 
         # Repeat for user graph
         G = get_user_graph(edges)
@@ -222,7 +222,7 @@ if __name__ == '__main__':
             layout = G.layout_graphopt(niter=1000)
             print(f"Plotting user graph for {hashtag}")
             ig.plot(G, layout=layout, vertex_size=2, vertex_label=None, vertex_frame_width=0.01, 
-                    edge_arrow_size=0.01, edge_width=0.2, target=target)
+                    edge_arrow_size=0.15, edge_width=0.2, target=target)
             
             # plot user graph with component size > 2
             components = G.as_undirected().components()
@@ -232,7 +232,7 @@ if __name__ == '__main__':
             target = f'../figures/user_graphs_filtered/{hashtag}-user-graph-filtered.svg'
             layout = G_sub.layout_graphopt(niter=1000)
             ig.plot(G_sub, layout=layout, vertex_size=2, vertex_label=None, vertex_frame_width=0.01, 
-                    edge_arrow_size=0.01, edge_width=0.2, target=target)
+                    edge_arrow_size=0.15, edge_width=0.2, target=target)
         
         if do_project:
             print(f'Projecting user graph for {hashtag}')
@@ -247,7 +247,7 @@ if __name__ == '__main__':
                 layout = G_proj.layout_graphopt(niter=1000)
                 print(f"Plotting projected graph for {hashtag}")
                 ig.plot(G_proj, layout=layout, vertex_size=2, vertex_label=None, vertex_frame_width=0.01, 
-                        edge_arrow_size=0.01, edge_width=0.2, target=target)
+                        edge_arrow_size=0.15, edge_width=0.2, target=target)
                         
                 # plot projected graph with component size > 2
                 components = G_proj.as_undirected().components()
@@ -257,7 +257,7 @@ if __name__ == '__main__':
                 target = f'../figures/user_graphs_filtered/{hashtag}-projected-graph-filtered.svg'
                 layout = G_sub.layout_graphopt(niter=1000)
                 ig.plot(G_sub, layout=layout, vertex_size=2, vertex_label=None, vertex_frame_width=0.01, 
-                        edge_arrow_size=0.01, edge_width=0.2, target=target)
+                        edge_arrow_size=0.15, edge_width=0.2, target=target)
                 
             
         all_video_metrics_df = pd.concat([all_video_metrics_df.copy(), video_metrics_df], axis=0)

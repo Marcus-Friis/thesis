@@ -32,14 +32,43 @@ def graph_to_tikz(g, pos, support=None, minipage_width=0.23, horizontal_space=0.
     return tikz_code
 
 if __name__ == '__main__':
-    with open('../data/lcc.gspan.fp', 'r') as f:
-        gspan = f.read()
+    from sys import argv
 
-    graphs = gspan_to_igraph(gspan)
-    graphs = sorted(graphs, key=lambda x: (-x[1], x[0].vcount()))
-    for g, support in graphs:
-        if support >= 20:
-            g_nx = g.to_networkx()
-            pos = nx.kamada_kawai_layout(g_nx, scale=0.5)
-            print(graph_to_tikz(g_nx, pos, support=support, minipage_width=0.15))
+    if len(argv) < 2:
+        print(f"Usage: {argv[0]} <nel or gspan file>")
+        exit(1)
+    filepath = argv[1]
+
+    min_support = None
+    if len(argv) > 2:
+        min_support = int(argv[2])
+
+    layout = 'kamada_kawai'
+    if len(argv) > 3:
+        layout = argv[3]
+
+    with open(f'../data/{filepath}', 'r') as f:
+        content = f.read()
+
+    if '.gspan' in filepath:
+        graphs = gspan_to_igraph(content)
+    elif '.nel' in filepath:
+        graphs = nel_to_igraph(content)
+    else:
+        print("File format not supported")
+        exit(1)
+
+    graphs = sorted(graphs, key=lambda x: (-x['support'], x.vcount()))
+    for g in graphs:
+        support = g['support']
+        if min_support is not None and support < min_support:
+            continue
+        g_nx = g.to_networkx()
+        
+        if layout == 'kamada_kawai':
+            pos = nx.kamada_kawai_layout(nx.to_undirected(g_nx), scale=0.5)
+        elif layout == 'planar':
+            pos = nx.planar_layout(g_nx)
+            
+        print(graph_to_tikz(g_nx, pos, support=support, minipage_width=0.15))
     
