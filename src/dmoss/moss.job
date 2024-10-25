@@ -1,0 +1,10 @@
+#!/bin/bash
+#SBATCH --job-name=MOSS              # Job name
+#SBATCH --output=job.%j.out          # Name of output file
+#SBATCH --partition=brown            # Partition to run on
+#SBATCH --mem=250G                   # Memory allocation
+
+module load Java/11.0.2
+
+# Run MOSS Miner with the given parameters
+java -Xmx200g -cp moss.jar moss.Miner -inel -onel -x -D -m2 -n4 -s50 -C -A ../../data/graph.nel ../../data/graph.nel.moss
