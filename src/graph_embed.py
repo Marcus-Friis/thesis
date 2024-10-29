@@ -210,9 +210,9 @@ def plot_embeddings(embeddings, names, algorithm, cluster_labels, save_plot, dir
     used_arguments = [
         f'Algorithm: {algorithm}',
         f'Directed: {directed}',
-        f'Random Graphs: {add_random}',
+        f'Random_Graphs: {add_random}',
         f'Clustering: {cluster}',
-        f'LCC Only: {lcc_only}'
+        f'LCC_Only: {lcc_only}'
     ]
     plot_title = ' // '.join(used_arguments)
     plt.suptitle(plot_title)
