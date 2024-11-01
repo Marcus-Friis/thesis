@@ -12,7 +12,7 @@ from sklearn.manifold import TSNE
 from umap import UMAP
 
 
-def construct_graphs(hashtags, directed):
+def construct_graphs(hashtags, directed, lcc_only=False):
     """Constructs graphs from hashtag edge files."""
     names = []
     graphs = []
@@ -37,6 +37,22 @@ def construct_graphs(hashtags, directed):
 
         G = nx.DiGraph() if directed else nx.Graph()
         G.add_edges_from(user_edges)
+
+        if lcc_only:
+            # Extract the largest connected component
+            if directed:
+                # Weakly connected component for directed graph
+                largest_cc = max(nx.weakly_connected_components(G), key=len)
+                # print(f'Size of {hashtag} LCC: {len(largest_cc)}')
+            else:
+                # Connected component for undirected graph
+                largest_cc = max(nx.connected_components(G), key=len)
+                # print(f'Size of {hashtag} LCC: {len(largest_cc)}')
+            
+            # Create subgraph from the largest connected component
+            G = G.subgraph(largest_cc).copy()
+
+        G = nx.convert_node_labels_to_integers(G)
         graphs.append(G)
 
     return names, graphs
@@ -115,7 +131,7 @@ def categorize_hashtags(names):
     return [name_to_category.get(name, 'Unknown') for name in names]
 
 
-def plot_embeddings(embeddings, names, algorithm, cluster_labels, save_plot, directed, do_plot, add_random, cluster):
+def plot_embeddings(embeddings, names, algorithm, cluster_labels, save_plot, directed, do_plot, add_random, cluster, lcc_only):
     """Plots the graph embeddings using PCA, TSNE, and UMAP."""
     categories = categorize_hashtags(names)
     unique_categories = sorted(set(categories))
@@ -165,7 +181,7 @@ def plot_embeddings(embeddings, names, algorithm, cluster_labels, save_plot, dir
         color_mapping = {
             'Shared interest/subculture': 'green',
             'Political discussion': 'orange',
-            'Entertainment/knowledge': 'black',
+            'Entertainment/knowledge': 'blue',
             'Random Graphs': 'grey'
         }
         category_to_color = {category: color_mapping.get(category, 'grey') for category in unique_categories}
@@ -194,8 +210,9 @@ def plot_embeddings(embeddings, names, algorithm, cluster_labels, save_plot, dir
     used_arguments = [
         f'Algorithm: {algorithm}',
         f'Directed: {directed}',
-        f'Random Graphs: {add_random}',
-        f'Clustering: {cluster}'
+        f'Random_Graphs: {add_random}',
+        f'Clustering: {cluster}',
+        f'LCC_Only: {lcc_only}'
     ]
     plot_title = ' // '.join(used_arguments)
     plt.suptitle(plot_title)
@@ -234,6 +251,7 @@ def main():
     add_random = 'random' in args_lower
     cluster = 'cluster' in args_lower
     save_plot = 'save' in args_lower
+    lcc_only = 'lcc' in args_lower
 
     accepted_algorithms = ['graph2vec', 'feathergraph', 'sf', 'fgsd', 'gl2vec', 'ldp']
     algorithm = next((arg for arg in args_lower if arg in accepted_algorithms), None)
@@ -243,7 +261,11 @@ def main():
     hashtag_path = "../data/hashtags/vertices"
     hashtags = [f[:-5] for f in os.listdir(hashtag_path) if f.endswith('.json')]
 
-    names, graphs = construct_graphs(hashtags, directed)
+    #hashtags = hashtags[:10]  # Limit to first N hashtags for testing
+
+    names, graphs = construct_graphs(hashtags, directed, lcc_only)
+
+
 
     if add_random:
         random_names, random_graphs = construct_random_graphs(num_graphs=8, num_nodes=750, directed=directed)
@@ -255,7 +277,7 @@ def main():
     cluster_labels = cluster_graphs(embeddings) if cluster else None
 
     if do_plot:
-        plot_embeddings(embeddings, names, algorithm, cluster_labels, save_plot, directed, do_plot, add_random, cluster)
+        plot_embeddings(embeddings, names, algorithm, cluster_labels, save_plot, directed, do_plot, add_random, cluster, lcc_only)
 
 
 if __name__ == "__main__":
