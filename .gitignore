@@ -10,8 +10,9 @@ data/data_dumps/*
 # ignore .csv files
 *.csv
 
-#ignore personal notebooks
+#ignore personal notebooks and scripts
 notebooks/*_playground.ipynb
+src/split_videos_mads.py
 
 # ignore secrets
 secrets/
