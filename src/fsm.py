@@ -39,36 +39,6 @@ def igraph_to_nel(graphs: list) -> str:
     return output
 
 def gspan_to_igraph(gspan_content: str) -> list:
-    graphs_with_support = []
-    edges = []
-    support = None
-    lines = gspan_content.strip().split('\n')
-
-    for line in lines:
-        if line.startswith('e'):
-            # Parse the edge information
-            u, v = int(line.split(' ')[1]), int(line.split(' ')[2])
-            edges.append((u, v))
-        elif line.startswith('t'):
-            # If it's a new graph and not the first one, store the previous graph
-            if edges:  # Avoid creating empty graphs on first iteration
-                g = ig.Graph.TupleList(edges, directed=False)
-                graphs_with_support.append((g, support))
-                edges = []
-            # Parse the support if it exists
-            parts = line.split(' ')
-            if len(parts) > 3 and parts[3] == '*':
-                support = int(parts[4])
-            else:
-                support = None  # No support value found, set to None
-    # Add the last graph
-    if edges:
-        g = ig.Graph.TupleList(edges, directed=False)
-        graphs_with_support.append((g, support))
-
-    return graphs_with_support
-
-def gspan_to_igraph(gspan_content: str) -> list:
     graphs = []
     edges = []
     support = None
@@ -130,6 +100,8 @@ if __name__ == '__main__':
     # load and process graphs
     graphs = []
     lcc_graphs = []
+    conf_graphs = []
+    conf_lcc_graphs = []
     for i, edge_file in enumerate(edge_files):
         # read edge file
         edge_file_path = os.path.join(data_path, edge_file)
@@ -143,14 +115,28 @@ if __name__ == '__main__':
         graphs.append(g)
         lcc_graphs.append(g_lcc)
 
+        indeg_sequence  = g.degree(mode='in', loops=False)
+        outdeg_sequence = g.degree(mode='out', loops=False)
+        g_conf = ig.Graph.Degree_Sequence(indeg_sequence, outdeg_sequence)
+        conf_graphs.append(g_conf)
+
+        indeg_sequence_lcc  = g_lcc.degree(mode='in', loops=False)
+        outdeg_sequence_lcc = g_lcc.degree(mode='out', loops=False)
+        g_lcc_conf = ig.Graph.Degree_Sequence(indeg_sequence_lcc, outdeg_sequence_lcc)
+        conf_lcc_graphs.append(g_lcc_conf)
+
     # format into gspan and nel files
     gspan = igraph_to_gspan(graphs)
     nel = igraph_to_nel(graphs)
     gspan_lcc = igraph_to_gspan(lcc_graphs)
     nel_lcc = igraph_to_nel(lcc_graphs)
+    gspan_conf = igraph_to_gspan(conf_graphs)
+    nel_conf = igraph_to_nel(conf_graphs)
+    gspan_lcc_conf = igraph_to_gspan(conf_lcc_graphs)
+    nel_lcc_conf = igraph_to_nel(conf_lcc_graphs)
 
     # dump data files
-    data_path = '../data'
+    data_path = '../data/fsm/graphs'
     with open(os.path.join(data_path, 'graph.gspan'), 'w') as f:
         f.write(gspan)
     with open(os.path.join(data_path, 'graph.nel'), 'w') as f:
@@ -159,3 +145,11 @@ if __name__ == '__main__':
         f.write(gspan_lcc)
     with open(os.path.join(data_path, 'lcc.nel'), 'w') as f:
         f.write(nel_lcc)
+    with open(os.path.join(data_path, 'conf.gspan'), 'w') as f:
+        f.write(gspan_conf)
+    with open(os.path.join(data_path, 'conf.nel'), 'w') as f:
+        f.write(nel_conf)
+    with open(os.path.join(data_path, 'conf_lcc.gspan'), 'w') as f:
+        f.write(gspan_lcc_conf)
+    with open(os.path.join(data_path, 'conf_lcc.nel'), 'w') as f:
+        f.write(nel_lcc_conf)
