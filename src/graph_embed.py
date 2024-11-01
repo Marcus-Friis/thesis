@@ -1,5 +1,4 @@
 import os
-import random
 import sys
 
 import matplotlib.pyplot as plt
@@ -43,11 +42,9 @@ def construct_graphs(hashtags, directed, lcc_only=False):
             if directed:
                 # Weakly connected component for directed graph
                 largest_cc = max(nx.weakly_connected_components(G), key=len)
-                # print(f'Size of {hashtag} LCC: {len(largest_cc)}')
             else:
                 # Connected component for undirected graph
                 largest_cc = max(nx.connected_components(G), key=len)
-                # print(f'Size of {hashtag} LCC: {len(largest_cc)}')
             
             # Create subgraph from the largest connected component
             G = G.subgraph(largest_cc).copy()
@@ -58,18 +55,35 @@ def construct_graphs(hashtags, directed, lcc_only=False):
     return names, graphs
 
 
-def construct_random_graphs(num_graphs, num_nodes, directed):
-    """Constructs random graphs for comparison."""
-    print("Creating random graphs")
-    random_names = [f'G_random_{i}' for i in range(num_graphs)]
-    random_graphs = []
+def construct_configuration_models(names, graphs, directed):
+    """Constructs configuration model graphs based on the LCC of the current graphs."""
+    print("Creating configuration model graphs")
+    config_names = []
+    config_graphs = []
 
-    for _ in range(num_graphs):
-        p = random.uniform(0.1, 0.3)
-        G = nx.gnp_random_graph(num_nodes, p, directed=directed)
-        random_graphs.append(G)
+    for name, G in zip(names, graphs):
+        config_name = f'{name}_config'
+        config_names.append(config_name)
 
-    return random_names, random_graphs
+        if directed:
+            # For directed graphs, use both in-degree and out-degree sequences
+            in_degrees = [d for n, d in G.in_degree()]
+            out_degrees = [d for n, d in G.out_degree()]
+            CM = nx.directed_configuration_model(in_degrees, out_degrees)
+            # Convert to DiGraph and remove self-loops and parallel edges
+            CM = nx.DiGraph(CM)
+            #CM.remove_edges_from(nx.selfloop_edges(CM))
+        else:
+            degrees = [d for n, d in G.degree()]
+            CM = nx.configuration_model(degrees)
+            # Convert to Graph and remove self-loops and parallel edges
+            CM = nx.Graph(CM)
+            #CM.remove_edges_from(nx.selfloop_edges(CM))
+
+        CM = nx.convert_node_labels_to_integers(CM)
+        config_graphs.append(CM)
+
+    return config_names, config_graphs
 
 
 def cluster_graphs(embeddings):
@@ -124,10 +138,22 @@ def categorize_hashtags(names):
             'asmr', 'challenge', 'comedy', 'learnontiktok', 'movie',
             'news', 'science', 'storytime', 'tiktoknews', 'watermelon'
         ],
-        'Random Graphs': [f'G_random_{i}' for i in range(8)]
     }
 
-    name_to_category = {name: category for category, tags in categories.items() for name in tags}
+    # Create a mapping from name to category
+    name_to_category = {}
+    for category, tags in categories.items():
+        for tag in tags:
+            name_to_category[tag] = category
+
+    # Assign 'Configuration Models' category to configuration model graphs
+    for name in names:
+        if name not in name_to_category:
+            if name.endswith('_config'):
+                name_to_category[name] = 'Configuration Models'
+            else:
+                name_to_category[name] = 'Unknown'
+
     return [name_to_category.get(name, 'Unknown') for name in names]
 
 
@@ -148,7 +174,7 @@ def plot_embeddings(embeddings, names, algorithm, cluster_labels, save_plot, dir
     if cluster_labels is not None:
         # When clustering is performed
         # Assign markers to categories
-        category_markers = ['o', 's', '^']
+        category_markers = ['o', 's', '^', '+']
         category_to_marker = {category: category_markers[i % len(category_markers)] for i, category in enumerate(unique_categories)}
 
         # Assign colors to clusters
@@ -160,7 +186,7 @@ def plot_embeddings(embeddings, names, algorithm, cluster_labels, save_plot, dir
         for ax, (title, reduced_embeddings) in zip(axes, reducers.items()):
             for idx, name in enumerate(names):
                 category = categories[idx]
-                marker = category_to_marker.get(category, 'o')  # Default to 'o' if category not found
+                marker = category_to_marker.get(category, '+')  # Default to 'o' if category not found
                 cluster_label = cluster_labels[idx]
                 color = cluster_to_color.get(cluster_label, 'grey')
                 ax.scatter(reduced_embeddings[idx, 0], reduced_embeddings[idx, 1],
@@ -182,7 +208,8 @@ def plot_embeddings(embeddings, names, algorithm, cluster_labels, save_plot, dir
             'Shared interest/subculture': 'green',
             'Political discussion': 'orange',
             'Entertainment/knowledge': 'blue',
-            'Random Graphs': 'grey'
+            'Configuration Models': 'grey',
+            'Unknown': 'red'
         }
         category_to_color = {category: color_mapping.get(category, 'grey') for category in unique_categories}
 
@@ -210,7 +237,7 @@ def plot_embeddings(embeddings, names, algorithm, cluster_labels, save_plot, dir
     used_arguments = [
         f'Algorithm: {algorithm}',
         f'Directed: {directed}',
-        f'Random_Graphs: {add_random}',
+        f'Add_Config_Models: {add_random}',
         f'Clustering: {cluster}',
         f'LCC_Only: {lcc_only}'
     ]
@@ -241,14 +268,14 @@ def main():
         print('Optional arguments:')
         print('  directed : Use directed graphs')
         print('  plot     : Plot 2D embeddings')
-        print('  random   : Add random graphs to the dataset')
+        print('  config   : Add configuration model graphs to the dataset')
         print('  cluster  : Cluster the embeddings with HDBSCAN')
         print('  save     : Save the plot instead of displaying it')
         return
 
     directed = 'directed' in args_lower
     do_plot = 'plot' in args_lower
-    add_random = 'random' in args_lower
+    add_random = 'config' in args_lower  # Changed from 'random' to 'config'
     cluster = 'cluster' in args_lower
     save_plot = 'save' in args_lower
     lcc_only = 'lcc' in args_lower
@@ -265,12 +292,10 @@ def main():
 
     names, graphs = construct_graphs(hashtags, directed, lcc_only)
 
-
-
     if add_random:
-        random_names, random_graphs = construct_random_graphs(num_graphs=8, num_nodes=750, directed=directed)
-        names.extend(random_names)
-        graphs.extend(random_graphs)
+        config_names, config_graphs = construct_configuration_models(names, graphs, directed)
+        names.extend(config_names)
+        graphs.extend(config_graphs)
 
     embeddings = embed_graphs(graphs, algorithm)
 
