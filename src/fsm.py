@@ -102,6 +102,8 @@ if __name__ == '__main__':
     lcc_graphs = []
     conf_graphs = []
     conf_lcc_graphs = []
+    er_graphs = []
+    er_lcc_graphs = []
     for i, edge_file in enumerate(edge_files):
         # read edge file
         edge_file_path = os.path.join(data_path, edge_file)
@@ -111,19 +113,26 @@ if __name__ == '__main__':
         # get lcc
         g_lcc = g.components(mode='weak').giant()
 
-        # append graphs
-        graphs.append(g)
-        lcc_graphs.append(g_lcc)
-
+        # get configuration models for both graphs
         indeg_sequence  = g.degree(mode='in', loops=False)
         outdeg_sequence = g.degree(mode='out', loops=False)
         g_conf = ig.Graph.Degree_Sequence(indeg_sequence, outdeg_sequence)
-        conf_graphs.append(g_conf)
 
         indeg_sequence_lcc  = g_lcc.degree(mode='in', loops=False)
         outdeg_sequence_lcc = g_lcc.degree(mode='out', loops=False)
         g_lcc_conf = ig.Graph.Degree_Sequence(indeg_sequence_lcc, outdeg_sequence_lcc)
+
+        # get erdos-renyi random graphs
+        g_er = ig.Graph.Erdos_Renyi(n=g.vcount(), m=g.ecount()).simplify()
+        g_lcc_er = ig.Graph.Erdos_Renyi(n=g_lcc.vcount(), m=g_lcc.ecount()).simplify()
+        
+        # append graphs
+        graphs.append(g)
+        lcc_graphs.append(g_lcc)
+        conf_graphs.append(g_conf)
         conf_lcc_graphs.append(g_lcc_conf)
+        er_graphs.append(g_er)
+        er_lcc_graphs.append(g_lcc_er)
 
     # format into gspan and nel files
     gspan = igraph_to_gspan(graphs)
@@ -134,6 +143,10 @@ if __name__ == '__main__':
     nel_conf = igraph_to_nel(conf_graphs)
     gspan_lcc_conf = igraph_to_gspan(conf_lcc_graphs)
     nel_lcc_conf = igraph_to_nel(conf_lcc_graphs)
+    gspan_er = igraph_to_gspan(er_graphs)
+    nel_er = igraph_to_nel(er_graphs)
+    gspan_lcc_er = igraph_to_gspan(er_lcc_graphs)
+    nel_lcc_er = igraph_to_nel(er_lcc_graphs)
 
     # dump data files
     data_path = '../data/fsm/graphs'
@@ -153,3 +166,11 @@ if __name__ == '__main__':
         f.write(gspan_lcc_conf)
     with open(os.path.join(data_path, 'conf_lcc.nel'), 'w') as f:
         f.write(nel_lcc_conf)
+    with open(os.path.join(data_path, 'er.gspan'), 'w') as f:
+        f.write(gspan_er)
+    with open(os.path.join(data_path, 'er.nel'), 'w') as f:
+        f.write(nel_er)
+    with open(os.path.join(data_path, 'er_lcc.gspan'), 'w') as f:
+        f.write(gspan_lcc_er)
+    with open(os.path.join(data_path, 'er_lcc.nel'), 'w') as f:
+        f.write(nel_lcc_er)
