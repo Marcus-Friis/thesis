@@ -11,14 +11,21 @@ if __name__ == '__main__':
     graphs = gspan_to_igraph(gspan)
     graphs = [graph.simplify() for graph in graphs]
 
-    random_graphs = [
+    conf_random_graphs = [
         ig.Graph.Degree_Sequence(
             graph.degree(mode='in', loops=False), 
             graph.degree(mode='out', loops=False)
             ).as_undirected().simplify() 
             for graph in graphs]
     
+    er_random_graphs = [
+        ig.Graph.Erdos_Renyi(n=graph.vcount(), m=graph.ecount()).simplify() 
+        for graph in graphs]
+    
+    motif_counts = [0] * len(motifs)
     for i, motif in enumerate(motifs):
-        for j, graph in enumerate(graphs):
+        for j, graph in enumerate(er_random_graphs):
             if graph.subisomorphic_vf2(motif):
-                ...  # to be continued
+                motif_counts[i] += 1
+        if (1 - (motif_counts[i] / motif['support'])) * 100 >= 33:
+            print(f'Motif {i} found in {motif_counts[i]} random graphs and {motif["support"]} original graphs')
