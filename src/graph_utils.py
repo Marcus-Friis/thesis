@@ -3,6 +3,7 @@ import numpy as np
 from scipy.sparse import lil_matrix
 import re
 import pandas as pd
+import os
 
 def load_edges(filepath: str) -> pd.DataFrame:
     # read edges from file
@@ -34,6 +35,30 @@ def get_user_graph(edges: pd.DataFrame) -> ig.Graph:
     G.es['weight'] = edges[0]
 
     return G
+
+def get_all_video_graphs() -> list:
+    data_path = '../data/hashtags/edges/'
+    edge_files = [file for file in os.listdir(data_path) if file.endswith('.txt')]
+    graphs = []
+    for edge_file in edge_files:
+        # read edge file
+        edge_file_path = os.path.join(data_path, edge_file)
+        edges = load_edges(edge_file_path)
+        g = get_video_graph(edges)
+        graphs.append(g)
+    return graphs
+
+def get_all_user_graphs() -> list:
+    data_path = '../data/hashtags/edges/'
+    edge_files = [file for file in os.listdir(data_path) if file.endswith('.txt')]
+    graphs = []
+    for edge_file in edge_files:
+        # read edge file
+        edge_file_path = os.path.join(data_path, edge_file)
+        edges = load_edges(edge_file_path)
+        g = get_user_graph(edges)
+        graphs.append(g)
+    return graphs
 
 def degree_centralization(G: ig.Graph) -> float:
     if G.is_directed():
