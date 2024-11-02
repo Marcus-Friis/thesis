@@ -13,10 +13,9 @@ if __name__ == '__main__':
 
     conf_random_graphs = [
         ig.Graph.Degree_Sequence(
-            graph.degree(mode='in', loops=False), 
-            graph.degree(mode='out', loops=False)
-            ).as_undirected().simplify() 
-            for graph in graphs]
+            graph.degree(loops=False)
+        ).as_undirected().simplify() 
+        for graph in graphs]
     
     er_random_graphs = [
         ig.Graph.Erdos_Renyi(n=graph.vcount(), m=graph.ecount()).simplify() 
