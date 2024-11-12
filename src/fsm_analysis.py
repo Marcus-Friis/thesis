@@ -21,10 +21,14 @@ if __name__ == '__main__':
         ig.Graph.Erdos_Renyi(n=graph.vcount(), m=graph.ecount()).simplify() 
         for graph in graphs]
     
+    ba_random_graphs = [
+        ig.Graph.Barabasi(n=graph.vcount(), m=graph.ecount()).simplify() 
+        for graph in graphs]
+    
     motif_counts = [0] * len(motifs)
     for i, motif in enumerate(motifs):
-        for j, graph in enumerate(er_random_graphs):
+        for j, graph in enumerate(ba_random_graphs):
             if graph.subisomorphic_vf2(motif):
                 motif_counts[i] += 1
-        if (1 - (motif_counts[i] / motif['support'])) * 100 >= 33:
-            print(f'Motif {i} found in {motif_counts[i]} random graphs and {motif["support"]} original graphs')
+        # if (1 - (motif_counts[i] / motif['support'])) * 100 >= 33:
+        print(f'Motif {i} found in {motif_counts[i]} random graphs and {motif["support"]} original graphs')
