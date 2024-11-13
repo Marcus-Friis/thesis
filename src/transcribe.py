@@ -142,18 +142,20 @@ def main():
     classifier = audio.AudioClassifier.create_from_options(options)
     c = 0 # for testing
 
-
-    if os.path.exists("output.json"):
-        with open("output.json", "r") as file:
+    output_path = f"../data/hashtags/transcriptions/{hashtag}_transcription_data.json"
+    if os.path.exists(output_path):
+        with open(output_path, "r") as file:
             # Load each (video_id, scene) as a tuple and convert video_id to np.int64
             processed_videos = [
                 (np.int64(json.loads(line)["video_id"]), json.loads(line)["scene"]) 
                 for line in file
         ]
-
+    else:
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+        processed_videos = []
 
     try:
-        with open('output.json', 'a') as json_file:
+        with open (output_path, "a") as json_file:
             for i, video_file in enumerate(base_path.glob("*.mp4"), 1):
                 video_path = str(video_file)
 
@@ -198,7 +200,7 @@ def main():
                 print(f"Processed video {i}/{n}")
 
                 # c += 1 # for testing
-                # if c == 4: # for testing
+                # if c == 2: # for testing
                 #     break   # for testing
 
     finally:
@@ -206,7 +208,7 @@ def main():
         os.remove("temp_audio.wav")
         print("Classifier closed & temporary audio file removed.")
 
-    print("Results saved to output.json")
+    print(f"Results saved to {hashtag}_output.json")
 
 if __name__ == '__main__':
     main()
