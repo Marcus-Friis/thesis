@@ -64,7 +64,7 @@ if __name__ == '__main__':
     
     start_idx = int(argv[2]) if len(argv) == 3 and argv[2].isdigit() else 0
     
-    dir_path = f'../data/hashtags/stitch/videos/{hashtag}'
+    dir_path = f'../data/hashtags/videos/{hashtag}'
     output_dir = os.path.join(dir_path, 'split/')
     
     videos = os.listdir(dir_path)

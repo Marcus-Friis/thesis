@@ -1,5 +1,5 @@
 # script for downloading tiktok videos from a hashtag
-# output: saves videos to ../data/hashtags/stitch/videos/{hashtag}/
+# output: saves videos to ../data/hashtags/videos/{hashtag}/
 
 if __name__ == '__main__':
     from sys import argv
