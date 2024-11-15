@@ -9,14 +9,11 @@ warnings.filterwarnings("ignore")  # , category=FutureWarning)
 import whisper
 import re
 import numpy as np
-import librosa
 import ffmpeg
 from mediapipe.tasks import python
 from mediapipe.tasks.python.components import containers
 from mediapipe.tasks.python import audio
 from pathlib import Path
-
-import io
 
 from sys import argv
 import urllib.request
@@ -152,7 +149,7 @@ def main():
         print("Audio classifier model already downloaded.")
 
     # Set the base path for the video data
-    base_path = Path(f'D:/Thesis/data/{hashtag}/split')
+    base_path = Path(f'../data/{hashtag}/split')
     video_files = list(base_path.glob("*.mp4"))
     n = len(video_files)
     print(f"Total videos to process: {n}")
@@ -201,8 +198,8 @@ def main():
                 print(f"Processing video {i}/{n}: {video_path}")
 
                 # Extract the username from the filename
-                if video_path.startswith(f"D:\\Thesis\\data\\{hashtag}\\split\\@"):
-                    username = video_path.split("\\")[-1].split("_")[0][1:]  # Remove '@' symbol
+                if video_path.startswith(f"../data/{hashtag}/split/@"):
+                    username = video_path.split("/")[-1].split("_")[0][1:]  # Remove '@' symbol
                 else:
                     username = None
 
@@ -236,7 +233,7 @@ def main():
 
                 # Transcribe the video if it contains speech
                 transcription = None
-                if audio_type == "Speech":
+                if audio_type == "Speech" and is_english:
                     transcription = transcribe_audio(audio_data_16k, model=whisper_model)
 
                 # Prepare the output data
