@@ -53,4 +53,4 @@ if __name__ == "__main__":
     
     output_path = f"../data/hashtags/users/{hashtag}.json"
     with open(output_path, 'w') as f:
-        json.dump(data, f)
+        json.dump(data, f, indent=2)
