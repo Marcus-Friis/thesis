@@ -234,9 +234,8 @@ def main():
                 # Detect audio type
                 timestamped_classifications, audio_type = detect_audio_type(audio_data_full, sample_rate_full, classifier)
 
-                # Transcribe the video if it contains speech
                 transcription = None
-                if audio_type == "Speech" and is_english:
+                if is_english:
                     transcription = transcribe_audio(audio_data_16k, model=whisper_model)
 
                 # Prepare the output data
