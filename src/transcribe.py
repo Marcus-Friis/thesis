@@ -9,6 +9,7 @@ warnings.filterwarnings("ignore")  # , category=FutureWarning)
 import whisper
 import re
 import numpy as np
+import torch
 import ffmpeg
 from mediapipe.tasks import python
 from mediapipe.tasks.python.components import containers
@@ -149,19 +150,21 @@ def main():
         print("Audio classifier model already downloaded.")
 
     # Set the base path for the video data
-    base_path = Path(f'../data/{hashtag}/split')
+    base_path = Path(f'../data/hashtags/videos/{hashtag}/split')
     video_files = list(base_path.glob("*.mp4"))
     n = len(video_files)
     print(f"Total videos to process: {n}")
 
     # Load models for language classification and audio transcription
-    whisper_model = whisper.load_model('base')
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    print(f"Using device: {device}")
+    whisper_model = whisper.load_model('base', device=device)
     base_options = python.BaseOptions(model_asset_path=classifier_model_path)
     options = audio.AudioClassifierOptions(base_options=base_options, max_results=4)
     classifier = audio.AudioClassifier.create_from_options(options)
 
     # Define the output path for the transcription data
-    output_path = f"../data/hashtags/transcriptions/{hashtag}_transcription_data.json"
+    output_path = f"../data/hashtags/transcriptions/{hashtag}_transcription_data.jsonl"
     if os.path.exists(output_path):
         with open(output_path, "r") as file:
             # Load each (video_id, scene) as a tuple to track processed videos
@@ -198,8 +201,8 @@ def main():
                 print(f"Processing video {i}/{n}: {video_path}")
 
                 # Extract the username from the filename
-                if video_path.startswith(f"../data/{hashtag}/split/@"):
-                    username = video_path.split("/")[-1].split("_")[0][1:]  # Remove '@' symbol
+                if str(Path(video_path)).startswith(str(base_path)):
+                    username = Path(video_path).name.split("_")[0][1:]  # Remove '@' symbol
                 else:
                     username = None
 
