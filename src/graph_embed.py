@@ -11,6 +11,8 @@ from sklearn.manifold import TSNE
 from umap import UMAP
 
 
+from sklearn.metrics import silhouette_score, davies_bouldin_score  # Import scoring functions
+
 def construct_graphs(hashtags, directed, lcc_only=False):
     """Constructs graphs from hashtag edge files."""
     names = []
@@ -54,7 +56,6 @@ def construct_graphs(hashtags, directed, lcc_only=False):
 
     return names, graphs
 
-
 def construct_configuration_models(names, graphs, directed):
     """Constructs configuration model graphs based on the LCC of the current graphs."""
     print("Creating configuration model graphs")
@@ -86,12 +87,17 @@ def construct_configuration_models(names, graphs, directed):
     return config_names, config_graphs
 
 
-def cluster_graphs(embeddings):
+
+def cluster_graphs(embeddings, min_cluster_size=3, min_samples=None):  # Add parameters
     """Clusters graph embeddings using HDBSCAN."""
     print("Clustering embeddings with HDBSCAN")
-    hdbscan = HDBSCAN(min_cluster_size=3, metric='cosine')
-    cluster_labels = hdbscan.fit_predict(embeddings)
+
+    clusterer = HDBSCAN(min_cluster_size=min_cluster_size, min_samples=min_samples) # Initialize HDBSCAN
+    clusterer.fit(embeddings)
+
+    cluster_labels = clusterer.labels_
     return cluster_labels
+
 
 
 def embed_graphs(graphs, algorithm):
@@ -121,7 +127,6 @@ def embed_graphs(graphs, algorithm):
     print(f'Explained variance (2 components) of PCA embeddings: {explained_variance:.4f}')
 
     return embeddings
-
 
 def categorize_hashtags(names):
     """Categorizes hashtags into predefined categories."""
@@ -156,9 +161,15 @@ def categorize_hashtags(names):
 
     return [name_to_category.get(name, 'Unknown') for name in names]
 
-
-def plot_embeddings(embeddings, names, algorithm, cluster_labels, save_plot, directed, do_plot, add_random, cluster, lcc_only):
+def plot_embeddings(embeddings, names, algorithm, cluster_labels, save_plot, directed, add_random, cluster, lcc_only):
     """Plots the graph embeddings using PCA, TSNE, and UMAP."""
+    import os
+    import matplotlib.pyplot as plt
+    from matplotlib.lines import Line2D
+    from sklearn.decomposition import PCA
+    from sklearn.manifold import TSNE
+    from umap import UMAP
+
     categories = categorize_hashtags(names)
     unique_categories = sorted(set(categories))
 
@@ -171,39 +182,31 @@ def plot_embeddings(embeddings, names, algorithm, cluster_labels, save_plot, dir
 
     fig, axes = plt.subplots(1, 3, figsize=(18, 6))
 
+    # Assign markers to categories
+    category_markers = ['o', 's', '^', 'D', 'v', '<', '>', 'p', '*', 'h']
+    category_to_marker = {
+        category: category_markers[i % len(category_markers)]
+        for i, category in enumerate(unique_categories)
+    }
+
     if cluster_labels is not None:
-        # When clustering is performed
-        # Assign markers to categories
-        category_markers = ['o', 's', '^', '+']
-        category_to_marker = {category: category_markers[i % len(category_markers)] for i, category in enumerate(unique_categories)}
-
-        # Assign colors to clusters
+        # Prepare colors for clusters
         unique_clusters = sorted(set(cluster_labels))
-        n_clusters = len(unique_clusters)
-        cmap = plt.get_cmap('tab10_r', n_clusters)
-        cluster_to_color = {cluster: cmap(i) for i, cluster in enumerate(unique_clusters)}
+        clusters = [cluster for cluster in unique_clusters if cluster != -1]
+        n_clusters = len(clusters)
+        n_clusters = max(n_clusters, 1)  # Ensure at least one color
 
-        for ax, (title, reduced_embeddings) in zip(axes, reducers.items()):
-            for idx, name in enumerate(names):
-                category = categories[idx]
-                marker = category_to_marker.get(category, '+')  # Default to 'o' if category not found
-                cluster_label = cluster_labels[idx]
-                color = cluster_to_color.get(cluster_label, 'grey')
-                ax.scatter(reduced_embeddings[idx, 0], reduced_embeddings[idx, 1],
-                           color=color, marker=marker)
-                ax.annotate(name, (reduced_embeddings[idx, 0], reduced_embeddings[idx, 1]))
-            ax.set_title(title)
+        cmap = plt.get_cmap('tab10', n_clusters)
+        cluster_colors = [cmap(i) for i in range(n_clusters)]
 
-        # Create legend handles for categories only
-        category_handles = [
-            Line2D([0], [0], marker=category_to_marker[category], color='w', label=category,
-                   markerfacecolor='black', markeredgecolor='black', markersize=10)
-            for category in unique_categories
-        ]
-
+        # Map clusters to colors
+        cluster_to_color = {
+            cluster: cluster_colors[i]
+            for i, cluster in enumerate(clusters)
+        }
+        cluster_to_color[-1] = 'grey'  # Noise points
     else:
-        # When clustering is not performed
-        # Assign colors to categories
+        # Prepare colors for categories
         color_mapping = {
             'Shared interest/subculture': 'green',
             'Political discussion': 'orange',
@@ -211,34 +214,71 @@ def plot_embeddings(embeddings, names, algorithm, cluster_labels, save_plot, dir
             'Configuration Models': 'grey',
             'Unknown': 'red'
         }
-        category_to_color = {category: color_mapping.get(category, 'grey') for category in unique_categories}
+        category_to_color = {
+            category: color_mapping.get(category, 'black')
+            for category in unique_categories
+        }
 
-        # Use the same marker for all points
-        marker = 'o'
+    for ax, (title, reduced_embeddings) in zip(axes, reducers.items()):
+        for idx, name in enumerate(names):
+            x, y = reduced_embeddings[idx, 0], reduced_embeddings[idx, 1]
+            category = categories[idx]
+            marker = category_to_marker.get(category, 'o')  # Default marker
 
-        for ax, (title, reduced_embeddings) in zip(axes, reducers.items()):
-            for idx, name in enumerate(names):
-                category = categories[idx]
-                color = category_to_color.get(category, 'grey')
-                ax.scatter(reduced_embeddings[idx, 0], reduced_embeddings[idx, 1],
-                           color=color, marker=marker)
-                ax.annotate(name, (reduced_embeddings[idx, 0], reduced_embeddings[idx, 1]))
-            ax.set_title(title)
+            if cluster_labels is not None:
+                cluster_label = cluster_labels[idx]
+                color = cluster_to_color.get(cluster_label, 'grey')
+            else:
+                color = category_to_color.get(category, 'black')
 
-        # Create legend handles for categories with colors
-        category_handles = [
+            ax.scatter(x, y, color=color, marker=marker)
+            ax.annotate(name, (x, y))
+
+        ax.set_title(title)
+
+    # Create legend handles
+    handles = []
+
+    # Category legend
+    category_handles = [
+        Line2D([0], [0], marker=category_to_marker[category], color='w', label=category,
+               markerfacecolor='black', markeredgecolor='black', markersize=10)
+        for category in unique_categories
+    ]
+    handles.extend(category_handles)
+
+    if cluster_labels is not None:
+        # Cluster legend
+        cluster_handles = []
+        for cluster in sorted(set(cluster_labels)):
+            if cluster == -1:
+                label = 'Outliers'
+                color = 'grey'
+            else:
+                label = f'Cluster {cluster}'
+                color = cluster_to_color.get(cluster, 'grey')
+            cluster_handles.append(
+                Line2D([0], [0], marker='o', color='w', label=label,
+                       markerfacecolor=color, markeredgecolor='black', markersize=10)
+            )
+        handles.extend(cluster_handles)
+    else:
+        # Category color legend (only if clustering is not performed)
+        color_handles = [
             Line2D([0], [0], marker='o', color='w', label=category,
                    markerfacecolor=color, markeredgecolor='black', markersize=10)
             for category, color in category_to_color.items()
         ]
+        handles.extend(color_handles)
 
     # Place legend
-    plt.legend(handles=category_handles, loc='upper left', bbox_to_anchor=(1, 1))
+    plt.legend(handles=handles, loc='upper left', bbox_to_anchor=(1, 1))
+
+    # Add title and adjust layout
     used_arguments = [
         f'Algorithm: {algorithm}',
         f'Directed: {directed}',
         f'Add_Config_Models: {add_random}',
-        f'Clustering: {cluster}',
         f'LCC_Only: {lcc_only}'
     ]
     plot_title = ' // '.join(used_arguments)
@@ -247,13 +287,13 @@ def plot_embeddings(embeddings, names, algorithm, cluster_labels, save_plot, dir
 
     if save_plot:
         os.makedirs('../figures/embeddings', exist_ok=True)
-        bools = [True if item.split(': ')[1].strip().lower() == 'true' else False for item in used_arguments]
+        bools = [item.split(': ')[1].strip().lower() == 'true' for item in used_arguments]
         args = [item.split(': ')[0].strip().lower() for item in used_arguments]
-        true_args = [args[i] for i in range(len(bools)) if bools[i] == True]
+        true_args = [args[i] for i in range(len(bools)) if bools[i]]
         plot_args = '_'.join(true_args)
         plt.savefig(f'../figures/embeddings/{algorithm}_embeddings_{plot_args}.png')
     else:
-        plt.show()  
+        plt.show()
 
 
 def main():
@@ -299,10 +339,31 @@ def main():
 
     embeddings = embed_graphs(graphs, algorithm)
 
-    cluster_labels = cluster_graphs(embeddings) if cluster else None
+
+    if cluster:
+        # Perform clustering if enabled
+        cluster_labels = cluster_graphs(embeddings) if cluster else None
+
+        # Filter out noise points
+        mask = cluster_labels != -1
+        filtered_embeddings = embeddings[mask]
+        filtered_labels = cluster_labels[mask]
+
+        # Check if there are at least 2 clusters
+        n_clusters = len(set(filtered_labels))
+        if n_clusters > 1:
+            # Calculate Silhouette Score and Davies-Bouldin Index
+            silhouette_avg = silhouette_score(filtered_embeddings, filtered_labels)
+            db_score = davies_bouldin_score(filtered_embeddings, filtered_labels)
+
+            print(f"Silhouette Score: {silhouette_avg:.4f}")
+            print(f"Davies-Bouldin Index: {db_score:.4f}")
+        else:
+            print("Not enough clusters to compute silhouette score or Davies-Bouldin Index.")
+
 
     if do_plot:
-        plot_embeddings(embeddings, names, algorithm, cluster_labels, save_plot, directed, do_plot, add_random, cluster, lcc_only)
+        plot_embeddings(embeddings, names, algorithm, cluster_labels, save_plot, directed, add_random, cluster, lcc_only)
 
 
 if __name__ == "__main__":
