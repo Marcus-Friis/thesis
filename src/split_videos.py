@@ -62,7 +62,8 @@ if __name__ == '__main__':
         raise ValueError('Hashtag must be provided as argument')
     hashtag = argv[1]
     
-    start_idx = int(argv[2]) if len(argv) == 3 and argv[2].isdigit() else 0
+    start_idx = int(argv[2]) if len(argv) >= 3 and argv[2].isdigit() else 0
+    end_idx = int(argv[3]) if len(argv) == 4 and argv[3].isdigit() else None
     
     dir_path = f'../data/hashtags/videos/{hashtag}'
     output_dir = os.path.join(dir_path, 'split/')
@@ -70,7 +71,7 @@ if __name__ == '__main__':
     videos = os.listdir(dir_path)
     videos = [video for video in videos if video.endswith('.mp4')]  # only consider mp4 videos
     
-    N = len(videos)
+    N = len(videos) if end_idx is None else end_idx
     thresholds = (9, 6, 5)
     for i in range(start_idx, N):
         video = videos[i]

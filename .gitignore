@@ -14,6 +14,10 @@ data/data_dumps/*
 notebooks/*_playground.ipynb
 src/split_videos_mads.py
 
+#ignore model files
+src/classifier.tflite
+src/temp_audio.wav
+
 # ignore secrets
 secrets/
 
