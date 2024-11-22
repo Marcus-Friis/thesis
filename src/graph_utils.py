@@ -23,17 +23,11 @@ def load_edges(filepath: str) -> pd.DataFrame:
     return edges
 
 def get_video_graph(edges: pd.DataFrame) -> ig.Graph:
-    # construct graph
-    G = ig.Graph.TupleList(edges[['stitcher', 'stitchee']].values, directed=True, edge_attrs=['weight'])
-    G.es['weight'] = 1
+    G = ig.Graph.TupleList(edges[['stitcher', 'stitchee']].values, directed=True)
     return G
 
 def get_user_graph(edges: pd.DataFrame) -> ig.Graph:
-    edges = edges.groupby(['stitcher_user', 'stitchee_user']).size().reset_index()
-
-    G = ig.Graph.TupleList(edges[['stitcher_user', 'stitchee_user']].values, directed=True, edge_attrs=['weight'])
-    G.es['weight'] = edges[0]
-
+    G = ig.Graph.TupleList(edges[['stitcher_user', 'stitchee_user']].values, directed=True)
     return G
 
 def get_all_video_graphs() -> list:
