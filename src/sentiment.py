@@ -1,26 +1,31 @@
 if __name__ == '__main__':
     from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
     from sys import argv
+    import json
+    from pathlib import Path
 
     if len(argv) < 2:
         raise ValueError('Hashtag must be provided as argument')
     hashtag = argv[1]
     
-    with open('../data/hashtags/videos/transcriptions/' + hashtag + '.txt', 'r') as transcript:
-        lines = transcript.readlines()
-    
-    # Extract transcriptions
-    transcriptions = [lines[i] for i in range(2, len(lines), 4)]
+    data_path = Path('../data/hashtags/transcriptions') / (f'{hashtag}_transcription_data.jsonl')
+    data = []
+    with open(data_path, 'r') as f:
+        for line in f:
+            data.append(json.loads(line))
     
     # Initialize sentiment analyzer
     analyzer = SentimentIntensityAnalyzer()
 
     # Analyze sentiment of each transcription
-    sentiments = [analyzer.polarity_scores(transcription) for transcription in transcriptions]
-
+    transcriptions = [d['transcription'] for d in data]
+    sentiments = [analyzer.polarity_scores(transcription) if transcription else None for transcription in transcriptions]
     # Convert to categorical
     categorical_sentiments = []
     for sentiment in sentiments:
+        if sentiment is None:
+            categorical_sentiments.append(None)
+            continue
         compound = sentiment['compound']
         if compound > 0.05:
             categorical_sentiments.append('positive')
@@ -29,14 +34,11 @@ if __name__ == '__main__':
         else:
             categorical_sentiments.append('neutral')
     
-    # Replace transcriptions with sentiments in lines
-    for i, sentiment in enumerate(categorical_sentiments):
-        lines[2 + i * 4] = sentiment + '\n'
-    
-    # If sentiment file exists, set output to append, else create new file
-    import os
-
-    output_mode = 'a' if os.path.exists('../data/hashtags/videos/sentiments/' + hashtag + '_sentiment.txt') else 'w'
-    os.makedirs('../data/hashtags/videos/sentiments/', exist_ok=True)
-    with open('../data/hashtags/videos/sentiments/' + hashtag + '_sentiment.txt', output_mode) as output:
-        output.writelines(lines)
+    # Write to existing transcription data file
+    for i, d in enumerate(data):
+        d['sentiment'] = categorical_sentiments[i]
+        d['sentiment_scores'] = sentiments[i]
+        
+    with open(data_path, 'w') as f:
+        for d in data:
+            f.write(json.dumps(d) + '\n')
