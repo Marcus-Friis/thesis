@@ -185,6 +185,7 @@ if __name__ == '__main__':
             motif_data = {
                 'vertices': [v.index for v in motif.vs],
                 'edges': [(e.source, e.target) for e in motif.es],
+                'graph_occurrences': occurrences,
                 'graph_indeces': indeces,
                 'graph_labels': graph_labels,
                 'graph_support': graph_support,
@@ -222,6 +223,7 @@ if __name__ == '__main__':
             motif_data = {
                 'vertices': [v.index for v in motif.vs],
                 'edges': [(e.source, e.target) for e in motif.es],
+                'graph_occurrences': occurrences,
                 'graph_indeces': indeces,
                 'graph_labels': graph_labels,
                 'graph_support': graph_support,
