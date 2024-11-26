@@ -67,8 +67,8 @@
       "palestine"
     ],
     "graph_support": 30,
-    "conf_support": 300,
-    "er_support": 300,
+    "conf_support": 30.0,
+    "er_support": 30.0,
     "gspan_support": 30
   },
   {
@@ -147,8 +147,8 @@
       "palestine"
     ],
     "graph_support": 30,
-    "conf_support": 300,
-    "er_support": 300,
+    "conf_support": 30.0,
+    "er_support": 30.0,
     "gspan_support": 30
   },
   {
@@ -230,8 +230,8 @@
       "palestine"
     ],
     "graph_support": 29,
-    "conf_support": 290,
-    "er_support": 300,
+    "conf_support": 29.0,
+    "er_support": 30.0,
     "gspan_support": 29
   },
   {
@@ -314,8 +314,8 @@
       "palestine"
     ],
     "graph_support": 27,
-    "conf_support": 268,
-    "er_support": 300,
+    "conf_support": 26.8,
+    "er_support": 30.0,
     "gspan_support": 27
   },
   {
@@ -399,8 +399,8 @@
       "palestine"
     ],
     "graph_support": 25,
-    "conf_support": 251,
-    "er_support": 299,
+    "conf_support": 25.1,
+    "er_support": 29.9,
     "gspan_support": 25
   },
   {
@@ -487,8 +487,8 @@
       "palestine"
     ],
     "graph_support": 24,
-    "conf_support": 235,
-    "er_support": 299,
+    "conf_support": 23.5,
+    "er_support": 29.9,
     "gspan_support": 23
   },
   {
@@ -576,8 +576,8 @@
       "palestine"
     ],
     "graph_support": 22,
-    "conf_support": 222,
-    "er_support": 290,
+    "conf_support": 22.2,
+    "er_support": 29.0,
     "gspan_support": 22
   },
   {
@@ -662,8 +662,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 204,
-    "er_support": 286,
+    "conf_support": 20.4,
+    "er_support": 28.6,
     "gspan_support": 18
   },
   {
@@ -753,8 +753,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 204,
-    "er_support": 284,
+    "conf_support": 20.4,
+    "er_support": 28.4,
     "gspan_support": 18
   },
   {
@@ -849,8 +849,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 203,
-    "er_support": 277,
+    "conf_support": 20.3,
+    "er_support": 27.7,
     "gspan_support": 18
   },
   {
@@ -950,8 +950,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 195,
-    "er_support": 271,
+    "conf_support": 19.5,
+    "er_support": 27.1,
     "gspan_support": 18
   },
   {
@@ -1056,8 +1056,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 194,
-    "er_support": 263,
+    "conf_support": 19.4,
+    "er_support": 26.3,
     "gspan_support": 18
   },
   {
@@ -1167,8 +1167,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 193,
-    "er_support": 244,
+    "conf_support": 19.3,
+    "er_support": 24.4,
     "gspan_support": 18
   },
   {
@@ -1268,8 +1268,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 201,
-    "er_support": 268,
+    "conf_support": 20.1,
+    "er_support": 26.8,
     "gspan_support": 18
   },
   {
@@ -1374,8 +1374,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 199,
-    "er_support": 246,
+    "conf_support": 19.9,
+    "er_support": 24.6,
     "gspan_support": 18
   },
   {
@@ -1485,8 +1485,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 195,
-    "er_support": 188,
+    "conf_support": 19.5,
+    "er_support": 18.8,
     "gspan_support": 18
   },
   {
@@ -1581,8 +1581,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 202,
-    "er_support": 277,
+    "conf_support": 20.2,
+    "er_support": 27.7,
     "gspan_support": 18
   },
   {
@@ -1682,8 +1682,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 199,
-    "er_support": 265,
+    "conf_support": 19.9,
+    "er_support": 26.5,
     "gspan_support": 18
   },
   {
@@ -1788,8 +1788,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 199,
-    "er_support": 243,
+    "conf_support": 19.9,
+    "er_support": 24.3,
     "gspan_support": 18
   },
   {
@@ -1899,8 +1899,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 197,
-    "er_support": 184,
+    "conf_support": 19.7,
+    "er_support": 18.4,
     "gspan_support": 18
   },
   {
@@ -1995,8 +1995,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 200,
-    "er_support": 274,
+    "conf_support": 20.0,
+    "er_support": 27.4,
     "gspan_support": 18
   },
   {
@@ -2086,8 +2086,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 204,
-    "er_support": 283,
+    "conf_support": 20.4,
+    "er_support": 28.3,
     "gspan_support": 18
   },
   {
@@ -2182,8 +2182,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 196,
-    "er_support": 277,
+    "conf_support": 19.6,
+    "er_support": 27.7,
     "gspan_support": 18
   },
   {
@@ -2283,8 +2283,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 195,
-    "er_support": 268,
+    "conf_support": 19.5,
+    "er_support": 26.8,
     "gspan_support": 18
   },
   {
@@ -2389,8 +2389,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 194,
-    "er_support": 248,
+    "conf_support": 19.4,
+    "er_support": 24.8,
     "gspan_support": 18
   },
   {
@@ -2485,8 +2485,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 202,
-    "er_support": 275,
+    "conf_support": 20.2,
+    "er_support": 27.5,
     "gspan_support": 18
   },
   {
@@ -2586,8 +2586,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 201,
-    "er_support": 250,
+    "conf_support": 20.1,
+    "er_support": 25.0,
     "gspan_support": 18
   },
   {
@@ -2692,8 +2692,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 197,
-    "er_support": 191,
+    "conf_support": 19.7,
+    "er_support": 19.1,
     "gspan_support": 18
   },
   {
@@ -2793,8 +2793,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 199,
-    "er_support": 268,
+    "conf_support": 19.9,
+    "er_support": 26.8,
     "gspan_support": 18
   },
   {
@@ -2899,8 +2899,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 197,
-    "er_support": 249,
+    "conf_support": 19.7,
+    "er_support": 24.9,
     "gspan_support": 18
   },
   {
@@ -3010,8 +3010,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 197,
-    "er_support": 224,
+    "conf_support": 19.7,
+    "er_support": 22.4,
     "gspan_support": 18
   },
   {
@@ -3126,8 +3126,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 196,
-    "er_support": 168,
+    "conf_support": 19.6,
+    "er_support": 16.8,
     "gspan_support": 18
   },
   {
@@ -3222,8 +3222,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 201,
-    "er_support": 280,
+    "conf_support": 20.1,
+    "er_support": 28.0,
     "gspan_support": 18
   },
   {
@@ -3323,8 +3323,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 199,
-    "er_support": 268,
+    "conf_support": 19.9,
+    "er_support": 26.8,
     "gspan_support": 18
   },
   {
@@ -3429,8 +3429,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 199,
-    "er_support": 245,
+    "conf_support": 19.9,
+    "er_support": 24.5,
     "gspan_support": 18
   },
   {
@@ -3540,8 +3540,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 198,
-    "er_support": 184,
+    "conf_support": 19.8,
+    "er_support": 18.4,
     "gspan_support": 18
   },
   {
@@ -3632,8 +3632,8 @@
       "palestine"
     ],
     "graph_support": 21,
-    "conf_support": 219,
-    "er_support": 288,
+    "conf_support": 21.9,
+    "er_support": 28.8,
     "gspan_support": 20
   },
   {
@@ -3723,8 +3723,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 213,
-    "er_support": 275,
+    "conf_support": 21.3,
+    "er_support": 27.5,
     "gspan_support": 18
   },
   {
@@ -3819,8 +3819,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 209,
-    "er_support": 251,
+    "conf_support": 20.9,
+    "er_support": 25.1,
     "gspan_support": 18
   },
   {
@@ -3920,8 +3920,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 202,
-    "er_support": 191,
+    "conf_support": 20.2,
+    "er_support": 19.1,
     "gspan_support": 18
   },
   {
@@ -4021,8 +4021,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 205,
-    "er_support": 246,
+    "conf_support": 20.5,
+    "er_support": 24.6,
     "gspan_support": 18
   },
   {
@@ -4117,8 +4117,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 210,
-    "er_support": 270,
+    "conf_support": 21.0,
+    "er_support": 27.0,
     "gspan_support": 18
   },
   {
@@ -4218,8 +4218,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 204,
-    "er_support": 249,
+    "conf_support": 20.4,
+    "er_support": 24.9,
     "gspan_support": 18
   },
   {
@@ -4324,8 +4324,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 202,
-    "er_support": 225,
+    "conf_support": 20.2,
+    "er_support": 22.5,
     "gspan_support": 18
   },
   {
@@ -4435,8 +4435,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 201,
-    "er_support": 168,
+    "conf_support": 20.1,
+    "er_support": 16.8,
     "gspan_support": 18
   },
   {
@@ -4531,8 +4531,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 204,
-    "er_support": 265,
+    "conf_support": 20.4,
+    "er_support": 26.5,
     "gspan_support": 18
   },
   {
@@ -4632,8 +4632,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 192,
-    "er_support": 238,
+    "conf_support": 19.2,
+    "er_support": 23.8,
     "gspan_support": 18
   },
   {
@@ -4727,8 +4727,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 211,
-    "er_support": 280,
+    "conf_support": 21.1,
+    "er_support": 28.0,
     "gspan_support": 19
   },
   {
@@ -4822,8 +4822,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 216,
-    "er_support": 283,
+    "conf_support": 21.6,
+    "er_support": 28.3,
     "gspan_support": 19
   },
   {
@@ -4918,8 +4918,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 205,
-    "er_support": 281,
+    "conf_support": 20.5,
+    "er_support": 28.1,
     "gspan_support": 18
   },
   {
@@ -5019,8 +5019,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 195,
-    "er_support": 270,
+    "conf_support": 19.5,
+    "er_support": 27.0,
     "gspan_support": 18
   },
   {
@@ -5125,8 +5125,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 195,
-    "er_support": 261,
+    "conf_support": 19.5,
+    "er_support": 26.1,
     "gspan_support": 18
   },
   {
@@ -5236,8 +5236,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 195,
-    "er_support": 236,
+    "conf_support": 19.5,
+    "er_support": 23.6,
     "gspan_support": 18
   },
   {
@@ -5337,8 +5337,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 202,
-    "er_support": 268,
+    "conf_support": 20.2,
+    "er_support": 26.8,
     "gspan_support": 18
   },
   {
@@ -5443,8 +5443,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 202,
-    "er_support": 244,
+    "conf_support": 20.2,
+    "er_support": 24.4,
     "gspan_support": 18
   },
   {
@@ -5541,8 +5541,8 @@
       "palestine"
     ],
     "graph_support": 19,
-    "conf_support": 209,
-    "er_support": 270,
+    "conf_support": 20.9,
+    "er_support": 27.0,
     "gspan_support": 19
   },
   {
@@ -5644,8 +5644,8 @@
       "palestine"
     ],
     "graph_support": 19,
-    "conf_support": 205,
-    "er_support": 246,
+    "conf_support": 20.5,
+    "er_support": 24.6,
     "gspan_support": 19
   },
   {
@@ -5750,8 +5750,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 203,
-    "er_support": 184,
+    "conf_support": 20.3,
+    "er_support": 18.4,
     "gspan_support": 18
   },
   {
@@ -5846,8 +5846,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 213,
-    "er_support": 274,
+    "conf_support": 21.3,
+    "er_support": 27.4,
     "gspan_support": 18
   },
   {
@@ -5939,8 +5939,8 @@
       "palestine"
     ],
     "graph_support": 19,
-    "conf_support": 217,
-    "er_support": 278,
+    "conf_support": 21.7,
+    "er_support": 27.8,
     "gspan_support": 19
   },
   {
@@ -6030,8 +6030,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 207,
-    "er_support": 275,
+    "conf_support": 20.7,
+    "er_support": 27.5,
     "gspan_support": 18
   },
   {
@@ -6122,8 +6122,8 @@
       "palestine"
     ],
     "graph_support": 21,
-    "conf_support": 222,
-    "er_support": 287,
+    "conf_support": 22.2,
+    "er_support": 28.7,
     "gspan_support": 21
   },
   {
@@ -6217,8 +6217,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 211,
-    "er_support": 284,
+    "conf_support": 21.1,
+    "er_support": 28.4,
     "gspan_support": 18
   },
   {
@@ -6317,8 +6317,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 208,
-    "er_support": 272,
+    "conf_support": 20.8,
+    "er_support": 27.2,
     "gspan_support": 18
   },
   {
@@ -6422,8 +6422,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 207,
-    "er_support": 249,
+    "conf_support": 20.7,
+    "er_support": 24.9,
     "gspan_support": 18
   },
   {
@@ -6517,8 +6517,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 221,
-    "er_support": 279,
+    "conf_support": 22.1,
+    "er_support": 27.9,
     "gspan_support": 19
   },
   {
@@ -6617,8 +6617,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 219,
-    "er_support": 251,
+    "conf_support": 21.9,
+    "er_support": 25.1,
     "gspan_support": 19
   },
   {
@@ -6722,8 +6722,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 216,
-    "er_support": 192,
+    "conf_support": 21.6,
+    "er_support": 19.2,
     "gspan_support": 18
   },
   {
@@ -6815,8 +6815,8 @@
       "palestine"
     ],
     "graph_support": 19,
-    "conf_support": 217,
-    "er_support": 280,
+    "conf_support": 21.7,
+    "er_support": 28.0,
     "gspan_support": 19
   },
   {
@@ -6913,8 +6913,8 @@
       "palestine"
     ],
     "graph_support": 19,
-    "conf_support": 205,
-    "er_support": 278,
+    "conf_support": 20.5,
+    "er_support": 27.8,
     "gspan_support": 19
   },
   {
@@ -7014,8 +7014,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 194,
-    "er_support": 268,
+    "conf_support": 19.4,
+    "er_support": 26.8,
     "gspan_support": 18
   },
   {
@@ -7120,8 +7120,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 194,
-    "er_support": 261,
+    "conf_support": 19.4,
+    "er_support": 26.1,
     "gspan_support": 18
   },
   {
@@ -7231,8 +7231,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 194,
-    "er_support": 237,
+    "conf_support": 19.4,
+    "er_support": 23.7,
     "gspan_support": 18
   },
   {
@@ -7334,8 +7334,8 @@
       "palestine"
     ],
     "graph_support": 19,
-    "conf_support": 202,
-    "er_support": 265,
+    "conf_support": 20.2,
+    "er_support": 26.5,
     "gspan_support": 19
   },
   {
@@ -7440,8 +7440,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 195,
-    "er_support": 249,
+    "conf_support": 19.5,
+    "er_support": 24.9,
     "gspan_support": 18
   },
   {
@@ -7551,8 +7551,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 194,
-    "er_support": 236,
+    "conf_support": 19.4,
+    "er_support": 23.6,
     "gspan_support": 18
   },
   {
@@ -7659,8 +7659,8 @@
       "palestine"
     ],
     "graph_support": 19,
-    "conf_support": 202,
-    "er_support": 245,
+    "conf_support": 20.2,
+    "er_support": 24.5,
     "gspan_support": 19
   },
   {
@@ -7770,8 +7770,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 200,
-    "er_support": 187,
+    "conf_support": 20.0,
+    "er_support": 18.7,
     "gspan_support": 18
   },
   {
@@ -7868,8 +7868,8 @@
       "palestine"
     ],
     "graph_support": 19,
-    "conf_support": 211,
-    "er_support": 268,
+    "conf_support": 21.1,
+    "er_support": 26.8,
     "gspan_support": 19
   },
   {
@@ -7971,8 +7971,8 @@
       "palestine"
     ],
     "graph_support": 19,
-    "conf_support": 206,
-    "er_support": 246,
+    "conf_support": 20.6,
+    "er_support": 24.6,
     "gspan_support": 19
   },
   {
@@ -8079,8 +8079,8 @@
       "palestine"
     ],
     "graph_support": 19,
-    "conf_support": 203,
-    "er_support": 189,
+    "conf_support": 20.3,
+    "er_support": 18.9,
     "gspan_support": 19
   },
   {
@@ -8174,8 +8174,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 212,
-    "er_support": 281,
+    "conf_support": 21.2,
+    "er_support": 28.1,
     "gspan_support": 20
   },
   {
@@ -8264,8 +8264,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 219,
-    "er_support": 285,
+    "conf_support": 21.9,
+    "er_support": 28.5,
     "gspan_support": 20
   },
   {
@@ -8357,8 +8357,8 @@
       "palestine"
     ],
     "graph_support": 19,
-    "conf_support": 207,
-    "er_support": 283,
+    "conf_support": 20.7,
+    "er_support": 28.3,
     "gspan_support": 19
   },
   {
@@ -8453,8 +8453,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 195,
-    "er_support": 272,
+    "conf_support": 19.5,
+    "er_support": 27.2,
     "gspan_support": 18
   },
   {
@@ -8554,8 +8554,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 195,
-    "er_support": 265,
+    "conf_support": 19.5,
+    "er_support": 26.5,
     "gspan_support": 18
   },
   {
@@ -8660,8 +8660,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 195,
-    "er_support": 241,
+    "conf_support": 19.5,
+    "er_support": 24.1,
     "gspan_support": 18
   },
   {
@@ -8756,8 +8756,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 200,
-    "er_support": 270,
+    "conf_support": 20.0,
+    "er_support": 27.0,
     "gspan_support": 18
   },
   {
@@ -8857,8 +8857,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 200,
-    "er_support": 261,
+    "conf_support": 20.0,
+    "er_support": 26.1,
     "gspan_support": 18
   },
   {
@@ -8963,8 +8963,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 200,
-    "er_support": 239,
+    "conf_support": 20.0,
+    "er_support": 23.9,
     "gspan_support": 18
   },
   {
@@ -9061,8 +9061,8 @@
       "palestine"
     ],
     "graph_support": 19,
-    "conf_support": 204,
-    "er_support": 272,
+    "conf_support": 20.4,
+    "er_support": 27.2,
     "gspan_support": 19
   },
   {
@@ -9162,8 +9162,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 197,
-    "er_support": 252,
+    "conf_support": 19.7,
+    "er_support": 25.2,
     "gspan_support": 18
   },
   {
@@ -9268,8 +9268,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 196,
-    "er_support": 238,
+    "conf_support": 19.6,
+    "er_support": 23.8,
     "gspan_support": 18
   },
   {
@@ -9371,8 +9371,8 @@
       "palestine"
     ],
     "graph_support": 19,
-    "conf_support": 204,
-    "er_support": 248,
+    "conf_support": 20.4,
+    "er_support": 24.8,
     "gspan_support": 19
   },
   {
@@ -9477,8 +9477,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 202,
-    "er_support": 188,
+    "conf_support": 20.2,
+    "er_support": 18.8,
     "gspan_support": 18
   },
   {
@@ -9572,8 +9572,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 213,
-    "er_support": 275,
+    "conf_support": 21.3,
+    "er_support": 27.5,
     "gspan_support": 20
   },
   {
@@ -9672,8 +9672,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 208,
-    "er_support": 249,
+    "conf_support": 20.8,
+    "er_support": 24.9,
     "gspan_support": 20
   },
   {
@@ -9775,8 +9775,8 @@
       "palestine"
     ],
     "graph_support": 19,
-    "conf_support": 205,
-    "er_support": 191,
+    "conf_support": 20.5,
+    "er_support": 19.1,
     "gspan_support": 19
   },
   {
@@ -9868,8 +9868,8 @@
       "palestine"
     ],
     "graph_support": 24,
-    "conf_support": 233,
-    "er_support": 293,
+    "conf_support": 23.3,
+    "er_support": 29.3,
     "gspan_support": 23
   },
   {
@@ -9960,8 +9960,8 @@
       "palestine"
     ],
     "graph_support": 21,
-    "conf_support": 226,
-    "er_support": 281,
+    "conf_support": 22.6,
+    "er_support": 28.1,
     "gspan_support": 20
   },
   {
@@ -10057,8 +10057,8 @@
       "palestine"
     ],
     "graph_support": 21,
-    "conf_support": 224,
-    "er_support": 252,
+    "conf_support": 22.4,
+    "er_support": 25.2,
     "gspan_support": 20
   },
   {
@@ -10159,8 +10159,8 @@
       "palestine"
     ],
     "graph_support": 21,
-    "conf_support": 222,
-    "er_support": 192,
+    "conf_support": 22.2,
+    "er_support": 19.2,
     "gspan_support": 18
   },
   {
@@ -10261,8 +10261,8 @@
       "palestine"
     ],
     "graph_support": 21,
-    "conf_support": 216,
-    "er_support": 248,
+    "conf_support": 21.6,
+    "er_support": 24.8,
     "gspan_support": 18
   },
   {
@@ -10361,8 +10361,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 215,
-    "er_support": 246,
+    "conf_support": 21.5,
+    "er_support": 24.6,
     "gspan_support": 19
   },
   {
@@ -10458,8 +10458,8 @@
       "palestine"
     ],
     "graph_support": 21,
-    "conf_support": 219,
-    "er_support": 274,
+    "conf_support": 21.9,
+    "er_support": 27.4,
     "gspan_support": 18
   },
   {
@@ -10553,8 +10553,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 218,
-    "er_support": 270,
+    "conf_support": 21.8,
+    "er_support": 27.0,
     "gspan_support": 19
   },
   {
@@ -10645,8 +10645,8 @@
       "palestine"
     ],
     "graph_support": 21,
-    "conf_support": 230,
-    "er_support": 282,
+    "conf_support": 23.0,
+    "er_support": 28.2,
     "gspan_support": 20
   },
   {
@@ -10742,8 +10742,8 @@
       "palestine"
     ],
     "graph_support": 21,
-    "conf_support": 218,
-    "er_support": 278,
+    "conf_support": 21.8,
+    "er_support": 27.8,
     "gspan_support": 20
   },
   {
@@ -10844,8 +10844,8 @@
       "palestine"
     ],
     "graph_support": 21,
-    "conf_support": 214,
-    "er_support": 267,
+    "conf_support": 21.4,
+    "er_support": 26.7,
     "gspan_support": 20
   },
   {
@@ -10947,8 +10947,8 @@
       "palestine"
     ],
     "graph_support": 19,
-    "conf_support": 202,
-    "er_support": 249,
+    "conf_support": 20.2,
+    "er_support": 24.9,
     "gspan_support": 19
   },
   {
@@ -11055,8 +11055,8 @@
       "palestine"
     ],
     "graph_support": 19,
-    "conf_support": 201,
-    "er_support": 236,
+    "conf_support": 20.1,
+    "er_support": 23.6,
     "gspan_support": 19
   },
   {
@@ -11166,8 +11166,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 201,
-    "er_support": 177,
+    "conf_support": 20.1,
+    "er_support": 17.7,
     "gspan_support": 18
   },
   {
@@ -11279,8 +11279,8 @@
       "palestine"
     ],
     "graph_support": 19,
-    "conf_support": 200,
-    "er_support": 228,
+    "conf_support": 20.0,
+    "er_support": 22.8,
     "gspan_support": 18
   },
   {
@@ -11387,8 +11387,8 @@
       "palestine"
     ],
     "graph_support": 19,
-    "conf_support": 201,
-    "er_support": 243,
+    "conf_support": 20.1,
+    "er_support": 24.3,
     "gspan_support": 18
   },
   {
@@ -11494,8 +11494,8 @@
       "palestine"
     ],
     "graph_support": 21,
-    "conf_support": 211,
-    "er_support": 245,
+    "conf_support": 21.1,
+    "er_support": 24.5,
     "gspan_support": 20
   },
   {
@@ -11604,8 +11604,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 208,
-    "er_support": 187,
+    "conf_support": 20.8,
+    "er_support": 18.7,
     "gspan_support": 19
   },
   {
@@ -11714,8 +11714,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 209,
-    "er_support": 237,
+    "conf_support": 20.9,
+    "er_support": 23.7,
     "gspan_support": 18
   },
   {
@@ -11819,8 +11819,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 210,
-    "er_support": 260,
+    "conf_support": 21.0,
+    "er_support": 26.0,
     "gspan_support": 18
   },
   {
@@ -11919,8 +11919,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 213,
-    "er_support": 272,
+    "conf_support": 21.3,
+    "er_support": 27.2,
     "gspan_support": 19
   },
   {
@@ -12016,8 +12016,8 @@
       "palestine"
     ],
     "graph_support": 21,
-    "conf_support": 227,
-    "er_support": 272,
+    "conf_support": 22.7,
+    "er_support": 27.2,
     "gspan_support": 20
   },
   {
@@ -12118,8 +12118,8 @@
       "palestine"
     ],
     "graph_support": 21,
-    "conf_support": 220,
-    "er_support": 247,
+    "conf_support": 22.0,
+    "er_support": 24.7,
     "gspan_support": 20
   },
   {
@@ -12225,8 +12225,8 @@
       "palestine"
     ],
     "graph_support": 21,
-    "conf_support": 216,
-    "er_support": 190,
+    "conf_support": 21.6,
+    "er_support": 19.0,
     "gspan_support": 20
   },
   {
@@ -12325,8 +12325,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 217,
-    "er_support": 265,
+    "conf_support": 21.7,
+    "er_support": 26.5,
     "gspan_support": 18
   },
   {
@@ -12420,8 +12420,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 219,
-    "er_support": 275,
+    "conf_support": 21.9,
+    "er_support": 27.5,
     "gspan_support": 19
   },
   {
@@ -12516,8 +12516,8 @@
       "palestine"
     ],
     "graph_support": 23,
-    "conf_support": 229,
-    "er_support": 288,
+    "conf_support": 22.9,
+    "er_support": 28.8,
     "gspan_support": 22
   },
   {
@@ -12613,8 +12613,8 @@
       "palestine"
     ],
     "graph_support": 21,
-    "conf_support": 216,
-    "er_support": 284,
+    "conf_support": 21.6,
+    "er_support": 28.4,
     "gspan_support": 18
   },
   {
@@ -12714,8 +12714,8 @@
       "palestine"
     ],
     "graph_support": 23,
-    "conf_support": 225,
-    "er_support": 275,
+    "conf_support": 22.5,
+    "er_support": 27.5,
     "gspan_support": 19
   },
   {
@@ -12820,8 +12820,8 @@
       "palestine"
     ],
     "graph_support": 23,
-    "conf_support": 222,
-    "er_support": 249,
+    "conf_support": 22.2,
+    "er_support": 24.9,
     "gspan_support": 19
   },
   {
@@ -12929,8 +12929,8 @@
       "palestine"
     ],
     "graph_support": 22,
-    "conf_support": 219,
-    "er_support": 185,
+    "conf_support": 21.9,
+    "er_support": 18.5,
     "gspan_support": 18
   },
   {
@@ -13019,8 +13019,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 220,
-    "er_support": 278,
+    "conf_support": 22.0,
+    "er_support": 27.8,
     "gspan_support": 19
   },
   {
@@ -13112,8 +13112,8 @@
       "palestine"
     ],
     "graph_support": 24,
-    "conf_support": 235,
-    "er_support": 295,
+    "conf_support": 23.5,
+    "er_support": 29.5,
     "gspan_support": 23
   },
   {
@@ -13204,8 +13204,8 @@
       "palestine"
     ],
     "graph_support": 21,
-    "conf_support": 223,
-    "er_support": 288,
+    "conf_support": 22.3,
+    "er_support": 28.8,
     "gspan_support": 20
   },
   {
@@ -13301,8 +13301,8 @@
       "palestine"
     ],
     "graph_support": 21,
-    "conf_support": 219,
-    "er_support": 275,
+    "conf_support": 21.9,
+    "er_support": 27.5,
     "gspan_support": 20
   },
   {
@@ -13399,8 +13399,8 @@
       "palestine"
     ],
     "graph_support": 19,
-    "conf_support": 203,
-    "er_support": 255,
+    "conf_support": 20.3,
+    "er_support": 25.5,
     "gspan_support": 19
   },
   {
@@ -13502,8 +13502,8 @@
       "palestine"
     ],
     "graph_support": 19,
-    "conf_support": 202,
-    "er_support": 240,
+    "conf_support": 20.2,
+    "er_support": 24.0,
     "gspan_support": 19
   },
   {
@@ -13608,8 +13608,8 @@
       "palestine"
     ],
     "graph_support": 18,
-    "conf_support": 202,
-    "er_support": 179,
+    "conf_support": 20.2,
+    "er_support": 17.9,
     "gspan_support": 18
   },
   {
@@ -13710,8 +13710,8 @@
       "palestine"
     ],
     "graph_support": 21,
-    "conf_support": 217,
-    "er_support": 250,
+    "conf_support": 21.7,
+    "er_support": 25.0,
     "gspan_support": 20
   },
   {
@@ -13815,8 +13815,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 215,
-    "er_support": 189,
+    "conf_support": 21.5,
+    "er_support": 18.9,
     "gspan_support": 19
   },
   {
@@ -13915,8 +13915,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 215,
-    "er_support": 268,
+    "conf_support": 21.5,
+    "er_support": 26.8,
     "gspan_support": 18
   },
   {
@@ -14010,8 +14010,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 219,
-    "er_support": 280,
+    "conf_support": 21.9,
+    "er_support": 28.0,
     "gspan_support": 19
   },
   {
@@ -14106,8 +14106,8 @@
       "palestine"
     ],
     "graph_support": 23,
-    "conf_support": 233,
-    "er_support": 283,
+    "conf_support": 23.3,
+    "er_support": 28.3,
     "gspan_support": 22
   },
   {
@@ -14207,8 +14207,8 @@
       "palestine"
     ],
     "graph_support": 23,
-    "conf_support": 229,
-    "er_support": 253,
+    "conf_support": 22.9,
+    "er_support": 25.3,
     "gspan_support": 22
   },
   {
@@ -14311,8 +14311,8 @@
       "palestine"
     ],
     "graph_support": 22,
-    "conf_support": 226,
-    "er_support": 192,
+    "conf_support": 22.6,
+    "er_support": 19.2,
     "gspan_support": 21
   },
   {
@@ -14414,8 +14414,8 @@
       "palestine"
     ],
     "graph_support": 19,
-    "conf_support": 220,
-    "er_support": 93,
+    "conf_support": 22.0,
+    "er_support": 9.3,
     "gspan_support": 18
   },
   {
@@ -14522,8 +14522,8 @@
       "palestine"
     ],
     "graph_support": 19,
-    "conf_support": 218,
-    "er_support": 27,
+    "conf_support": 21.8,
+    "er_support": 2.7,
     "gspan_support": 18
   },
   {
@@ -14612,8 +14612,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 228,
-    "er_support": 282,
+    "conf_support": 22.8,
+    "er_support": 28.2,
     "gspan_support": 19
   },
   {
@@ -14700,8 +14700,8 @@
       "palestine"
     ],
     "graph_support": 24,
-    "conf_support": 246,
-    "er_support": 297,
+    "conf_support": 24.6,
+    "er_support": 29.7,
     "gspan_support": 24
   },
   {
@@ -14791,8 +14791,8 @@
       "palestine"
     ],
     "graph_support": 23,
-    "conf_support": 244,
-    "er_support": 285,
+    "conf_support": 24.4,
+    "er_support": 28.5,
     "gspan_support": 23
   },
   {
@@ -14887,8 +14887,8 @@
       "palestine"
     ],
     "graph_support": 23,
-    "conf_support": 240,
-    "er_support": 256,
+    "conf_support": 24.0,
+    "er_support": 25.6,
     "gspan_support": 23
   },
   {
@@ -14986,8 +14986,8 @@
       "palestine"
     ],
     "graph_support": 22,
-    "conf_support": 238,
-    "er_support": 192,
+    "conf_support": 23.8,
+    "er_support": 19.2,
     "gspan_support": 22
   },
   {
@@ -15086,8 +15086,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 231,
-    "er_support": 93,
+    "conf_support": 23.1,
+    "er_support": 9.3,
     "gspan_support": 20
   },
   {
@@ -15191,8 +15191,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 228,
-    "er_support": 27,
+    "conf_support": 22.8,
+    "er_support": 2.7,
     "gspan_support": 20
   },
   {
@@ -15301,8 +15301,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 214,
-    "er_support": 8,
+    "conf_support": 21.4,
+    "er_support": 0.8,
     "gspan_support": 18
   },
   {
@@ -15405,8 +15405,8 @@
       "palestine"
     ],
     "graph_support": 22,
-    "conf_support": 225,
-    "er_support": 185,
+    "conf_support": 22.5,
+    "er_support": 18.5,
     "gspan_support": 18
   },
   {
@@ -15506,8 +15506,8 @@
       "palestine"
     ],
     "graph_support": 23,
-    "conf_support": 227,
-    "er_support": 250,
+    "conf_support": 22.7,
+    "er_support": 25.0,
     "gspan_support": 20
   },
   {
@@ -15608,8 +15608,8 @@
       "palestine"
     ],
     "graph_support": 21,
-    "conf_support": 216,
-    "er_support": 225,
+    "conf_support": 21.6,
+    "er_support": 22.5,
     "gspan_support": 18
   },
   {
@@ -15704,8 +15704,8 @@
       "palestine"
     ],
     "graph_support": 23,
-    "conf_support": 230,
-    "er_support": 278,
+    "conf_support": 23.0,
+    "er_support": 27.8,
     "gspan_support": 21
   },
   {
@@ -15801,8 +15801,8 @@
       "palestine"
     ],
     "graph_support": 21,
-    "conf_support": 216,
-    "er_support": 249,
+    "conf_support": 21.6,
+    "er_support": 24.9,
     "gspan_support": 19
   },
   {
@@ -15890,8 +15890,8 @@
       "palestine"
     ],
     "graph_support": 22,
-    "conf_support": 243,
-    "er_support": 283,
+    "conf_support": 24.3,
+    "er_support": 28.3,
     "gspan_support": 21
   },
   {
@@ -15980,8 +15980,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 229,
-    "er_support": 279,
+    "conf_support": 22.9,
+    "er_support": 27.9,
     "gspan_support": 18
   },
   {
@@ -16071,8 +16071,8 @@
       "palestine"
     ],
     "graph_support": 23,
-    "conf_support": 234,
-    "er_support": 288,
+    "conf_support": 23.4,
+    "er_support": 28.8,
     "gspan_support": 23
   },
   {
@@ -16161,8 +16161,8 @@
       "palestine"
     ],
     "graph_support": 25,
-    "conf_support": 248,
-    "er_support": 296,
+    "conf_support": 24.8,
+    "er_support": 29.6,
     "gspan_support": 25
   },
   {
@@ -16248,8 +16248,8 @@
       "palestine"
     ],
     "graph_support": 21,
-    "conf_support": 225,
-    "er_support": 289,
+    "conf_support": 22.5,
+    "er_support": 28.9,
     "gspan_support": 19
   },
   {
@@ -16340,8 +16340,8 @@
       "palestine"
     ],
     "graph_support": 21,
-    "conf_support": 221,
-    "er_support": 278,
+    "conf_support": 22.1,
+    "er_support": 27.8,
     "gspan_support": 19
   },
   {
@@ -16433,8 +16433,8 @@
       "palestine"
     ],
     "graph_support": 19,
-    "conf_support": 203,
-    "er_support": 255,
+    "conf_support": 20.3,
+    "er_support": 25.5,
     "gspan_support": 18
   },
   {
@@ -16531,8 +16531,8 @@
       "palestine"
     ],
     "graph_support": 19,
-    "conf_support": 202,
-    "er_support": 240,
+    "conf_support": 20.2,
+    "er_support": 24.0,
     "gspan_support": 18
   },
   {
@@ -16628,8 +16628,8 @@
       "palestine"
     ],
     "graph_support": 21,
-    "conf_support": 219,
-    "er_support": 251,
+    "conf_support": 21.9,
+    "er_support": 25.1,
     "gspan_support": 19
   },
   {
@@ -16728,8 +16728,8 @@
       "palestine"
     ],
     "graph_support": 20,
-    "conf_support": 217,
-    "er_support": 189,
+    "conf_support": 21.7,
+    "er_support": 18.9,
     "gspan_support": 18
   },
   {
@@ -16821,8 +16821,8 @@
       "palestine"
     ],
     "graph_support": 24,
-    "conf_support": 246,
-    "er_support": 286,
+    "conf_support": 24.6,
+    "er_support": 28.6,
     "gspan_support": 22
   },
   {
@@ -16919,8 +16919,8 @@
       "palestine"
     ],
     "graph_support": 24,
-    "conf_support": 244,
-    "er_support": 254,
+    "conf_support": 24.4,
+    "er_support": 25.4,
     "gspan_support": 22
   },
   {
@@ -17018,8 +17018,8 @@
       "palestine"
     ],
     "graph_support": 22,
-    "conf_support": 242,
-    "er_support": 192,
+    "conf_support": 24.2,
+    "er_support": 19.2,
     "gspan_support": 20
   },
   {
@@ -17103,8 +17103,8 @@
       "palestine"
     ],
     "graph_support": 25,
-    "conf_support": 265,
-    "er_support": 298,
+    "conf_support": 26.5,
+    "er_support": 29.8,
     "gspan_support": 25
   },
   {
@@ -17191,8 +17191,8 @@
       "palestine"
     ],
     "graph_support": 24,
-    "conf_support": 255,
-    "er_support": 287,
+    "conf_support": 25.5,
+    "er_support": 28.7,
     "gspan_support": 23
   },
   {
@@ -17284,8 +17284,8 @@
       "palestine"
     ],
     "graph_support": 24,
-    "conf_support": 255,
-    "er_support": 257,
+    "conf_support": 25.5,
+    "er_support": 25.7,
     "gspan_support": 23
   },
   {
@@ -17380,8 +17380,8 @@
       "palestine"
     ],
     "graph_support": 23,
-    "conf_support": 254,
-    "er_support": 192,
+    "conf_support": 25.4,
+    "er_support": 19.2,
     "gspan_support": 22
   },
   {
@@ -17477,8 +17477,8 @@
       "palestine"
     ],
     "graph_support": 21,
-    "conf_support": 244,
-    "er_support": 93,
+    "conf_support": 24.4,
+    "er_support": 9.3,
     "gspan_support": 20
   },
   {
@@ -17579,8 +17579,8 @@
       "palestine"
     ],
     "graph_support": 21,
-    "conf_support": 238,
-    "er_support": 27,
+    "conf_support": 23.8,
+    "er_support": 2.7,
     "gspan_support": 20
   },
   {
@@ -17666,8 +17666,8 @@
       "palestine"
     ],
     "graph_support": 21,
-    "conf_support": 244,
-    "er_support": 276,
+    "conf_support": 24.4,
+    "er_support": 27.6,
     "gspan_support": 18
   },
   {
@@ -17750,8 +17750,8 @@
       "palestine"
     ],
     "graph_support": 22,
-    "conf_support": 245,
-    "er_support": 283,
+    "conf_support": 24.5,
+    "er_support": 28.3,
     "gspan_support": 22
   },
   {
@@ -17836,8 +17836,8 @@
       "palestine"
     ],
     "graph_support": 28,
-    "conf_support": 280,
-    "er_support": 300,
+    "conf_support": 28.0,
+    "er_support": 30.0,
     "gspan_support": 28
   },
   {
@@ -17925,8 +17925,8 @@
       "palestine"
     ],
     "graph_support": 27,
-    "conf_support": 270,
-    "er_support": 288,
+    "conf_support": 27.0,
+    "er_support": 28.8,
     "gspan_support": 27
   },
   {
@@ -18019,8 +18019,8 @@
       "palestine"
     ],
     "graph_support": 27,
-    "conf_support": 270,
-    "er_support": 257,
+    "conf_support": 27.0,
+    "er_support": 25.7,
     "gspan_support": 27
   },
   {
@@ -18116,8 +18116,8 @@
       "palestine"
     ],
     "graph_support": 26,
-    "conf_support": 260,
-    "er_support": 192,
+    "conf_support": 26.0,
+    "er_support": 19.2,
     "gspan_support": 26
   },
   {
@@ -18216,8 +18216,8 @@
       "palestine"
     ],
     "graph_support": 25,
-    "conf_support": 250,
-    "er_support": 93,
+    "conf_support": 25.0,
+    "er_support": 9.3,
     "gspan_support": 25
   },
   {
@@ -18319,8 +18319,8 @@
       "palestine"
     ],
     "graph_support": 24,
-    "conf_support": 238,
-    "er_support": 27,
+    "conf_support": 23.8,
+    "er_support": 2.7,
     "gspan_support": 24
   },
   {
@@ -18423,8 +18423,8 @@
       "palestine"
     ],
     "graph_support": 22,
-    "conf_support": 220,
-    "er_support": 8,
+    "conf_support": 22.0,
+    "er_support": 0.8,
     "gspan_support": 21
   },
   {
@@ -18530,8 +18530,8 @@
       "palestine"
     ],
     "graph_support": 21,
-    "conf_support": 210,
-    "er_support": 1,
+    "conf_support": 21.0,
+    "er_support": 0.1,
     "gspan_support": 18
   }
 ]

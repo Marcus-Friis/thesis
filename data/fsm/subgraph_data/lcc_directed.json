@@ -43,8 +43,8 @@
       "anime"
     ],
     "graph_support": 5,
-    "conf_support": 33,
-    "er_support": 2,
+    "conf_support": 3.3,
+    "er_support": 0.2,
     "gspan_support": 5
   },
   {
@@ -87,8 +87,8 @@
       "anime"
     ],
     "graph_support": 3,
-    "conf_support": 14,
-    "er_support": 2,
+    "conf_support": 1.4,
+    "er_support": 0.2,
     "gspan_support": 3
   },
   {
@@ -133,8 +133,8 @@
       "anime"
     ],
     "graph_support": 4,
-    "conf_support": 19,
-    "er_support": 2,
+    "conf_support": 1.9,
+    "er_support": 0.2,
     "gspan_support": 4
   },
   {
@@ -177,8 +177,8 @@
       "anime"
     ],
     "graph_support": 5,
-    "conf_support": 88,
-    "er_support": 114,
+    "conf_support": 8.8,
+    "er_support": 11.4,
     "gspan_support": 5
   },
   {
@@ -255,8 +255,8 @@
       "palestine"
     ],
     "graph_support": 24,
-    "conf_support": 224,
-    "er_support": 231,
+    "conf_support": 22.4,
+    "er_support": 23.1,
     "gspan_support": 24
   },
   {
@@ -295,8 +295,8 @@
       "anime"
     ],
     "graph_support": 3,
-    "conf_support": 7,
-    "er_support": 75,
+    "conf_support": 0.7,
+    "er_support": 7.5,
     "gspan_support": 3
   },
   {
@@ -335,8 +335,8 @@
       "anime"
     ],
     "graph_support": 3,
-    "conf_support": 7,
-    "er_support": 80,
+    "conf_support": 0.7,
+    "er_support": 8.0,
     "gspan_support": 3
   },
   {
@@ -375,8 +375,8 @@
       "anime"
     ],
     "graph_support": 3,
-    "conf_support": 7,
-    "er_support": 89,
+    "conf_support": 0.7,
+    "er_support": 8.9,
     "gspan_support": 3
   },
   {
@@ -415,8 +415,8 @@
       "anime"
     ],
     "graph_support": 3,
-    "conf_support": 7,
-    "er_support": 87,
+    "conf_support": 0.7,
+    "er_support": 8.7,
     "gspan_support": 3
   },
   {
@@ -450,8 +450,8 @@
       "anime"
     ],
     "graph_support": 3,
-    "conf_support": 7,
-    "er_support": 104,
+    "conf_support": 0.7,
+    "er_support": 10.4,
     "gspan_support": 3
   },
   {
@@ -494,8 +494,8 @@
       "anime"
     ],
     "graph_support": 3,
-    "conf_support": 8,
-    "er_support": 6,
+    "conf_support": 0.8,
+    "er_support": 0.6,
     "gspan_support": 3
   },
   {
@@ -538,8 +538,8 @@
       "anime"
     ],
     "graph_support": 3,
-    "conf_support": 11,
-    "er_support": 3,
+    "conf_support": 1.1,
+    "er_support": 0.3,
     "gspan_support": 3
   },
   {
@@ -578,8 +578,8 @@
       "anime"
     ],
     "graph_support": 3,
-    "conf_support": 15,
-    "er_support": 124,
+    "conf_support": 1.5,
+    "er_support": 12.4,
     "gspan_support": 3
   },
   {
@@ -622,8 +622,8 @@
       "anime"
     ],
     "graph_support": 5,
-    "conf_support": 71,
-    "er_support": 117,
+    "conf_support": 7.1,
+    "er_support": 11.7,
     "gspan_support": 5
   },
   {
@@ -676,8 +676,8 @@
       "challenge"
     ],
     "graph_support": 12,
-    "conf_support": 109,
-    "er_support": 260,
+    "conf_support": 10.9,
+    "er_support": 26.0,
     "gspan_support": 12
   },
   {
@@ -722,8 +722,8 @@
       "anime"
     ],
     "graph_support": 4,
-    "conf_support": 38,
-    "er_support": 0,
+    "conf_support": 3.8,
+    "er_support": 0.0,
     "gspan_support": 4
   },
   {
@@ -766,8 +766,8 @@
       "anime"
     ],
     "graph_support": 5,
-    "conf_support": 80,
-    "er_support": 124,
+    "conf_support": 8.0,
+    "er_support": 12.4,
     "gspan_support": 5
   },
   {
@@ -806,8 +806,8 @@
       "anime"
     ],
     "graph_support": 3,
-    "conf_support": 27,
-    "er_support": 121,
+    "conf_support": 2.7,
+    "er_support": 12.1,
     "gspan_support": 3
   },
   {
@@ -850,8 +850,8 @@
       "anime"
     ],
     "graph_support": 5,
-    "conf_support": 86,
-    "er_support": 114,
+    "conf_support": 8.6,
+    "er_support": 11.4,
     "gspan_support": 5
   },
   {
@@ -889,8 +889,8 @@
       "anime"
     ],
     "graph_support": 5,
-    "conf_support": 91,
-    "er_support": 165,
+    "conf_support": 9.1,
+    "er_support": 16.5,
     "gspan_support": 5
   },
   {
@@ -929,8 +929,8 @@
       "anime"
     ],
     "graph_support": 3,
-    "conf_support": 7,
-    "er_support": 86,
+    "conf_support": 0.7,
+    "er_support": 8.6,
     "gspan_support": 3
   },
   {
@@ -971,8 +971,8 @@
       "anime"
     ],
     "graph_support": 4,
-    "conf_support": 26,
-    "er_support": 108,
+    "conf_support": 2.6,
+    "er_support": 10.8,
     "gspan_support": 4
   },
   {
@@ -1013,8 +1013,8 @@
       "anime"
     ],
     "graph_support": 4,
-    "conf_support": 28,
-    "er_support": 164,
+    "conf_support": 2.8,
+    "er_support": 16.4,
     "gspan_support": 4
   },
   {
@@ -1069,8 +1069,8 @@
       "football"
     ],
     "graph_support": 13,
-    "conf_support": 127,
-    "er_support": 273,
+    "conf_support": 12.7,
+    "er_support": 27.3,
     "gspan_support": 13
   },
   {
@@ -1133,8 +1133,8 @@
       "palestine"
     ],
     "graph_support": 15,
-    "conf_support": 180,
-    "er_support": 51,
+    "conf_support": 18.0,
+    "er_support": 5.1,
     "gspan_support": 15
   },
   {
@@ -1213,8 +1213,8 @@
       "palestine"
     ],
     "graph_support": 25,
-    "conf_support": 238,
-    "er_support": 271,
+    "conf_support": 23.8,
+    "er_support": 27.1,
     "gspan_support": 25
   },
   {
@@ -1292,8 +1292,8 @@
       "palestine"
     ],
     "graph_support": 27,
-    "conf_support": 261,
-    "er_support": 280,
+    "conf_support": 26.1,
+    "er_support": 28.0,
     "gspan_support": 27
   },
   {
@@ -1332,8 +1332,8 @@
       "anime"
     ],
     "graph_support": 3,
-    "conf_support": 7,
-    "er_support": 48,
+    "conf_support": 0.7,
+    "er_support": 4.8,
     "gspan_support": 3
   },
   {
@@ -1367,8 +1367,8 @@
       "anime"
     ],
     "graph_support": 3,
-    "conf_support": 7,
-    "er_support": 108,
+    "conf_support": 0.7,
+    "er_support": 10.8,
     "gspan_support": 3
   },
   {
@@ -1397,8 +1397,8 @@
       "anime"
     ],
     "graph_support": 3,
-    "conf_support": 7,
-    "er_support": 122,
+    "conf_support": 0.7,
+    "er_support": 12.2,
     "gspan_support": 3
   },
   {
@@ -1451,8 +1451,8 @@
       "football"
     ],
     "graph_support": 12,
-    "conf_support": 117,
-    "er_support": 259,
+    "conf_support": 11.7,
+    "er_support": 25.9,
     "gspan_support": 12
   },
   {
@@ -1493,8 +1493,8 @@
       "anime"
     ],
     "graph_support": 6,
-    "conf_support": 45,
-    "er_support": 273,
+    "conf_support": 4.5,
+    "er_support": 27.3,
     "gspan_support": 6
   },
   {
@@ -1549,8 +1549,8 @@
       "challenge"
     ],
     "graph_support": 13,
-    "conf_support": 126,
-    "er_support": 278,
+    "conf_support": 12.6,
+    "er_support": 27.8,
     "gspan_support": 13
   },
   {
@@ -1604,8 +1604,8 @@
       "challenge"
     ],
     "graph_support": 15,
-    "conf_support": 142,
-    "er_support": 289,
+    "conf_support": 14.2,
+    "er_support": 28.9,
     "gspan_support": 15
   },
   {
@@ -1680,8 +1680,8 @@
       "palestine"
     ],
     "graph_support": 23,
-    "conf_support": 229,
-    "er_support": 231,
+    "conf_support": 22.9,
+    "er_support": 23.1,
     "gspan_support": 23
   },
   {
@@ -1759,8 +1759,8 @@
       "palestine"
     ],
     "graph_support": 27,
-    "conf_support": 264,
-    "er_support": 284,
+    "conf_support": 26.4,
+    "er_support": 28.4,
     "gspan_support": 27
   },
   {
@@ -1839,8 +1839,8 @@
       "palestine"
     ],
     "graph_support": 30,
-    "conf_support": 300,
-    "er_support": 300,
+    "conf_support": 30.0,
+    "er_support": 30.0,
     "gspan_support": 30
   }
 ]
