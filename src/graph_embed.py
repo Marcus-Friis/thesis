@@ -86,8 +86,6 @@ def construct_configuration_models(names, graphs, directed):
 
     return config_names, config_graphs
 
-
-
 def cluster_graphs(embeddings, min_cluster_size=3, min_samples=None):  # Add parameters
     """Clusters graph embeddings using HDBSCAN."""
     print("Clustering embeddings with HDBSCAN")
@@ -97,8 +95,6 @@ def cluster_graphs(embeddings, min_cluster_size=3, min_samples=None):  # Add par
 
     cluster_labels = clusterer.labels_
     return cluster_labels
-
-
 
 def embed_graphs(graphs, algorithm):
     """Embeds graphs using the specified algorithm."""
@@ -311,11 +307,12 @@ def main():
         print('  config   : Add configuration model graphs to the dataset')
         print('  cluster  : Cluster the embeddings with HDBSCAN')
         print('  save     : Save the plot instead of displaying it')
+        print('  lcc      : Use only the largest connected component of each graph')
         return
 
     directed = 'directed' in args_lower
     do_plot = 'plot' in args_lower
-    add_random = 'config' in args_lower  # Changed from 'random' to 'config'
+    add_random = 'config' in args_lower 
     cluster = 'cluster' in args_lower
     save_plot = 'save' in args_lower
     lcc_only = 'lcc' in args_lower
@@ -328,8 +325,6 @@ def main():
     hashtag_path = "../data/hashtags/vertices"
     hashtags = [f[:-5] for f in os.listdir(hashtag_path) if f.endswith('.json')]
 
-    #hashtags = hashtags[:10]  # Limit to first N hashtags for testing
-
     names, graphs = construct_graphs(hashtags, directed, lcc_only)
 
     if add_random:
@@ -341,8 +336,26 @@ def main():
 
 
     if cluster:
-        # Perform clustering if enabled
-        cluster_labels = cluster_graphs(embeddings) if cluster else None
+        #umap before clustering
+        umap = UMAP(n_components=2).fit_transform(embeddings)
+        cluster_labels = cluster_graphs(umap) if cluster else None
+        # cluster_labels = cluster_graphs(embeddings) if cluster else None
+
+        #make a dictionary to group the hashtags
+        cluster_dict = {}
+        for i in range(len(names)):
+            if cluster_labels[i] in cluster_dict:
+                cluster_dict[cluster_labels[i]].append(names[i])
+            else:
+                cluster_dict[cluster_labels[i]] = [names[i]]
+
+        for key in cluster_dict:
+            print(f"Cluster {key}: {cluster_dict[key]}")
+        
+
+
+
+
 
         # Filter out noise points
         mask = cluster_labels != -1

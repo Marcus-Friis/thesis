@@ -202,7 +202,7 @@ def main():
 
                 # Extract the username from the filename
                 if str(Path(video_path)).startswith(str(base_path)):
-                    username = Path(video_path).name.split("_")[0][1:]  # Remove '@' symbol
+                    username = Path(video_path).name.split("_video_")[0][1:]  # Remove '@' symbol
                 else:
                     username = None
 
