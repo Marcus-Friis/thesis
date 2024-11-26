@@ -39,6 +39,7 @@ def get_all_video_graphs() -> list:
         edge_file_path = os.path.join(data_path, edge_file)
         edges = load_edges(edge_file_path)
         g = get_video_graph(edges)
+        g['name'] = edge_file.split('_')[0]
         graphs.append(g)
     return graphs
 
@@ -51,6 +52,7 @@ def get_all_user_graphs() -> list:
         edge_file_path = os.path.join(data_path, edge_file)
         edges = load_edges(edge_file_path)
         g = get_user_graph(edges)
+        g['name'] = edge_file.split('_')[0]
         graphs.append(g)
     return graphs
 
