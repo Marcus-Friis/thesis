@@ -4,6 +4,7 @@ from scipy.sparse import lil_matrix
 import re
 import pandas as pd
 import os
+import pickle
 
 def load_edges(filepath: str) -> pd.DataFrame:
     # read edges from file
@@ -52,6 +53,46 @@ def get_all_user_graphs() -> list:
         edge_file_path = os.path.join(data_path, edge_file)
         edges = load_edges(edge_file_path)
         g = get_user_graph(edges)
+        g['name'] = edge_file.split('_')[0]
+        graphs.append(g)
+    return graphs
+
+def load_twitter_edges(filepath: str) -> ig.Graph:
+    # read json object from pickle
+    with open(filepath, 'rb') as f:
+        tweets = pickle.load(f)
+    
+    # extract edges from tweets
+    data = [
+        {
+            'tweet_id': tweet['id'],
+            'user_id': tweet['user']['id'],
+            'in_reply_to_tweet_id': tweet['in_reply_to_status_id'],
+            'in_reply_to_user_id': tweet['in_reply_to_user_id'],
+            'is_retweet': tweet['retweeted'],
+            'is_quote': tweet['is_quote_status']
+        }
+        for tweet in tweets
+    ]
+
+    df = pd.DataFrame(data)
+    df = df[df['in_reply_to_user_id'].notnull()]
+    return df
+
+def get_twitter_user_graph(edges: pd.DataFrame) -> ig.Graph:
+    # create directed graph
+    G = ig.Graph.TupleList(edges[['user_id', 'in_reply_to_user_id', 'tweet_id', 'is_retweet', 'is_quote']].values, directed=True, edge_attrs=['tweet_id', 'is_retweet', 'is_quote'])
+    return G
+    
+def get_all_twtter_user_graphs() -> list:
+    data_path = '../data/twitter/'
+    edge_files = [file for file in os.listdir(data_path) if file.endswith('_tweets')]
+    graphs = []
+    for edge_file in edge_files:
+        # read edge file
+        edge_file_path = os.path.join(data_path, edge_file)
+        edges = load_twitter_edges(edge_file_path)
+        g = get_twitter_user_graph(edges)
         g['name'] = edge_file.split('_')[0]
         graphs.append(g)
     return graphs
