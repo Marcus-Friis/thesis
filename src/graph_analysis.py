@@ -61,9 +61,12 @@ if __name__ == '__main__':
         category = [category_dict.get(g['name'], 'Other') for g in graphs]
         num_nodes = [g.vcount() for g in graphs]
         num_edges = [g.ecount() for g in graphs]
+        avg_in_degree = [np.mean(g.indegree()) for g in graphs]
+        avg_out_degree = [np.mean(g.outdegree()) for g in graphs]
         num_self_loops = [sum(g.is_loop()) for g in graphs]
         num_multiple_edges = [sum(g.is_multiple()) for g in graphs]
-        num_components = [g.components().n for g in graphs]
+        num_components = [len(g.components(mode='weak')) for g in graphs]
+        num_nodes_in_lcc = [g.components(mode='weak').giant().vcount() for g in graphs]
         density = [g.density() for g in graphs]
         diameter = [g.diameter() for g in graphs]
         diameter_un = [g.diameter(directed=False) for g in graphs]
@@ -77,23 +80,25 @@ if __name__ == '__main__':
         betweenness_cent = [betweenness_centralization(g.as_undirected().simplify()) if g.vcount() > 2 else None for g in graphs]
 
         df = pd.DataFrame({
-            'label': graph_labels,
-            'category': category,
-            'num_nodes': num_nodes,
-            'num_edges': num_edges,
-            'num_self_loops': num_self_loops,
-            'num_multiple_edges': num_multiple_edges,
-            'num_components': num_components,
-            'density': density,
-            'diameter': diameter,
-            'diameter_un': diameter_un,
-            'avg_path_length': avg_path_length,
-            'avg_path_length_un': avg_path_length_un,
-            'degree_assortativity': degree_assortativity,
-            'clustering_coeff': clustering_coeff,
-            'reciprocity': reciprocity,
-            'degree_cent': degree_cent,
+            'Hashtag': graph_labels,
+            'Category': category,
+            '|V|': num_nodes,
+            '|E|': num_edges,
+            '#Self loops': num_self_loops,
+            '#Multi-edges': num_multiple_edges,
+            '#Components': num_components,
+            '#Vertices in LCC': num_nodes_in_lcc,
+            'Density': density,
+            'D': diameter,
+            'D undirected': diameter_un,
+            'L': avg_path_length,
+            'L undirected': avg_path_length_un,
+            'Degree assortativity': degree_assortativity,
+            'C': clustering_coeff,
+            'Reciprocity': reciprocity,
+            'Degree centralization': degree_cent,
             'closeness_cent': closeness_cent,
             'betweenness_cent': betweenness_cent
-        }).sort_values(['category', 'label'])
+        }).sort_values(['#Vertices'], ascending=False)
         print(df)
+        # print(df.to_latex(index=False, float_format='%.2f'))
