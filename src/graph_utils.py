@@ -93,7 +93,7 @@ def get_all_twitter_user_graphs() -> list:
         edge_file_path = os.path.join(data_path, edge_file)
         edges = load_twitter_edges(edge_file_path)
         g = get_twitter_user_graph(edges)
-        g['name'] = edge_file.split('_')[0]
+        g['name'] = edge_file.split('_')[0] + '_twitter'
         graphs.append(g)
     return graphs
 
