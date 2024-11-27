@@ -16,9 +16,44 @@ if __name__ == '__main__':
         'user_lcc': user_lccs
     }
 
+    # categorization of hashtags
+    category_dict = {
+        'anime': 'Shared interest/subculture',
+        'booktok': 'Shared interest/subculture',
+        'football': 'Shared interest/subculture',
+        'gym': 'Shared interest/subculture',
+        'jazz': 'Shared interest/subculture',
+        'kpop': 'Shared interest/subculture',
+        'lgbt': 'Shared interest/subculture',
+        'makeup': 'Shared interest/subculture',
+        'minecraft': 'Shared interest/subculture',
+        'plantsoftiktok': 'Shared interest/subculture',
+        'biden2024': 'Political discussion',
+        'blacklivesmatter': 'Political discussion',
+        'climatechange': 'Political discussion',
+        'conspiracy': 'Political discussion',
+        'election': 'Political discussion',
+        'gaza': 'Political discussion',
+        'israel': 'Political discussion',
+        'maga': 'Political discussion',
+        'palestine': 'Political discussion',
+        'trump2024': 'Political discussion',
+        'asmr': 'Entertainment/knowledge',
+        'challenge': 'Entertainment/knowledge',
+        'comedy': 'Entertainment/knowledge',
+        'learnontiktok': 'Entertainment/knowledge',
+        'movie': 'Entertainment/knowledge',
+        'news': 'Entertainment/knowledge',
+        'science': 'Entertainment/knowledge',
+        'storytime': 'Entertainment/knowledge',
+        'tiktoknews': 'Entertainment/knowledge',
+        'watermelon': 'Entertainment/knowledge'
+    }
+
     # basic graph statistics
     for label, graphs in all_graphs.items():
         graph_labels = [g['name'] for g in graphs]
+        category = [category_dict.get(g['name'], 'Other') for g in graphs]
         num_nodes = [g.vcount() for g in graphs]
         num_edges = [g.ecount() for g in graphs]
         num_self_loops = [sum(g.is_loop()) for g in graphs]
@@ -38,6 +73,7 @@ if __name__ == '__main__':
 
         df = pd.DataFrame({
             'label': graph_labels,
+            'category': category,
             'num_nodes': num_nodes,
             'num_edges': num_edges,
             'num_self_loops': num_self_loops,
@@ -54,6 +90,5 @@ if __name__ == '__main__':
             'degree_cent': degree_cent,
             'closeness_cent': closeness_cent,
             'betweenness_cent': betweenness_cent
-        })
+        }).sort_values(['category', 'label'])
         print(df)
-
