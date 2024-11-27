@@ -1,4 +1,4 @@
-from graph_utils import get_all_user_graphs
+from graph_utils import get_all_user_graphs, get_all_twitter_user_graphs
 import igraph as ig
 import os
 
@@ -104,6 +104,11 @@ if __name__ == '__main__':
     graphs = [g.simplify() for g in graphs]  # remove self loops and multi-edges for computational efficiency
     lccs = [g.components(mode='weak').giant() for g in graphs]
 
+    # load twitter data
+    twitter_graphs = get_all_twitter_user_graphs()
+    twitter_graphs = [g.simplify() for g in twitter_graphs]
+    twitter_lccs = [g.components(mode='weak').giant() for g in twitter_graphs]
+
     # create random graphs for comparison
     BOOTSTRAPS = 10
     confs = [
@@ -126,6 +131,8 @@ if __name__ == '__main__':
     graph_dict = {
         'graph': graphs,
         'lcc': lccs,
+        'twitter_graph': twitter_graphs,
+        'twitter_lcc': twitter_lccs,
         'conf_graph': confs,
         'conf_lcc': conf_lccs,
         'er_graph': ers,
@@ -169,6 +176,7 @@ if __name__ == '__main__':
             gspan = f.read()
         motifs = gspan_to_igraph(gspan)
         graphs = graph_dict[key]
+        twitter = graph_dict[f'twitter_{key}']
         confs = graph_dict[f'conf_{key}']
         ers = graph_dict[f'er_{key}']
 
@@ -179,6 +187,11 @@ if __name__ == '__main__':
             graph_labels = [g['name'] for g, o in zip(graphs, occurrences) if o]
             graph_support = sum(occurrences)
             gspan_support = motif['support']
+
+            twitter_occurences = [g.as_undirected().subisomorphic_vf2(motif) for g in twitter]
+            twitter_indeces = [i for i, o in enumerate(twitter_occurences) if o]
+            twitter_support = sum(twitter_occurences)
+
             conf_support = sum([1 for g in confs if g.as_undirected().subisomorphic_vf2(motif)]) / BOOTSTRAPS
             er_support = sum([1 for g in ers if g.as_undirected().subisomorphic_vf2(motif)]) / BOOTSTRAPS
             
@@ -189,6 +202,9 @@ if __name__ == '__main__':
                 'graph_indeces': indeces,
                 'graph_labels': graph_labels,
                 'graph_support': graph_support,
+                'twitter_occurences': twitter_occurences,
+                'twitter_indeces': twitter_indeces,
+                'twitter_support': twitter_support,
                 'conf_support': conf_support,
                 'er_support': er_support,
                 'gspan_support': gspan_support
@@ -207,6 +223,7 @@ if __name__ == '__main__':
             nel = f.read()
         motifs = nel_to_igraph(nel)
         graphs = graph_dict[key]
+        twitter = graph_dict[f'twitter_{key}']
         confs = graph_dict[f'conf_{key}']
         ers = graph_dict[f'er_{key}']
 
@@ -217,6 +234,11 @@ if __name__ == '__main__':
             graph_labels = [g['name'] for g, o in zip(graphs, occurrences) if o]
             graph_support = sum(occurrences)
             gspan_support = motif['support']
+
+            twitter_occurences = [g.subisomorphic_vf2(motif) for g in twitter]
+            twitter_indeces = [i for i, o in enumerate(twitter_occurences) if o]
+            twitter_support = sum(twitter_occurences)
+
             conf_support = sum([1 for g in confs if g.subisomorphic_vf2(motif)]) / BOOTSTRAPS
             er_support = sum([1 for g in ers if g.subisomorphic_vf2(motif)]) / BOOTSTRAPS
             
@@ -227,6 +249,9 @@ if __name__ == '__main__':
                 'graph_indeces': indeces,
                 'graph_labels': graph_labels,
                 'graph_support': graph_support,
+                'twitter_occurences': twitter_occurences,
+                'twitter_indeces': twitter_indeces,
+                'twitter_support': twitter_support,
                 'conf_support': conf_support,
                 'er_support': er_support,
                 'gspan_support': gspan_support
