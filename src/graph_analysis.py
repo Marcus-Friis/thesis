@@ -1,4 +1,4 @@
-from graph_utils import get_all_video_graphs, get_all_user_graphs, get_all_twtter_user_graphs, degree_centralization, closeness_centralization, betweenness_centralization
+from graph_utils import get_all_video_graphs, get_all_user_graphs, get_all_twitter_user_graphs, degree_centralization, closeness_centralization, betweenness_centralization
 import igraph as ig
 import numpy as np
 import pandas as pd
@@ -9,7 +9,7 @@ if __name__ == '__main__':
     user_graphs = get_all_user_graphs()
     video_lccs = [g.components(mode='weak').giant() for g in video_graphs]
     user_lccs = [g.components(mode='weak').giant() for g in user_graphs]
-    twitter_graphs = get_all_twtter_user_graphs()
+    twitter_graphs = get_all_twitter_user_graphs()
     twitter_lccs = [g.components(mode='weak').giant() for g in twitter_graphs]
 
     all_graphs = {

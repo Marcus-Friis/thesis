@@ -84,7 +84,7 @@ def get_twitter_user_graph(edges: pd.DataFrame) -> ig.Graph:
     G = ig.Graph.TupleList(edges[['user_id', 'in_reply_to_user_id', 'tweet_id', 'is_retweet', 'is_quote']].values, directed=True, edge_attrs=['tweet_id', 'is_retweet', 'is_quote'])
     return G
     
-def get_all_twtter_user_graphs() -> list:
+def get_all_twitter_user_graphs() -> list:
     data_path = '../data/twitter/'
     edge_files = [file for file in os.listdir(data_path) if file.endswith('_tweets')]
     graphs = []
