@@ -1,0 +1,3372 @@
+[
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        3
+      ]
+    ],
+    "graph_occurrences": [
+      false,
+      true,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "graph_indeces": [
+      1,
+      3,
+      18,
+      22,
+      23
+    ],
+    "graph_labels": [
+      "comedy",
+      "movie",
+      "learnontiktok",
+      "booktok",
+      "anime"
+    ],
+    "graph_support": 5,
+    "twitter_occurences": [
+      false,
+      true,
+      false
+    ],
+    "twitter_indeces": [
+      1
+    ],
+    "twitter_support": 1,
+    "conf_support": 3.3,
+    "er_support": 0.2,
+    "gspan_support": 5
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        3,
+        1
+      ]
+    ],
+    "graph_occurrences": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "graph_indeces": [
+      18,
+      22,
+      23
+    ],
+    "graph_labels": [
+      "learnontiktok",
+      "booktok",
+      "anime"
+    ],
+    "graph_support": 3,
+    "twitter_occurences": [
+      false,
+      false,
+      false
+    ],
+    "twitter_indeces": [],
+    "twitter_support": 0,
+    "conf_support": 1.4,
+    "er_support": 0.2,
+    "gspan_support": 3
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "graph_occurrences": [
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "graph_indeces": [
+      1,
+      18,
+      22,
+      23
+    ],
+    "graph_labels": [
+      "comedy",
+      "learnontiktok",
+      "booktok",
+      "anime"
+    ],
+    "graph_support": 4,
+    "twitter_occurences": [
+      false,
+      false,
+      false
+    ],
+    "twitter_indeces": [],
+    "twitter_support": 0,
+    "conf_support": 1.9,
+    "er_support": 0.2,
+    "gspan_support": 4
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        1,
+        2
+      ]
+    ],
+    "graph_occurrences": [
+      false,
+      true,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "graph_indeces": [
+      1,
+      3,
+      18,
+      22,
+      23
+    ],
+    "graph_labels": [
+      "comedy",
+      "movie",
+      "learnontiktok",
+      "booktok",
+      "anime"
+    ],
+    "graph_support": 5,
+    "twitter_occurences": [
+      false,
+      true,
+      true
+    ],
+    "twitter_indeces": [
+      1,
+      2
+    ],
+    "twitter_support": 2,
+    "conf_support": 8.8,
+    "er_support": 11.4,
+    "gspan_support": 5
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "graph_occurrences": [
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "graph_indeces": [
+      0,
+      1,
+      3,
+      4,
+      6,
+      7,
+      9,
+      10,
+      11,
+      13,
+      15,
+      16,
+      17,
+      18,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29
+    ],
+    "graph_labels": [
+      "maga",
+      "comedy",
+      "movie",
+      "gaza",
+      "storytime",
+      "trump2024",
+      "gym",
+      "blacklivesmatter",
+      "israel",
+      "biden2024",
+      "watermelon",
+      "tiktoknews",
+      "science",
+      "learnontiktok",
+      "kpop",
+      "conspiracy",
+      "booktok",
+      "anime",
+      "news",
+      "lgbt",
+      "asmr",
+      "football",
+      "challenge",
+      "palestine"
+    ],
+    "graph_support": 24,
+    "twitter_occurences": [
+      true,
+      true,
+      true
+    ],
+    "twitter_indeces": [
+      0,
+      1,
+      2
+    ],
+    "twitter_support": 3,
+    "conf_support": 22.4,
+    "er_support": 23.1,
+    "gspan_support": 24
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "graph_occurrences": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "graph_indeces": [
+      18,
+      22,
+      23
+    ],
+    "graph_labels": [
+      "learnontiktok",
+      "booktok",
+      "anime"
+    ],
+    "graph_support": 3,
+    "twitter_occurences": [
+      false,
+      false,
+      true
+    ],
+    "twitter_indeces": [
+      2
+    ],
+    "twitter_support": 1,
+    "conf_support": 0.7,
+    "er_support": 7.5,
+    "gspan_support": 3
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        3,
+        1
+      ]
+    ],
+    "graph_occurrences": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "graph_indeces": [
+      18,
+      22,
+      23
+    ],
+    "graph_labels": [
+      "learnontiktok",
+      "booktok",
+      "anime"
+    ],
+    "graph_support": 3,
+    "twitter_occurences": [
+      false,
+      false,
+      true
+    ],
+    "twitter_indeces": [
+      2
+    ],
+    "twitter_support": 1,
+    "conf_support": 0.7,
+    "er_support": 8.0,
+    "gspan_support": 3
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        3
+      ]
+    ],
+    "graph_occurrences": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "graph_indeces": [
+      18,
+      22,
+      23
+    ],
+    "graph_labels": [
+      "learnontiktok",
+      "booktok",
+      "anime"
+    ],
+    "graph_support": 3,
+    "twitter_occurences": [
+      false,
+      false,
+      true
+    ],
+    "twitter_indeces": [
+      2
+    ],
+    "twitter_support": 1,
+    "conf_support": 0.7,
+    "er_support": 8.9,
+    "gspan_support": 3
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "graph_occurrences": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "graph_indeces": [
+      18,
+      22,
+      23
+    ],
+    "graph_labels": [
+      "learnontiktok",
+      "booktok",
+      "anime"
+    ],
+    "graph_support": 3,
+    "twitter_occurences": [
+      false,
+      false,
+      true
+    ],
+    "twitter_indeces": [
+      2
+    ],
+    "twitter_support": 1,
+    "conf_support": 0.7,
+    "er_support": 8.7,
+    "gspan_support": 3
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "graph_occurrences": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "graph_indeces": [
+      18,
+      22,
+      23
+    ],
+    "graph_labels": [
+      "learnontiktok",
+      "booktok",
+      "anime"
+    ],
+    "graph_support": 3,
+    "twitter_occurences": [
+      false,
+      false,
+      true
+    ],
+    "twitter_indeces": [
+      2
+    ],
+    "twitter_support": 1,
+    "conf_support": 0.7,
+    "er_support": 10.4,
+    "gspan_support": 3
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        3,
+        1
+      ]
+    ],
+    "graph_occurrences": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "graph_indeces": [
+      18,
+      22,
+      23
+    ],
+    "graph_labels": [
+      "learnontiktok",
+      "booktok",
+      "anime"
+    ],
+    "graph_support": 3,
+    "twitter_occurences": [
+      false,
+      false,
+      false
+    ],
+    "twitter_indeces": [],
+    "twitter_support": 0,
+    "conf_support": 0.8,
+    "er_support": 0.6,
+    "gspan_support": 3
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "graph_occurrences": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "graph_indeces": [
+      18,
+      22,
+      23
+    ],
+    "graph_labels": [
+      "learnontiktok",
+      "booktok",
+      "anime"
+    ],
+    "graph_support": 3,
+    "twitter_occurences": [
+      false,
+      false,
+      false
+    ],
+    "twitter_indeces": [],
+    "twitter_support": 0,
+    "conf_support": 1.1,
+    "er_support": 0.3,
+    "gspan_support": 3
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        1,
+        2
+      ]
+    ],
+    "graph_occurrences": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "graph_indeces": [
+      18,
+      22,
+      23
+    ],
+    "graph_labels": [
+      "learnontiktok",
+      "booktok",
+      "anime"
+    ],
+    "graph_support": 3,
+    "twitter_occurences": [
+      false,
+      false,
+      true
+    ],
+    "twitter_indeces": [
+      2
+    ],
+    "twitter_support": 1,
+    "conf_support": 1.5,
+    "er_support": 12.4,
+    "gspan_support": 3
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        3,
+        1
+      ]
+    ],
+    "graph_occurrences": [
+      false,
+      true,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "graph_indeces": [
+      1,
+      3,
+      18,
+      22,
+      23
+    ],
+    "graph_labels": [
+      "comedy",
+      "movie",
+      "learnontiktok",
+      "booktok",
+      "anime"
+    ],
+    "graph_support": 5,
+    "twitter_occurences": [
+      false,
+      true,
+      true
+    ],
+    "twitter_indeces": [
+      1,
+      2
+    ],
+    "twitter_support": 2,
+    "conf_support": 7.1,
+    "er_support": 11.7,
+    "gspan_support": 5
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "graph_occurrences": [
+      true,
+      true,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      false
+    ],
+    "graph_indeces": [
+      0,
+      1,
+      3,
+      7,
+      13,
+      18,
+      20,
+      22,
+      23,
+      25,
+      27,
+      28
+    ],
+    "graph_labels": [
+      "maga",
+      "comedy",
+      "movie",
+      "trump2024",
+      "biden2024",
+      "learnontiktok",
+      "kpop",
+      "booktok",
+      "anime",
+      "lgbt",
+      "football",
+      "challenge"
+    ],
+    "graph_support": 12,
+    "twitter_occurences": [
+      true,
+      true,
+      true
+    ],
+    "twitter_indeces": [
+      0,
+      1,
+      2
+    ],
+    "twitter_support": 3,
+    "conf_support": 10.9,
+    "er_support": 26.0,
+    "gspan_support": 12
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "graph_occurrences": [
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "graph_indeces": [
+      3,
+      18,
+      22,
+      23
+    ],
+    "graph_labels": [
+      "movie",
+      "learnontiktok",
+      "booktok",
+      "anime"
+    ],
+    "graph_support": 4,
+    "twitter_occurences": [
+      false,
+      false,
+      false
+    ],
+    "twitter_indeces": [],
+    "twitter_support": 0,
+    "conf_support": 3.8,
+    "er_support": 0.0,
+    "gspan_support": 4
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        3,
+        1
+      ]
+    ],
+    "graph_occurrences": [
+      false,
+      true,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "graph_indeces": [
+      1,
+      3,
+      18,
+      22,
+      23
+    ],
+    "graph_labels": [
+      "comedy",
+      "movie",
+      "learnontiktok",
+      "booktok",
+      "anime"
+    ],
+    "graph_support": 5,
+    "twitter_occurences": [
+      false,
+      false,
+      true
+    ],
+    "twitter_indeces": [
+      2
+    ],
+    "twitter_support": 1,
+    "conf_support": 8.0,
+    "er_support": 12.4,
+    "gspan_support": 5
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        3
+      ]
+    ],
+    "graph_occurrences": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "graph_indeces": [
+      18,
+      22,
+      23
+    ],
+    "graph_labels": [
+      "learnontiktok",
+      "booktok",
+      "anime"
+    ],
+    "graph_support": 3,
+    "twitter_occurences": [
+      false,
+      false,
+      false
+    ],
+    "twitter_indeces": [],
+    "twitter_support": 0,
+    "conf_support": 2.7,
+    "er_support": 12.1,
+    "gspan_support": 3
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "graph_occurrences": [
+      false,
+      true,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "graph_indeces": [
+      1,
+      3,
+      18,
+      22,
+      23
+    ],
+    "graph_labels": [
+      "comedy",
+      "movie",
+      "learnontiktok",
+      "booktok",
+      "anime"
+    ],
+    "graph_support": 5,
+    "twitter_occurences": [
+      false,
+      true,
+      true
+    ],
+    "twitter_indeces": [
+      1,
+      2
+    ],
+    "twitter_support": 2,
+    "conf_support": 8.6,
+    "er_support": 11.4,
+    "gspan_support": 5
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ]
+    ],
+    "graph_occurrences": [
+      false,
+      true,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "graph_indeces": [
+      1,
+      3,
+      18,
+      22,
+      23
+    ],
+    "graph_labels": [
+      "comedy",
+      "movie",
+      "learnontiktok",
+      "booktok",
+      "anime"
+    ],
+    "graph_support": 5,
+    "twitter_occurences": [
+      false,
+      true,
+      true
+    ],
+    "twitter_indeces": [
+      1,
+      2
+    ],
+    "twitter_support": 2,
+    "conf_support": 9.1,
+    "er_support": 16.5,
+    "gspan_support": 5
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        3,
+        1
+      ]
+    ],
+    "graph_occurrences": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "graph_indeces": [
+      18,
+      22,
+      23
+    ],
+    "graph_labels": [
+      "learnontiktok",
+      "booktok",
+      "anime"
+    ],
+    "graph_support": 3,
+    "twitter_occurences": [
+      false,
+      false,
+      true
+    ],
+    "twitter_indeces": [
+      2
+    ],
+    "twitter_support": 1,
+    "conf_support": 0.7,
+    "er_support": 8.6,
+    "gspan_support": 3
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        3
+      ]
+    ],
+    "graph_occurrences": [
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "graph_indeces": [
+      1,
+      18,
+      22,
+      23
+    ],
+    "graph_labels": [
+      "comedy",
+      "learnontiktok",
+      "booktok",
+      "anime"
+    ],
+    "graph_support": 4,
+    "twitter_occurences": [
+      false,
+      false,
+      false
+    ],
+    "twitter_indeces": [],
+    "twitter_support": 0,
+    "conf_support": 2.6,
+    "er_support": 10.8,
+    "gspan_support": 4
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "graph_occurrences": [
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "graph_indeces": [
+      3,
+      18,
+      22,
+      23
+    ],
+    "graph_labels": [
+      "movie",
+      "learnontiktok",
+      "booktok",
+      "anime"
+    ],
+    "graph_support": 4,
+    "twitter_occurences": [
+      false,
+      false,
+      false
+    ],
+    "twitter_indeces": [],
+    "twitter_support": 0,
+    "conf_support": 2.8,
+    "er_support": 16.4,
+    "gspan_support": 4
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        3
+      ]
+    ],
+    "graph_occurrences": [
+      true,
+      true,
+      false,
+      true,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      false,
+      true,
+      false,
+      true,
+      false,
+      false
+    ],
+    "graph_indeces": [
+      0,
+      1,
+      3,
+      6,
+      7,
+      10,
+      13,
+      18,
+      20,
+      22,
+      23,
+      25,
+      27
+    ],
+    "graph_labels": [
+      "maga",
+      "comedy",
+      "movie",
+      "storytime",
+      "trump2024",
+      "blacklivesmatter",
+      "biden2024",
+      "learnontiktok",
+      "kpop",
+      "booktok",
+      "anime",
+      "lgbt",
+      "football"
+    ],
+    "graph_support": 13,
+    "twitter_occurences": [
+      true,
+      true,
+      true
+    ],
+    "twitter_indeces": [
+      0,
+      1,
+      2
+    ],
+    "twitter_support": 3,
+    "conf_support": 12.7,
+    "er_support": 27.3,
+    "gspan_support": 13
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "graph_occurrences": [
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      false,
+      true
+    ],
+    "graph_indeces": [
+      0,
+      1,
+      3,
+      4,
+      6,
+      7,
+      11,
+      18,
+      20,
+      22,
+      23,
+      24,
+      25,
+      27,
+      29
+    ],
+    "graph_labels": [
+      "maga",
+      "comedy",
+      "movie",
+      "gaza",
+      "storytime",
+      "trump2024",
+      "israel",
+      "learnontiktok",
+      "kpop",
+      "booktok",
+      "anime",
+      "news",
+      "lgbt",
+      "football",
+      "palestine"
+    ],
+    "graph_support": 15,
+    "twitter_occurences": [
+      false,
+      true,
+      true
+    ],
+    "twitter_indeces": [
+      1,
+      2
+    ],
+    "twitter_support": 2,
+    "conf_support": 18.0,
+    "er_support": 5.1,
+    "gspan_support": 15
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        3,
+        1
+      ]
+    ],
+    "graph_occurrences": [
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true
+    ],
+    "graph_indeces": [
+      0,
+      1,
+      3,
+      4,
+      5,
+      6,
+      7,
+      9,
+      10,
+      11,
+      12,
+      13,
+      15,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      27,
+      28,
+      29
+    ],
+    "graph_labels": [
+      "maga",
+      "comedy",
+      "movie",
+      "gaza",
+      "plantsoftiktok",
+      "storytime",
+      "trump2024",
+      "gym",
+      "blacklivesmatter",
+      "israel",
+      "election",
+      "biden2024",
+      "watermelon",
+      "science",
+      "learnontiktok",
+      "climatechange",
+      "kpop",
+      "conspiracy",
+      "booktok",
+      "anime",
+      "news",
+      "lgbt",
+      "football",
+      "challenge",
+      "palestine"
+    ],
+    "graph_support": 25,
+    "twitter_occurences": [
+      true,
+      true,
+      true
+    ],
+    "twitter_indeces": [
+      0,
+      1,
+      2
+    ],
+    "twitter_support": 3,
+    "conf_support": 23.8,
+    "er_support": 27.1,
+    "gspan_support": 25
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ]
+    ],
+    "graph_occurrences": [
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "graph_indeces": [
+      0,
+      1,
+      3,
+      4,
+      5,
+      6,
+      7,
+      9,
+      10,
+      11,
+      12,
+      13,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29
+    ],
+    "graph_labels": [
+      "maga",
+      "comedy",
+      "movie",
+      "gaza",
+      "plantsoftiktok",
+      "storytime",
+      "trump2024",
+      "gym",
+      "blacklivesmatter",
+      "israel",
+      "election",
+      "biden2024",
+      "watermelon",
+      "tiktoknews",
+      "science",
+      "learnontiktok",
+      "climatechange",
+      "kpop",
+      "conspiracy",
+      "booktok",
+      "anime",
+      "news",
+      "lgbt",
+      "asmr",
+      "football",
+      "challenge",
+      "palestine"
+    ],
+    "graph_support": 27,
+    "twitter_occurences": [
+      true,
+      true,
+      true
+    ],
+    "twitter_indeces": [
+      0,
+      1,
+      2
+    ],
+    "twitter_support": 3,
+    "conf_support": 26.1,
+    "er_support": 28.0,
+    "gspan_support": 27
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "graph_occurrences": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "graph_indeces": [
+      18,
+      22,
+      23
+    ],
+    "graph_labels": [
+      "learnontiktok",
+      "booktok",
+      "anime"
+    ],
+    "graph_support": 3,
+    "twitter_occurences": [
+      false,
+      false,
+      true
+    ],
+    "twitter_indeces": [
+      2
+    ],
+    "twitter_support": 1,
+    "conf_support": 0.7,
+    "er_support": 4.8,
+    "gspan_support": 3
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "graph_occurrences": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "graph_indeces": [
+      18,
+      22,
+      23
+    ],
+    "graph_labels": [
+      "learnontiktok",
+      "booktok",
+      "anime"
+    ],
+    "graph_support": 3,
+    "twitter_occurences": [
+      false,
+      false,
+      true
+    ],
+    "twitter_indeces": [
+      2
+    ],
+    "twitter_support": 1,
+    "conf_support": 0.7,
+    "er_support": 10.8,
+    "gspan_support": 3
+  },
+  {
+    "vertices": [
+      0,
+      1
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "graph_occurrences": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "graph_indeces": [
+      18,
+      22,
+      23
+    ],
+    "graph_labels": [
+      "learnontiktok",
+      "booktok",
+      "anime"
+    ],
+    "graph_support": 3,
+    "twitter_occurences": [
+      false,
+      false,
+      true
+    ],
+    "twitter_indeces": [
+      2
+    ],
+    "twitter_support": 1,
+    "conf_support": 0.7,
+    "er_support": 12.2,
+    "gspan_support": 3
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "graph_occurrences": [
+      true,
+      true,
+      false,
+      true,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      false,
+      true,
+      false,
+      true,
+      false,
+      false
+    ],
+    "graph_indeces": [
+      0,
+      1,
+      3,
+      6,
+      7,
+      13,
+      18,
+      20,
+      22,
+      23,
+      25,
+      27
+    ],
+    "graph_labels": [
+      "maga",
+      "comedy",
+      "movie",
+      "storytime",
+      "trump2024",
+      "biden2024",
+      "learnontiktok",
+      "kpop",
+      "booktok",
+      "anime",
+      "lgbt",
+      "football"
+    ],
+    "graph_support": 12,
+    "twitter_occurences": [
+      false,
+      false,
+      true
+    ],
+    "twitter_indeces": [
+      2
+    ],
+    "twitter_support": 1,
+    "conf_support": 11.7,
+    "er_support": 25.9,
+    "gspan_support": 12
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        1,
+        3
+      ]
+    ],
+    "graph_occurrences": [
+      true,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "graph_indeces": [
+      0,
+      3,
+      18,
+      20,
+      22,
+      23
+    ],
+    "graph_labels": [
+      "maga",
+      "movie",
+      "learnontiktok",
+      "kpop",
+      "booktok",
+      "anime"
+    ],
+    "graph_support": 6,
+    "twitter_occurences": [
+      false,
+      false,
+      true
+    ],
+    "twitter_indeces": [
+      2
+    ],
+    "twitter_support": 1,
+    "conf_support": 4.5,
+    "er_support": 27.3,
+    "gspan_support": 6
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        1
+      ]
+    ],
+    "graph_occurrences": [
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      false
+    ],
+    "graph_indeces": [
+      0,
+      1,
+      3,
+      4,
+      7,
+      13,
+      18,
+      20,
+      22,
+      23,
+      25,
+      27,
+      28
+    ],
+    "graph_labels": [
+      "maga",
+      "comedy",
+      "movie",
+      "gaza",
+      "trump2024",
+      "biden2024",
+      "learnontiktok",
+      "kpop",
+      "booktok",
+      "anime",
+      "lgbt",
+      "football",
+      "challenge"
+    ],
+    "graph_support": 13,
+    "twitter_occurences": [
+      true,
+      true,
+      true
+    ],
+    "twitter_indeces": [
+      0,
+      1,
+      2
+    ],
+    "twitter_support": 3,
+    "conf_support": 12.6,
+    "er_support": 27.8,
+    "gspan_support": 13
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "graph_occurrences": [
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      false
+    ],
+    "graph_indeces": [
+      0,
+      1,
+      3,
+      4,
+      6,
+      7,
+      10,
+      13,
+      18,
+      20,
+      22,
+      23,
+      25,
+      27,
+      28
+    ],
+    "graph_labels": [
+      "maga",
+      "comedy",
+      "movie",
+      "gaza",
+      "storytime",
+      "trump2024",
+      "blacklivesmatter",
+      "biden2024",
+      "learnontiktok",
+      "kpop",
+      "booktok",
+      "anime",
+      "lgbt",
+      "football",
+      "challenge"
+    ],
+    "graph_support": 15,
+    "twitter_occurences": [
+      true,
+      true,
+      true
+    ],
+    "twitter_indeces": [
+      0,
+      1,
+      2
+    ],
+    "twitter_support": 3,
+    "conf_support": 14.2,
+    "er_support": 28.9,
+    "gspan_support": 15
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        3,
+        1
+      ]
+    ],
+    "graph_occurrences": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      false,
+      false,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      true
+    ],
+    "graph_indeces": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      15,
+      18,
+      20,
+      22,
+      23,
+      25,
+      27,
+      28,
+      29
+    ],
+    "graph_labels": [
+      "maga",
+      "comedy",
+      "makeup",
+      "movie",
+      "gaza",
+      "plantsoftiktok",
+      "storytime",
+      "trump2024",
+      "minecraft",
+      "gym",
+      "blacklivesmatter",
+      "israel",
+      "election",
+      "biden2024",
+      "watermelon",
+      "learnontiktok",
+      "kpop",
+      "booktok",
+      "anime",
+      "lgbt",
+      "football",
+      "challenge",
+      "palestine"
+    ],
+    "graph_support": 23,
+    "twitter_occurences": [
+      true,
+      true,
+      true
+    ],
+    "twitter_indeces": [
+      0,
+      1,
+      2
+    ],
+    "twitter_support": 3,
+    "conf_support": 22.9,
+    "er_support": 23.1,
+    "gspan_support": 23
+  },
+  {
+    "vertices": [
+      0,
+      1,
+      2
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "graph_occurrences": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true
+    ],
+    "graph_indeces": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      15,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      27,
+      28,
+      29
+    ],
+    "graph_labels": [
+      "maga",
+      "comedy",
+      "makeup",
+      "movie",
+      "gaza",
+      "plantsoftiktok",
+      "storytime",
+      "trump2024",
+      "minecraft",
+      "gym",
+      "blacklivesmatter",
+      "israel",
+      "election",
+      "biden2024",
+      "watermelon",
+      "science",
+      "learnontiktok",
+      "climatechange",
+      "kpop",
+      "conspiracy",
+      "booktok",
+      "anime",
+      "news",
+      "lgbt",
+      "football",
+      "challenge",
+      "palestine"
+    ],
+    "graph_support": 27,
+    "twitter_occurences": [
+      true,
+      true,
+      true
+    ],
+    "twitter_indeces": [
+      0,
+      1,
+      2
+    ],
+    "twitter_support": 3,
+    "conf_support": 26.4,
+    "er_support": 28.4,
+    "gspan_support": 27
+  },
+  {
+    "vertices": [
+      0,
+      1
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ]
+    ],
+    "graph_occurrences": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "graph_indeces": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29
+    ],
+    "graph_labels": [
+      "maga",
+      "comedy",
+      "makeup",
+      "movie",
+      "gaza",
+      "plantsoftiktok",
+      "storytime",
+      "trump2024",
+      "minecraft",
+      "gym",
+      "blacklivesmatter",
+      "israel",
+      "election",
+      "biden2024",
+      "jazz",
+      "watermelon",
+      "tiktoknews",
+      "science",
+      "learnontiktok",
+      "climatechange",
+      "kpop",
+      "conspiracy",
+      "booktok",
+      "anime",
+      "news",
+      "lgbt",
+      "asmr",
+      "football",
+      "challenge",
+      "palestine"
+    ],
+    "graph_support": 30,
+    "twitter_occurences": [
+      true,
+      true,
+      true
+    ],
+    "twitter_indeces": [
+      0,
+      1,
+      2
+    ],
+    "twitter_support": 3,
+    "conf_support": 30.0,
+    "er_support": 30.0,
+    "gspan_support": 30
+  }
+]

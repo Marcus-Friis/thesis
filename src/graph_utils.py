@@ -4,6 +4,20 @@ from scipy.sparse import lil_matrix
 import re
 import pandas as pd
 import os
+import pickle
+import json
+
+
+#################################################################
+#  _____ _ _  _____     _      _____                 _          #
+# |_   _(_) ||_   _|   | |    |  __ \               | |         #
+#   | |  _| | _| | ___ | | __ | |  \/_ __ __ _ _ __ | |__  ___  #
+#   | | | | |/ / |/ _ \| |/ / | | __| '__/ _` | '_ \| '_ \/ __| #
+#   | | | |   <| | (_) |   <  | |_\ \ | | (_| | |_) | | | \__ \ #
+#   \_/ |_|_|\_\_/\___/|_|\_\  \____/_|  \__,_| .__/|_| |_|___/ #
+#                                             | |               #
+#                                             |_|               #
+#################################################################
 
 def load_edges(filepath: str) -> pd.DataFrame:
     # read edges from file
@@ -27,7 +41,7 @@ def get_video_graph(edges: pd.DataFrame) -> ig.Graph:
     return G
 
 def get_user_graph(edges: pd.DataFrame) -> ig.Graph:
-    G = ig.Graph.TupleList(edges[['stitcher_user', 'stitchee_user']].values, directed=True)
+    G = ig.Graph.TupleList(edges[['stitcher_user', 'stitchee_user', 'stitcher', 'stitchee']].values, directed=True, edge_attrs=['stitcher_id', 'stitchee_id'])
     return G
 
 def get_all_video_graphs() -> list:
@@ -39,6 +53,7 @@ def get_all_video_graphs() -> list:
         edge_file_path = os.path.join(data_path, edge_file)
         edges = load_edges(edge_file_path)
         g = get_video_graph(edges)
+        g['name'] = edge_file.split('_')[0]
         graphs.append(g)
     return graphs
 
@@ -51,8 +66,149 @@ def get_all_user_graphs() -> list:
         edge_file_path = os.path.join(data_path, edge_file)
         edges = load_edges(edge_file_path)
         g = get_user_graph(edges)
+        g['name'] = edge_file.split('_')[0]
         graphs.append(g)
     return graphs
+
+def load_sentiment(filepath: str) -> pd.DataFrame:
+    data = []
+    with open(filepath, 'r') as f:
+        for line in f:
+            line_data = json.loads(line)
+            line_data['stitchee_id'] = -1 if line_data['stitchee_id'] is None else line_data['stitchee_id']
+            line_data['pos'] = line_data['sentiment_scores']['pos'] if line_data['sentiment_scores'] is not None else None
+            line_data['neg'] = line_data['sentiment_scores']['neg'] if line_data['sentiment_scores'] is not None else None
+            line_data['neu'] = line_data['sentiment_scores']['neu'] if line_data['sentiment_scores'] is not None else None
+            line_data['compound'] = line_data['sentiment_scores']['compound'] if line_data['sentiment_scores'] is not None else None
+            data.append(line_data)
+            
+    df = pd.DataFrame(data)
+    return df
+
+def get_sentiment_video_graph(edges: pd.DataFrame, sentiment: pd.DataFrame) -> list:
+    g = get_video_graph(edges)
+    sentiment['id'] = sentiment.apply(lambda x: x['video_id'] if x['stitchee_id'] == -1 else x['stitchee_id'], axis=1)
+    sentiment_dict = sentiment.set_index('id')['sentiment'].to_dict()
+    g.vs['sentiment'] = [sentiment_dict.get(v['name'], 'no transcription') for v in g.vs]
+    score_dict = sentiment.set_index('id')['compound'].to_dict()
+    g.vs['score'] = [score_dict.get(v['name'], None) for v in g.vs]
+    return g
+
+def get_sentiment_user_graph(edges: pd.DataFrame, sentiment: pd.DataFrame) -> ig.Graph:
+    g = get_user_graph(edges)
+    
+    sentiment['id'] = sentiment.apply(lambda x: x['video_id'] if x['stitchee_id'] == -1 else x['stitchee_id'], axis=1)
+    sentiment_dict = sentiment.set_index('id')['sentiment'].to_dict()
+    g.es['stitcher_sentiment'] = [sentiment_dict.get(e['stitcher_id'], 'no transcription') for e in g.es]
+    g.es['stitchee_sentiment'] = [sentiment_dict.get(e['stitchee_id'], 'no transcription') for e in g.es]
+    
+    score_dict = sentiment.set_index('id')['compound'].to_dict()
+    g.es['stitcher_score'] = [score_dict.get(e['stitcher_id'], None) for e in g.es]
+    g.es['stitchee_score'] = [score_dict.get(e['stitchee_id'], None) for e in g.es]
+    
+    return g
+    
+def get_all_sentiment_video_graphs() -> list:
+    edge_path = '../data/hashtags/edges/'
+    sentiment_path = '../data/hashtags/transcriptions/'
+    edge_files = {file.split('_')[0]: file for file in os.listdir(edge_path) if file.endswith('.txt')}
+    sentiment_files = {file.split('_')[0]: file for file in os.listdir(sentiment_path) if file.endswith('.jsonl')}
+    common_keys = list(set(edge_files.keys()).intersection(set(sentiment_files.keys())))
+    common_keys.sort()
+    
+    graphs = []
+    for hashtag in common_keys:
+        edge_file_path = os.path.join(edge_path, edge_files[hashtag])
+        edges = load_edges(edge_file_path)
+        sentiment_file_path = os.path.join(sentiment_path, sentiment_files[hashtag])
+        sentiment = load_sentiment(sentiment_file_path)
+        g = get_sentiment_video_graph(edges, sentiment)
+        g['name'] = hashtag
+        graphs.append(g)
+    return graphs
+    
+def get_all_sentiment_user_graphs() -> list:
+    edge_path = '../data/hashtags/edges/'
+    sentiment_path = '../data/hashtags/transcriptions/'
+    edge_files = {file.split('_')[0]: file for file in os.listdir(edge_path) if file.endswith('.txt')}
+    sentiment_files = {file.split('_')[0]: file for file in os.listdir(sentiment_path) if file.endswith('.jsonl')}
+    common_keys = list(set(edge_files.keys()).intersection(set(sentiment_files.keys())))
+    common_keys.sort()
+    
+    graphs = []
+    for hashtag in common_keys:
+        edge_file_path = os.path.join(edge_path, edge_files[hashtag])
+        edges = load_edges(edge_file_path)
+        sentiment_file_path = os.path.join(sentiment_path, sentiment_files[hashtag])
+        sentiment = load_sentiment(sentiment_file_path)
+        g = get_sentiment_user_graph(edges, sentiment)
+        g['name'] = hashtag
+        graphs.append(g)
+    return graphs
+
+
+#######################################################################
+#  _____        _ _   _              _____                 _          #
+# |_   _|      (_) | | |            |  __ \               | |         #
+#   | |_      ___| |_| |_ ___ _ __  | |  \/_ __ __ _ _ __ | |__  ___  #
+#   | \ \ /\ / / | __| __/ _ \ '__| | | __| '__/ _` | '_ \| '_ \/ __| #
+#   | |\ V  V /| | |_| ||  __/ |    | |_\ \ | | (_| | |_) | | | \__ \ #
+#   \_/ \_/\_/ |_|\__|\__\___|_|     \____/_|  \__,_| .__/|_| |_|___/ #
+#                                                   | |               #
+#                                                   |_|               #
+#######################################################################
+
+def load_twitter_edges(filepath: str) -> ig.Graph:
+    # read json object from pickle
+    with open(filepath, 'rb') as f:
+        tweets = pickle.load(f)
+    
+    # extract edges from tweets
+    data = [
+        {
+            'tweet_id': tweet['id'],
+            'user_id': tweet['user']['id'],
+            'in_reply_to_tweet_id': tweet['in_reply_to_status_id'],
+            'in_reply_to_user_id': tweet['in_reply_to_user_id'],
+            'is_retweet': tweet['retweeted'],
+            'is_quote': tweet['is_quote_status']
+        }
+        for tweet in tweets
+    ]
+
+    df = pd.DataFrame(data)
+    df = df[df['in_reply_to_user_id'].notnull()]
+    return df
+
+def get_twitter_user_graph(edges: pd.DataFrame) -> ig.Graph:
+    # create directed graph
+    G = ig.Graph.TupleList(edges[['user_id', 'in_reply_to_user_id', 'tweet_id', 'is_retweet', 'is_quote']].values, directed=True, edge_attrs=['tweet_id', 'is_retweet', 'is_quote'])
+    return G
+    
+def get_all_twitter_user_graphs() -> list:
+    data_path = '../data/twitter/'
+    edge_files = [file for file in os.listdir(data_path) if file.endswith('_tweets')]
+    graphs = []
+    for edge_file in edge_files:
+        # read edge file
+        edge_file_path = os.path.join(data_path, edge_file)
+        edges = load_twitter_edges(edge_file_path)
+        g = get_twitter_user_graph(edges)
+        g['name'] = edge_file.split('_')[0] + '_twitter'
+        graphs.append(g)
+    return graphs
+
+
+###########################################################################
+#  _____                 _       _____ _        _   _     _   _           #
+# |  __ \               | |     /  ___| |      | | (_)   | | (_)          #
+# | |  \/_ __ __ _ _ __ | |__   \ `--.| |_ __ _| |_ _ ___| |_ _  ___ ___  #
+# | | __| '__/ _` | '_ \| '_ \   `--. \ __/ _` | __| / __| __| |/ __/ __| #
+# | |_\ \ | | (_| | |_) | | | | /\__/ / || (_| | |_| \__ \ |_| | (__\__ \ #
+#  \____/_|  \__,_| .__/|_| |_| \____/ \__\__,_|\__|_|___/\__|_|\___|___/ #
+#                 | |                                                     #
+#                 |_|                                                     #
+###########################################################################
 
 def degree_centralization(G: ig.Graph) -> float:
     if G.is_directed():

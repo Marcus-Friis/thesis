@@ -1,4 +1,4 @@
-from graph_utils import load_edges, get_user_graph
+from graph_utils import get_all_user_graphs, get_all_twitter_user_graphs
 import igraph as ig
 import os
 
@@ -94,83 +94,169 @@ def nel_to_igraph(nel_content: str) -> list:
 
 
 if __name__ == '__main__':
-    data_path = '../data/hashtags/edges/'
-    edge_files = [file for file in os.listdir(data_path) if file.endswith('.txt')]
+    import json
+    import random
+    random.seed(42)
 
-    # load and process graphs
-    graphs = []
-    lcc_graphs = []
-    conf_graphs = []
-    conf_lcc_graphs = []
-    er_graphs = []
-    er_lcc_graphs = []
-    for i, edge_file in enumerate(edge_files):
-        # read edge file
-        edge_file_path = os.path.join(data_path, edge_file)
-        edges = load_edges(edge_file_path)
-        g = get_user_graph(edges)
+    # load and preprocess data
+    print('Loading graphs...')
+    graphs = get_all_user_graphs()
+    graphs = [g.simplify() for g in graphs]  # remove self loops and multi-edges for computational efficiency
+    lccs = [g.components(mode='weak').giant() for g in graphs]
 
-        # get lcc
-        g_lcc = g.components(mode='weak').giant()
+    # load twitter data
+    twitter_graphs = get_all_twitter_user_graphs()
+    twitter_graphs = [g.simplify() for g in twitter_graphs]
+    twitter_lccs = [g.components(mode='weak').giant() for g in twitter_graphs]
 
-        # get configuration models for both graphs
-        indeg_sequence  = g.degree(mode='in', loops=False)
-        outdeg_sequence = g.degree(mode='out', loops=False)
-        g_conf = ig.Graph.Degree_Sequence(indeg_sequence, outdeg_sequence)
+    # create random graphs for comparison
+    BOOTSTRAPS = 10
+    confs = [
+        ig.Graph.Degree_Sequence(g.degree(mode='in'), g.degree(mode='out')).simplify()
+        for g in graphs for _ in range(BOOTSTRAPS)
+    ]
+    conf_lccs = [
+        ig.Graph.Degree_Sequence(g.degree(mode='in'), g.degree(mode='out')).simplify()
+        for g in lccs for _ in range(BOOTSTRAPS)
+    ]
+    ers = [
+        ig.Graph.Erdos_Renyi(n=g.vcount(), m=g.ecount(), directed=True).simplify(multiple=False)
+        for g in graphs for _ in range(BOOTSTRAPS)
+    ]
+    er_lccs = [
+        ig.Graph.Erdos_Renyi(n=g.vcount(), m=g.ecount(), directed=True).simplify(multiple=False)
+        for g in lccs for _ in range(BOOTSTRAPS)
+    ]
 
-        indeg_sequence_lcc  = g_lcc.degree(mode='in', loops=False)
-        outdeg_sequence_lcc = g_lcc.degree(mode='out', loops=False)
-        g_lcc_conf = ig.Graph.Degree_Sequence(indeg_sequence_lcc, outdeg_sequence_lcc)
+    graph_dict = {
+        'graph': graphs,
+        'lcc': lccs,
+        'twitter_graph': twitter_graphs,
+        'twitter_lcc': twitter_lccs,
+        'conf_graph': confs,
+        'conf_lcc': conf_lccs,
+        'er_graph': ers,
+        'er_lcc': er_lccs
+    }
+    graphs_to_mine = ['graph', 'lcc']
 
-        # get erdos-renyi random graphs
-        g_er = ig.Graph.Erdos_Renyi(n=g.vcount(), m=g.ecount()).simplify()
-        g_lcc_er = ig.Graph.Erdos_Renyi(n=g_lcc.vcount(), m=g_lcc.ecount()).simplify()
-        
-        # append graphs
-        graphs.append(g)
-        lcc_graphs.append(g_lcc)
-        conf_graphs.append(g_conf)
-        conf_lcc_graphs.append(g_lcc_conf)
-        er_graphs.append(g_er)
-        er_lcc_graphs.append(g_lcc_er)
+    # convert to gspan and nel format
+    for key in graphs_to_mine:
+        value = graph_dict[key]
+        gspan = igraph_to_gspan(value)
+        nel = igraph_to_nel(value)
+        with open(f'../data/fsm/graphs/{key}.gspan', 'w') as f:
+            f.write(gspan)
+        with open(f'../data/fsm/graphs/{key}.nel', 'w') as f:
+            f.write(nel)
 
-    # format into gspan and nel files
-    gspan = igraph_to_gspan(graphs)
-    nel = igraph_to_nel(graphs)
-    gspan_lcc = igraph_to_gspan(lcc_graphs)
-    nel_lcc = igraph_to_nel(lcc_graphs)
-    gspan_conf = igraph_to_gspan(conf_graphs)
-    nel_conf = igraph_to_nel(conf_graphs)
-    gspan_lcc_conf = igraph_to_gspan(conf_lcc_graphs)
-    nel_lcc_conf = igraph_to_nel(conf_lcc_graphs)
-    gspan_er = igraph_to_gspan(er_graphs)
-    nel_er = igraph_to_nel(er_graphs)
-    gspan_lcc_er = igraph_to_gspan(er_lcc_graphs)
-    nel_lcc_er = igraph_to_nel(er_lcc_graphs)
+    # perform frequent subgraph mining
+    print('Mining frequent undirected subgraphs...')
+    for key in graphs_to_mine:
+        print(f'\t Mining {key}...')
+        command = f'./gSpan6/gSpan -f ../data/fsm/graphs/{key}.gspan -s 0.6 -o -i'
+        os.system(command)
 
-    # dump data files
-    data_path = '../data/fsm/graphs'
-    with open(os.path.join(data_path, 'graph.gspan'), 'w') as f:
-        f.write(gspan)
-    with open(os.path.join(data_path, 'graph.nel'), 'w') as f:
-        f.write(nel)
-    with open(os.path.join(data_path, 'lcc.gspan'), 'w') as f:
-        f.write(gspan_lcc)
-    with open(os.path.join(data_path, 'lcc.nel'), 'w') as f:
-        f.write(nel_lcc)
-    with open(os.path.join(data_path, 'conf.gspan'), 'w') as f:
-        f.write(gspan_conf)
-    with open(os.path.join(data_path, 'conf.nel'), 'w') as f:
-        f.write(nel_conf)
-    with open(os.path.join(data_path, 'conf_lcc.gspan'), 'w') as f:
-        f.write(gspan_lcc_conf)
-    with open(os.path.join(data_path, 'conf_lcc.nel'), 'w') as f:
-        f.write(nel_lcc_conf)
-    with open(os.path.join(data_path, 'er.gspan'), 'w') as f:
-        f.write(gspan_er)
-    with open(os.path.join(data_path, 'er.nel'), 'w') as f:
-        f.write(nel_er)
-    with open(os.path.join(data_path, 'er_lcc.gspan'), 'w') as f:
-        f.write(gspan_lcc_er)
-    with open(os.path.join(data_path, 'er_lcc.nel'), 'w') as f:
-        f.write(nel_lcc_er)
+        # move output to subgraphs directory
+        if os.path.exists(f'../data/fsm/graphs/{key}.gspan.fp'):
+            os.rename(f'../data/fsm/graphs/{key}.gspan.fp', f'../data/fsm/subgraphs/{key}.gspan.fp')
+
+    print('Mining frequent directed subgraphs...')
+    for key in graphs_to_mine:
+        print(f'\t Mining {key}...')
+        command = f'java -Xmx6g -cp dmoss/moss.jar moss.Miner -inel -onel -x -D -m2 -n4 -s10 -C -A ../data/fsm/graphs/{key}.nel ../data/fsm/subgraphs/{key}.nel.moss'
+        os.system(command)
+
+    # analyse significant motifs
+    print('Analysing significant motifs...')
+    for key in graphs_to_mine:
+        print(f'\t Analysing {key}...')
+        data = []
+        with open(f'../data/fsm/subgraphs/{key}.gspan.fp') as f:
+            gspan = f.read()
+        motifs = gspan_to_igraph(gspan)
+        graphs = graph_dict[key]
+        twitter = graph_dict[f'twitter_{key}']
+        confs = graph_dict[f'conf_{key}']
+        ers = graph_dict[f'er_{key}']
+
+        for i, motif in enumerate(motifs):
+            print(f'\t\t Analysing motif {i}...')
+            occurrences = [g.as_undirected().subisomorphic_vf2(motif) for g in graphs]
+            indeces = [i for i, o in enumerate(occurrences) if o]
+            graph_labels = [g['name'] for g, o in zip(graphs, occurrences) if o]
+            graph_support = sum(occurrences)
+            gspan_support = motif['support']
+
+            twitter_occurences = [g.as_undirected().subisomorphic_vf2(motif) for g in twitter]
+            twitter_indeces = [i for i, o in enumerate(twitter_occurences) if o]
+            twitter_support = sum(twitter_occurences)
+
+            conf_support = sum([1 for g in confs if g.as_undirected().subisomorphic_vf2(motif)]) / BOOTSTRAPS
+            er_support = sum([1 for g in ers if g.as_undirected().subisomorphic_vf2(motif)]) / BOOTSTRAPS
+            
+            motif_data = {
+                'vertices': [v.index for v in motif.vs],
+                'edges': [(e.source, e.target) for e in motif.es],
+                'graph_occurrences': occurrences,
+                'graph_indeces': indeces,
+                'graph_labels': graph_labels,
+                'graph_support': graph_support,
+                'twitter_occurences': twitter_occurences,
+                'twitter_indeces': twitter_indeces,
+                'twitter_support': twitter_support,
+                'conf_support': conf_support,
+                'er_support': er_support,
+                'gspan_support': gspan_support
+            }
+            data.append(motif_data)
+
+        with open(f'../data/fsm/subgraph_data/{key}.json', 'w') as f:
+            json.dump(data, f, indent=2)
+
+    # analyse significant motifs in directed graphs
+    print('Analysing significant motifs in directed graphs...')
+    for key in graphs_to_mine:
+        print(f'\t Analysing {key}...')
+        data = []
+        with open(f'../data/fsm/subgraphs/{key}.nel.moss') as f:
+            nel = f.read()
+        motifs = nel_to_igraph(nel)
+        graphs = graph_dict[key]
+        twitter = graph_dict[f'twitter_{key}']
+        confs = graph_dict[f'conf_{key}']
+        ers = graph_dict[f'er_{key}']
+
+        for i, motif in enumerate(motifs):
+            print(f'\t\t Analysing motif {i}...')
+            occurrences = [g.subisomorphic_vf2(motif) for g in graphs]
+            indeces = [i for i, o in enumerate(occurrences) if o]
+            graph_labels = [g['name'] for g, o in zip(graphs, occurrences) if o]
+            graph_support = sum(occurrences)
+            gspan_support = motif['support']
+
+            twitter_occurences = [g.subisomorphic_vf2(motif) for g in twitter]
+            twitter_indeces = [i for i, o in enumerate(twitter_occurences) if o]
+            twitter_support = sum(twitter_occurences)
+
+            conf_support = sum([1 for g in confs if g.subisomorphic_vf2(motif)]) / BOOTSTRAPS
+            er_support = sum([1 for g in ers if g.subisomorphic_vf2(motif)]) / BOOTSTRAPS
+            
+            motif_data = {
+                'vertices': [v.index for v in motif.vs],
+                'edges': [(e.source, e.target) for e in motif.es],
+                'graph_occurrences': occurrences,
+                'graph_indeces': indeces,
+                'graph_labels': graph_labels,
+                'graph_support': graph_support,
+                'twitter_occurences': twitter_occurences,
+                'twitter_indeces': twitter_indeces,
+                'twitter_support': twitter_support,
+                'conf_support': conf_support,
+                'er_support': er_support,
+                'gspan_support': gspan_support
+            }
+            data.append(motif_data)
+
+        with open(f'../data/fsm/subgraph_data/{key}_directed.json', 'w') as f:
+            json.dump(data, f, indent=2)
