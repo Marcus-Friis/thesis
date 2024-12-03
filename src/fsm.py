@@ -179,17 +179,17 @@ if __name__ == '__main__':
     for key in graphs_to_mine:
         print(f'\t Mining {key}...')
         command = f'./gSpan6/gSpan -f ../data/fsm/graphs/{key}.gspan -s 0.6 -o -i'
-        #os.system(command)
+        os.system(command)
 
         # move output to subgraphs directory
-        #if os.path.exists(f'../data/fsm/graphs/{key}.gspan.fp'):
-        #    os.rename(f'../data/fsm/graphs/{key}.gspan.fp', f'../data/fsm/subgraphs/{key}.gspan.fp')
+        if os.path.exists(f'../data/fsm/graphs/{key}.gspan.fp'):
+            os.rename(f'../data/fsm/graphs/{key}.gspan.fp', f'../data/fsm/subgraphs/{key}.gspan.fp')
 
     print('Mining frequent directed subgraphs...')
     for key in graphs_to_mine:
         print(f'\t Mining {key}...')
         command = f'java -Xmx6g -cp dmoss/moss.jar moss.Miner -inel -onel -x -D -m2 -n4 -s33 -C -A ../data/fsm/graphs/{key}.nel ../data/fsm/subgraphs/{key}.nel.moss'
-        #os.system(command)
+        os.system(command)
 
     # analyse significant motifs
     def analyze_motif(motif: ig.Graph, graphs: list, twitter: list, confs: list = None, ers: list = None):
