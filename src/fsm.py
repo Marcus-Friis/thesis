@@ -161,8 +161,7 @@ if __name__ == '__main__':
         'er_graph': ers,
         'er_lcc': er_lccs
     }
-    # graphs_to_mine = ['graph', 'lcc', 'sentiment_graph', 'sentiment_lcc']
-    graphs_to_mine = ['sentiment_graph', 'sentiment_lcc']
+    graphs_to_mine = ['graph', 'lcc', 'sentiment_graph', 'sentiment_lcc']
 
     # convert to gspan and nel format
     for key in graphs_to_mine:
