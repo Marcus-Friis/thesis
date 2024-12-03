@@ -7,7 +7,14 @@ import os
 import pickle
 import json
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+from collections import defaultdict
 
+# dict for sentiment labels
+sentiment_value_dict = defaultdict(lambda: 3, {
+    'positive': 1,
+    'neutral': 0,
+    'negative': 2
+})
 
 #################################################################
 #  _____ _ _  _____     _      _____                 _          #
@@ -93,6 +100,7 @@ def get_sentiment_video_graph(edges: pd.DataFrame, sentiment: pd.DataFrame, dire
     g.vs['sentiment'] = [sentiment_dict.get(v['name'], 'no transcription') for v in g.vs]
     score_dict = sentiment.set_index('id')['compound'].to_dict()
     g.vs['score'] = [score_dict.get(v['name'], None) for v in g.vs]
+    g.vs['sentiment_value'] = [sentiment_value_dict[s] for s in g.vs['sentiment']]
     return g
 
 def get_sentiment_user_graph(edges: pd.DataFrame, sentiment: pd.DataFrame, directed=True) -> ig.Graph:
@@ -102,6 +110,8 @@ def get_sentiment_user_graph(edges: pd.DataFrame, sentiment: pd.DataFrame, direc
     sentiment_dict = sentiment.set_index('id')['sentiment'].to_dict()
     g.es['stitcher_sentiment'] = [sentiment_dict.get(e['stitcher_id'], 'no transcription') for e in g.es]
     g.es['stitchee_sentiment'] = [sentiment_dict.get(e['stitchee_id'], 'no transcription') for e in g.es]
+    g.es['stitcher_sentiment_value'] = [sentiment_value_dict[s] for s in g.es['stitcher_sentiment']]
+    g.es['stitchee_sentiment_value'] = [sentiment_value_dict[s] for s in g.es['stitchee_sentiment']]
     
     score_dict = sentiment.set_index('id')['compound'].to_dict()
     g.es['stitcher_score'] = [score_dict.get(e['stitcher_id'], None) for e in g.es]
@@ -208,6 +218,7 @@ def get_twitter_sentiment_user_graph(edges: pd.DataFrame, directed=True) -> ig.G
     compound = [s['compound'] for s in sentiment_score]
     labels = ['positive' if c > 0.05 else 'negative' if c < -0.05 else 'neutral' for c in compound]
     G.es['sentiment'] = labels
+    G.es['sentiment_value'] = [sentiment_value_dict[s] for s in labels]
     G.es['score'] = compound
     return G
 
