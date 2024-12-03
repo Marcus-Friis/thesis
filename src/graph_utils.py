@@ -6,6 +6,7 @@ import pandas as pd
 import os
 import pickle
 import json
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 
 #################################################################
@@ -171,7 +172,8 @@ def load_twitter_edges(filepath: str) -> ig.Graph:
             'in_reply_to_tweet_id': tweet['in_reply_to_status_id'],
             'in_reply_to_user_id': tweet['in_reply_to_user_id'],
             'is_retweet': tweet['retweeted'],
-            'is_quote': tweet['is_quote_status']
+            'is_quote': tweet['is_quote_status'],
+            'text': tweet['text']
         }
         for tweet in tweets
     ]
@@ -182,7 +184,7 @@ def load_twitter_edges(filepath: str) -> ig.Graph:
 
 def get_twitter_user_graph(edges: pd.DataFrame) -> ig.Graph:
     # create directed graph
-    G = ig.Graph.TupleList(edges[['user_id', 'in_reply_to_user_id', 'tweet_id', 'is_retweet', 'is_quote']].values, directed=True, edge_attrs=['tweet_id', 'is_retweet', 'is_quote'])
+    G = ig.Graph.TupleList(edges[['user_id', 'in_reply_to_user_id', 'tweet_id', 'is_retweet', 'is_quote', 'text']].values, directed=True, edge_attrs=['tweet_id', 'is_retweet', 'is_quote', 'text'])
     return G
     
 def get_all_twitter_user_graphs() -> list:
@@ -194,6 +196,30 @@ def get_all_twitter_user_graphs() -> list:
         edge_file_path = os.path.join(data_path, edge_file)
         edges = load_twitter_edges(edge_file_path)
         g = get_twitter_user_graph(edges)
+        g['name'] = edge_file.split('_')[0] + '_twitter'
+        graphs.append(g)
+    return graphs
+
+def get_twitter_sentiment_user_graph(edges: pd.DataFrame) -> ig.Graph:
+    # create directed graph
+    G = get_twitter_user_graph(edges)
+    analyzer = SentimentIntensityAnalyzer()
+    sentiment_score = [analyzer.polarity_scores(text) for text in edges['text']]
+    compound = [s['compound'] for s in sentiment_score]
+    labels = ['positive' if c > 0.05 else 'negative' if c < -0.05 else 'neutral' for c in compound]
+    G.es['sentiment'] = labels
+    G.es['score'] = compound
+    return G
+
+def get_all_twitter_sentiment_user_graphs() -> list:
+    data_path = '../data/twitter/'
+    edge_files = [file for file in os.listdir(data_path) if file.endswith('_tweets')]
+    graphs = []
+    for edge_file in edge_files:
+        # read edge file
+        edge_file_path = os.path.join(data_path, edge_file)
+        edges = load_twitter_edges(edge_file_path)
+        g = get_twitter_sentiment_user_graph(edges)
         g['name'] = edge_file.split('_')[0] + '_twitter'
         graphs.append(g)
     return graphs
