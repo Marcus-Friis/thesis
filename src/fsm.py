@@ -117,6 +117,7 @@ if __name__ == '__main__':
     
     # sentiment graphs
     sgraphs = get_all_sentiment_user_graphs()
+    sgraphs = [g.simplify(multiple=False) for g in sgraphs]
     slccs = [g.components(mode='weak').giant() for g in sgraphs]
     
     # load twitter data
@@ -126,6 +127,7 @@ if __name__ == '__main__':
     
     # twitter sentiment graphs
     stwitter_graphs = get_all_twitter_sentiment_user_graphs()
+    stwitter_graphs = [g.simplify(multiple=False) for g in stwitter_graphs]
     stwitter_lccs = [g.components(mode='weak').giant() for g in stwitter_graphs]
 
     # create random graphs for comparison
@@ -191,9 +193,9 @@ if __name__ == '__main__':
         os.system(command)
 
     # analyse significant motifs
-    def analyze_motif(motif: ig.Graph, graphs: list, twitter: list, confs: list = None, ers: list = None):
+    def analyze_motif(motif: ig.Graph, graphs: list, twitter: list, use_edge_colors: bool, confs: list = None, ers: list = None) -> dict:
         fsm_support = motif['support']
-        if 'sentiment_value' in motif.es.attributes():
+        if use_edge_colors:
             motif_edge_color = 'sentiment_value'
             graphs_edge_color = 'stitcher_sentiment_value'
             twitter_edge_color = 'sentiment_value'
@@ -239,22 +241,23 @@ if __name__ == '__main__':
     print('Analysing significant motifs...')
     for key in graphs_to_mine:
         print(f'\t Analysing {key}...')
+        use_edge_colors = 'sentiment' in key
         data = []
         with open(f'../data/fsm/subgraphs/{key}.gspan.fp') as f:
             gspan = f.read()
         motifs = gspan_to_igraph(gspan)
         graphs = graph_dict[key]
-        graphs = [g.as_undirected(mode='each').simplify(multiple=False) for g in graphs]
+        graphs = [g.as_undirected(mode='each') for g in graphs]
         twitter = graph_dict[f'twitter_{key}']
-        twitter = [g.as_undirected(mode='each').simplify(multiple=False) for g in twitter]
+        twitter = [g.as_undirected(mode='each') for g in twitter]
         confs = graph_dict.get(f'conf_{key}', None)
-        confs = [g.as_undirected(mode='each').simplify(multiple=False) for g in confs] if confs is not None else None
+        confs = [g.as_undirected(mode='each') for g in confs] if confs is not None else None
         ers = graph_dict.get(f'er_{key}', None)
-        ers = [g.as_undirected(mode='each').simplify(multiple=False) for g in ers] if ers is not None else None
+        ers = [g.as_undirected(mode='each') for g in ers] if ers is not None else None
 
         for i, motif in enumerate(motifs):
             print(f'\t\t Analysing motif {i}...')
-            motif_data = analyze_motif(motif, graphs, twitter, confs, ers)
+            motif_data = analyze_motif(motif, graphs, twitter, use_edge_colors, confs, ers)
             data.append(motif_data)
 
         with open(f'../data/fsm/subgraph_data/{key}.json', 'w') as f:
@@ -264,22 +267,19 @@ if __name__ == '__main__':
     print('Analysing significant motifs in directed graphs...')
     for key in graphs_to_mine:
         print(f'\t Analysing {key}...')
+        use_edge_colors = 'sentiment' in key
         data = []
         with open(f'../data/fsm/subgraphs/{key}.nel.moss') as f:
             nel = f.read()
         motifs = nel_to_igraph(nel)
         graphs = graph_dict[key]
-        graphs = [g.simplify(multiple=False) for g in graphs]
         twitter = graph_dict[f'twitter_{key}']
-        twitter = [g.simplify(multiple=False) for g in twitter]
         confs = graph_dict.get(f'conf_{key}', None)
-        confs = [g.simplify(multiple=False) for g in confs] if confs is not None else None
         ers = graph_dict.get(f'er_{key}', None)
-        ers = [g.simplify(multiple=False) for g in ers] if ers is not None else None
 
         for i, motif in enumerate(motifs):
             print(f'\t\t Analysing motif {i}...')
-            motif_data = analyze_motif(motif, graphs, twitter, confs, ers)
+            motif_data = analyze_motif(motif, graphs, twitter, use_edge_colors, confs, ers)
             data.append(motif_data)
 
         with open(f'../data/fsm/subgraph_data/{key}_directed.json', 'w') as f:
