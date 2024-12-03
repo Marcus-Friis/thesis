@@ -37,15 +37,15 @@ def load_edges(filepath: str) -> pd.DataFrame:
 
     return edges
 
-def get_video_graph(edges: pd.DataFrame) -> ig.Graph:
-    G = ig.Graph.TupleList(edges[['stitcher', 'stitchee']].values, directed=True)
+def get_video_graph(edges: pd.DataFrame, directed=True) -> ig.Graph:
+    G = ig.Graph.TupleList(edges[['stitcher', 'stitchee']].values, directed=directed)
     return G
 
-def get_user_graph(edges: pd.DataFrame) -> ig.Graph:
-    G = ig.Graph.TupleList(edges[['stitcher_user', 'stitchee_user', 'stitcher', 'stitchee']].values, directed=True, edge_attrs=['stitcher_id', 'stitchee_id'])
+def get_user_graph(edges: pd.DataFrame, directed=True) -> ig.Graph:
+    G = ig.Graph.TupleList(edges[['stitcher_user', 'stitchee_user', 'stitcher', 'stitchee']].values, directed=directed, edge_attrs=['stitcher_id', 'stitchee_id'])
     return G
 
-def get_all_video_graphs() -> list:
+def get_all_video_graphs(directed=True) -> list:
     data_path = '../data/hashtags/edges/'
     edge_files = [file for file in os.listdir(data_path) if file.endswith('.txt')]
     graphs = []
@@ -53,12 +53,12 @@ def get_all_video_graphs() -> list:
         # read edge file
         edge_file_path = os.path.join(data_path, edge_file)
         edges = load_edges(edge_file_path)
-        g = get_video_graph(edges)
+        g = get_video_graph(edges, directed=directed)
         g['name'] = edge_file.split('_')[0]
         graphs.append(g)
     return graphs
 
-def get_all_user_graphs() -> list:
+def get_all_user_graphs(directed=True) -> list:
     data_path = '../data/hashtags/edges/'
     edge_files = [file for file in os.listdir(data_path) if file.endswith('.txt')]
     graphs = []
@@ -66,7 +66,7 @@ def get_all_user_graphs() -> list:
         # read edge file
         edge_file_path = os.path.join(data_path, edge_file)
         edges = load_edges(edge_file_path)
-        g = get_user_graph(edges)
+        g = get_user_graph(edges, directed=directed)
         g['name'] = edge_file.split('_')[0]
         graphs.append(g)
     return graphs
@@ -86,8 +86,8 @@ def load_sentiment(filepath: str) -> pd.DataFrame:
     df = pd.DataFrame(data)
     return df
 
-def get_sentiment_video_graph(edges: pd.DataFrame, sentiment: pd.DataFrame) -> list:
-    g = get_video_graph(edges)
+def get_sentiment_video_graph(edges: pd.DataFrame, sentiment: pd.DataFrame, directed=True) -> list:
+    g = get_video_graph(edges, directed=directed)
     sentiment['id'] = sentiment.apply(lambda x: x['video_id'] if x['stitchee_id'] == -1 else x['stitchee_id'], axis=1)
     sentiment_dict = sentiment.set_index('id')['sentiment'].to_dict()
     g.vs['sentiment'] = [sentiment_dict.get(v['name'], 'no transcription') for v in g.vs]
@@ -95,8 +95,8 @@ def get_sentiment_video_graph(edges: pd.DataFrame, sentiment: pd.DataFrame) -> l
     g.vs['score'] = [score_dict.get(v['name'], None) for v in g.vs]
     return g
 
-def get_sentiment_user_graph(edges: pd.DataFrame, sentiment: pd.DataFrame) -> ig.Graph:
-    g = get_user_graph(edges)
+def get_sentiment_user_graph(edges: pd.DataFrame, sentiment: pd.DataFrame, directed=True) -> ig.Graph:
+    g = get_user_graph(edges, directed=directed)
     
     sentiment['id'] = sentiment.apply(lambda x: x['video_id'] if x['stitchee_id'] == -1 else x['stitchee_id'], axis=1)
     sentiment_dict = sentiment.set_index('id')['sentiment'].to_dict()
@@ -109,7 +109,7 @@ def get_sentiment_user_graph(edges: pd.DataFrame, sentiment: pd.DataFrame) -> ig
     
     return g
     
-def get_all_sentiment_video_graphs() -> list:
+def get_all_sentiment_video_graphs(directed=True) -> list:
     edge_path = '../data/hashtags/edges/'
     sentiment_path = '../data/hashtags/transcriptions/'
     edge_files = {file.split('_')[0]: file for file in os.listdir(edge_path) if file.endswith('.txt')}
@@ -123,12 +123,12 @@ def get_all_sentiment_video_graphs() -> list:
         edges = load_edges(edge_file_path)
         sentiment_file_path = os.path.join(sentiment_path, sentiment_files[hashtag])
         sentiment = load_sentiment(sentiment_file_path)
-        g = get_sentiment_video_graph(edges, sentiment)
+        g = get_sentiment_video_graph(edges, sentiment, directed=directed)
         g['name'] = hashtag
         graphs.append(g)
     return graphs
     
-def get_all_sentiment_user_graphs() -> list:
+def get_all_sentiment_user_graphs(directed=True) -> list:
     edge_path = '../data/hashtags/edges/'
     sentiment_path = '../data/hashtags/transcriptions/'
     edge_files = {file.split('_')[0]: file for file in os.listdir(edge_path) if file.endswith('.txt')}
@@ -142,7 +142,7 @@ def get_all_sentiment_user_graphs() -> list:
         edges = load_edges(edge_file_path)
         sentiment_file_path = os.path.join(sentiment_path, sentiment_files[hashtag])
         sentiment = load_sentiment(sentiment_file_path)
-        g = get_sentiment_user_graph(edges, sentiment)
+        g = get_sentiment_user_graph(edges, sentiment, directed=directed)
         g['name'] = hashtag
         graphs.append(g)
     return graphs
@@ -182,12 +182,12 @@ def load_twitter_edges(filepath: str) -> ig.Graph:
     df = df[df['in_reply_to_user_id'].notnull()]
     return df
 
-def get_twitter_user_graph(edges: pd.DataFrame) -> ig.Graph:
+def get_twitter_user_graph(edges: pd.DataFrame, directed=True) -> ig.Graph:
     # create directed graph
-    G = ig.Graph.TupleList(edges[['user_id', 'in_reply_to_user_id', 'tweet_id', 'is_retweet', 'is_quote', 'text']].values, directed=True, edge_attrs=['tweet_id', 'is_retweet', 'is_quote', 'text'])
+    G = ig.Graph.TupleList(edges[['user_id', 'in_reply_to_user_id', 'tweet_id', 'is_retweet', 'is_quote', 'text']].values, directed=directed, edge_attrs=['tweet_id', 'is_retweet', 'is_quote', 'text'])
     return G
     
-def get_all_twitter_user_graphs() -> list:
+def get_all_twitter_user_graphs(directed=True) -> list:
     data_path = '../data/twitter/'
     edge_files = [file for file in os.listdir(data_path) if file.endswith('_tweets')]
     graphs = []
@@ -195,14 +195,14 @@ def get_all_twitter_user_graphs() -> list:
         # read edge file
         edge_file_path = os.path.join(data_path, edge_file)
         edges = load_twitter_edges(edge_file_path)
-        g = get_twitter_user_graph(edges)
+        g = get_twitter_user_graph(edges, directed=directed)
         g['name'] = edge_file.split('_')[0] + '_twitter'
         graphs.append(g)
     return graphs
 
-def get_twitter_sentiment_user_graph(edges: pd.DataFrame) -> ig.Graph:
+def get_twitter_sentiment_user_graph(edges: pd.DataFrame, directed=True) -> ig.Graph:
     # create directed graph
-    G = get_twitter_user_graph(edges)
+    G = get_twitter_user_graph(edges, directed=directed)
     analyzer = SentimentIntensityAnalyzer()
     sentiment_score = [analyzer.polarity_scores(text) for text in edges['text']]
     compound = [s['compound'] for s in sentiment_score]
@@ -211,7 +211,7 @@ def get_twitter_sentiment_user_graph(edges: pd.DataFrame) -> ig.Graph:
     G.es['score'] = compound
     return G
 
-def get_all_twitter_sentiment_user_graphs() -> list:
+def get_all_twitter_sentiment_user_graphs(directed=True) -> list:
     data_path = '../data/twitter/'
     edge_files = [file for file in os.listdir(data_path) if file.endswith('_tweets')]
     graphs = []
@@ -219,7 +219,7 @@ def get_all_twitter_sentiment_user_graphs() -> list:
         # read edge file
         edge_file_path = os.path.join(data_path, edge_file)
         edges = load_twitter_edges(edge_file_path)
-        g = get_twitter_sentiment_user_graph(edges)
+        g = get_twitter_sentiment_user_graph(edges, directed=directed)
         g['name'] = edge_file.split('_')[0] + '_twitter'
         graphs.append(g)
     return graphs
