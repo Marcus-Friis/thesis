@@ -68,6 +68,7 @@ def get_all_video_graphs(directed=True) -> list:
 def get_all_user_graphs(directed=True) -> list:
     data_path = '../data/hashtags/edges/'
     edge_files = [file for file in os.listdir(data_path) if file.endswith('.txt')]
+    sorted(edge_files)
     graphs = []
     for edge_file in edge_files:
         # read edge file

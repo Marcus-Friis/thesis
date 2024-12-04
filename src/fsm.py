@@ -72,7 +72,7 @@ def gspan_to_igraph(gspan_content: str) -> list:
                 support = int(parts[4])
             else:
                 support = None
-    g = ig.Graph.TupleList(edges, directed=False)
+    g = ig.Graph.TupleList(edges, directed=False, edge_attrs=['sentiment_value'])
     g['support'] = support
     graphs.append(g)
     return graphs
