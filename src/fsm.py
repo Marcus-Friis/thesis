@@ -87,7 +87,7 @@ if __name__ == '__main__':
         print(f'\t Mining {key}...')
         # run moss - java -Xmx6g -cp dmoss/moss.jar moss.Miner -inel -onel -x -D -m2 -n4 -s33 -C -A ../data/fsm/graphs/{key}.nel ../data/fsm/subgraphs/{key}.nel.moss
         filepath = f'../data/fsm/graphs/{key}.nel'
-        moss(filepath, support=33, heap_size=6, directed=True, verbose=True)
+        moss(filepath, support=33, heap_size=8, directed=True, verbose=True)
 
     # analyse significant motifs
     def analyze_motif(motif: ig.Graph, graphs: list, twitter: list, use_edge_colors: bool, confs: list = None, ers: list = None) -> dict:
@@ -108,6 +108,7 @@ if __name__ == '__main__':
 
         twitter_occurences = [g.subisomorphic_vf2(motif, edge_color1=twitter_edge_color, edge_color2=motif_edge_color) for g in twitter]
         twitter_indeces = [i for i, o in enumerate(twitter_occurences) if o]
+        twitter_labels = [g['name'] for g, o in zip(twitter, twitter_occurences) if o]
         twitter_support = sum(twitter_occurences)
 
         if confs is not None:
@@ -130,6 +131,7 @@ if __name__ == '__main__':
             'fsm_support': fsm_support,
             'twitter_occurences': twitter_occurences,
             'twitter_indeces': twitter_indeces,
+            'twitter_labels': twitter_labels,
             'twitter_support': twitter_support,
             'conf_support': conf_support,
             'er_support': er_support
