@@ -2,7 +2,7 @@
 import json
 from time import sleep
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from tiktok_utils import SourceScraper
+from utils.tiktok_utils import SourceScraper
 from sys import argv
 from threading import Lock
 

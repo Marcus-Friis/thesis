@@ -1,7 +1,7 @@
 # paths are messed up, put me into src for use in the future - thanks!
 if __name__ == '__main__':
     import argparse
-    from tiktok_utils import request_full
+    from utils.tiktok_utils import request_full
     import json
     import os
 
