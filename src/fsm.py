@@ -1,5 +1,5 @@
 from utils.graph_utils import get_all_user_graphs, get_all_twitter_user_graphs, get_all_sentiment_user_graphs, get_all_twitter_sentiment_user_graphs
-from utils.fsm_utils import igraph_to_gspan, igraph_to_nel, gspan_to_igraph, nel_to_igraph
+from utils.fsm_utils import gspan, moss, igraph_to_gspan, igraph_to_nel, gspan_to_igraph, nel_to_igraph
 import igraph as ig
 import os
 
@@ -67,10 +67,10 @@ if __name__ == '__main__':
     # convert to gspan and nel format
     for key in graphs_to_mine:
         value = graph_dict[key]
-        gspan = igraph_to_gspan(value)
+        gspan_content = igraph_to_gspan(value)
         nel = igraph_to_nel(value)
         with open(f'../data/fsm/graphs/{key}.gspan', 'w') as f:
-            f.write(gspan)
+            f.write(gspan_content)
         with open(f'../data/fsm/graphs/{key}.nel', 'w') as f:
             f.write(nel)
 
@@ -78,18 +78,16 @@ if __name__ == '__main__':
     print('Mining frequent undirected subgraphs...')
     for key in graphs_to_mine:
         print(f'\t Mining {key}...')
-        command = f'./gSpan6/gSpan -f ../data/fsm/graphs/{key}.gspan -s 0.6 -o -i'
-        os.system(command)
-
-        # move output to subgraphs directory
-        if os.path.exists(f'../data/fsm/graphs/{key}.gspan.fp'):
-            os.rename(f'../data/fsm/graphs/{key}.gspan.fp', f'../data/fsm/subgraphs/{key}.gspan.fp')
+        # run gspan - ./gSpan6/gSpan -f ../data/fsm/graphs/{key}.gspan -s 0.6 -o -i
+        filepath = f'../data/fsm/graphs/{key}.gspan'
+        gspan(filepath, support=0.6, verbose=True)
 
     print('Mining frequent directed subgraphs...')
     for key in graphs_to_mine:
         print(f'\t Mining {key}...')
-        command = f'java -Xmx6g -cp dmoss/moss.jar moss.Miner -inel -onel -x -D -m2 -n4 -s33 -C -A ../data/fsm/graphs/{key}.nel ../data/fsm/subgraphs/{key}.nel.moss'
-        os.system(command)
+        # run moss - java -Xmx6g -cp dmoss/moss.jar moss.Miner -inel -onel -x -D -m2 -n4 -s33 -C -A ../data/fsm/graphs/{key}.nel ../data/fsm/subgraphs/{key}.nel.moss
+        filepath = f'../data/fsm/graphs/{key}.nel'
+        moss(filepath, support=33, heap_size=6, directed=True, verbose=True)
 
     # analyse significant motifs
     def analyze_motif(motif: ig.Graph, graphs: list, twitter: list, use_edge_colors: bool, confs: list = None, ers: list = None) -> dict:
@@ -143,8 +141,8 @@ if __name__ == '__main__':
         use_edge_colors = 'sentiment' in key
         data = []
         with open(f'../data/fsm/subgraphs/{key}.gspan.fp') as f:
-            gspan = f.read()
-        motifs = gspan_to_igraph(gspan)
+            gspan_content = f.read()
+        motifs = gspan_to_igraph(gspan_content)
         graphs = graph_dict[key]
         graphs = [g.as_undirected(mode='each') for g in graphs]
         twitter = graph_dict[f'twitter_{key}']

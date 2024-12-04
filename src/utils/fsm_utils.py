@@ -1,4 +1,5 @@
 import igraph as ig
+import os
 
 def igraph_to_gspan(graphs: list) -> str:
     """
@@ -100,3 +101,61 @@ def nel_to_igraph(nel_content: str) -> list:
             support = int(line.split(' ')[3])
             graphs[-1]['support'] = support
     return graphs
+
+def gspan(filepath, 
+          support: float = 0.5, 
+          output_graph_ids: bool = True,
+          output_discovered_patterns: bool = True, 
+          negative_data_filepath=None, 
+          input_pattern_filepath=None, 
+          output_dfs_codes: bool = False, 
+          min_length: int = None, 
+          lower_bound: float = None, 
+          num_threads: int = None, 
+          move_output_file: bool = True,
+          verbose: bool = False
+          ):
+    command = f'./gSpan6/gSpan -f {filepath} -s {support}'
+    if negative_data_filepath:
+        command += f' -n {negative_data_filepath}'
+    if input_pattern_filepath:
+        command += f' -p {input_pattern_filepath}'
+    if output_discovered_patterns:
+        command += ' -o'
+    if output_graph_ids:
+        command += ' -i'
+    if output_dfs_codes:
+        command += ' -d'
+    if min_length is not None:
+        command += f' -m {min_length}'
+    if lower_bound is not None:
+        command += f' -v {lower_bound}'
+    if num_threads is not None:
+        command += f' -t {num_threads}'
+    filename = os.path.basename(filepath)
+    if verbose:
+        print(command)
+    os.system(command)
+    
+    if move_output_file:
+        filename = os.path.basename(filepath)
+        os.rename(f'{filepath}.fp', f'../data/fsm/subgraphs/{filename}.fp')
+        
+def moss(filepath,
+         support: int = 50,
+         directed: bool = True,
+         heap_size: int = 6,
+         restrict_to_closed_substrucutres: bool = False,
+         generate_all_possible_extensions: bool = True,
+         maximum_substrucutre_size: int = 4,
+         verbose: bool = False
+         ):
+    filename = os.path.basename(filepath)
+    heap_size = f'-Xmx{heap_size}g' if heap_size else ''
+    directed = '-D' if directed else ''
+    restrict_to_closed_substrucutres = '-C' if not restrict_to_closed_substrucutres else ''
+    generate_all_possible_extensions = '-A' if generate_all_possible_extensions else ''
+    command = f'java {heap_size} -cp dmoss/moss.jar moss.Miner -inel -onel -x {directed} -m2 -n{maximum_substrucutre_size} -s{support} {restrict_to_closed_substrucutres} {generate_all_possible_extensions} {filepath} ../data/fsm/subgraphs/{filename}.moss'
+    if verbose:
+        print(command)
+    os.system(command)
