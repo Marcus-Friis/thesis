@@ -32,10 +32,10 @@ graph TD
     M[👨‍🤝‍👨🏽Perform Cluster Analysis]
     N["⛏️Transactional Graph Mining<br>
     *This is done on:*<br>
-    * Raw TikTok/Twitter Graph<br>
-    * TikTok/Twitter graph with sentiment edges"]
+    - Raw TikTok/Twitter Graph<br>
+    - TikTok/Twitter graph with sentiment edges"]
 
-    Final(((Final dataset)))
+    Final(((Final findings & dataset)))
     
 
     %% I dont know the alphabet
