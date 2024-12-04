@@ -1,4 +1,4 @@
-from fsm import gspan_to_igraph, nel_to_igraph
+from utils.fsm_utils import gspan_to_igraph, nel_to_igraph
 import networkx as nx
 
 def graph_to_tikz(g, pos, support=None, minipage_width=0.23, horizontal_space=0.02):
