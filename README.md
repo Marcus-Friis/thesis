@@ -15,33 +15,56 @@ graph TD
     
     %% Define each step in the pipeline
 
-    A[🤓 Start: Setup TikTok API Access ] 
+    A[🤓 Start: Setup TikTok API Access] 
+    AA[🔷Twitter/X edgelist & graph creation]
     B[📝Collect Hashtag Videos using get_hashtag.py]
     C[🤏Extract edges using get_edges.py]
     D[🤏Extract targets using get_targets.py]
     E[📎Combine sources & targets using compose_vertices_files.py]
-    F[(File storage)]
+    F[(TikTokFile storage)]
+    FF[(Twitter/X storage)]
     G[🔽Download Videos using download_tiktok_vidoes.py]
     H[📈Perform Graph Analysis using graph_analysis.py <br> obtaining metrics and plots]
     I[✂Split videos into stichee and stitcher]
     J[🗣️Get Transcriptions]
-    K[🙈Sentiment Analysis]
+    K[🙈Perform Sentiment Analysis]
+    L[📊Embed the graphs]
+    M[👨‍🤝‍👨🏽Perform Cluster Analysis]
+    N["⛏️Transactional Graph Mining<br>
+    *This is done on:*<br>
+    * Raw TikTok/Twitter Graph<br>
+    * TikTok/Twitter graph with sentiment edges"]
+
+    Final(((Final dataset)))
+    
 
     %% I dont know the alphabet
-    %% KLMNOPQRTSUVXYZ
+    %% MNOPQRTSUVXYZ
 
     %% Connect the steps together
 
     A --> B
+    AA --> FF
     B --> C
     C --> D
     D --> E
     E --> F
     F --> G
     F --> H
+    FF --> H
+    FF --> L
+    FF --> N
     G --> I
     I --> J
     J --> K
+    F --> L
+    L --> M
+    F --> N
+    K --> N
+
+    N --> Final
+    M --> Final
+    H --> Final
    %% Add hrefs to the steps
 
 
