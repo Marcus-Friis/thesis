@@ -1,3 +1,4 @@
+# paths are messed up, put me into src for use in the future - thanks!
 if __name__ == '__main__':
     import argparse
     from tiktok_utils import request_full

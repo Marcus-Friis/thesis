@@ -1,3 +1,4 @@
+# paths are messed up, put me into src for use in the future - thanks!
 import json
 from time import sleep
 from concurrent.futures import ThreadPoolExecutor, as_completed
