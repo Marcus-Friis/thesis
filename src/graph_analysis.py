@@ -1,4 +1,4 @@
-from graph_utils import get_all_video_graphs, get_all_user_graphs, get_all_twitter_user_graphs, degree_centralization, closeness_centralization, betweenness_centralization
+from utils.graph_utils import get_all_video_graphs, get_all_user_graphs, get_all_twitter_user_graphs, degree_centralization, closeness_centralization, betweenness_centralization
 import igraph as ig
 import numpy as np
 import pandas as pd
@@ -99,6 +99,8 @@ if __name__ == '__main__':
             'Degree centralization': degree_cent,
             'closeness_cent': closeness_cent,
             'betweenness_cent': betweenness_cent
-        }).sort_values(['#Vertices'], ascending=False)
+        }).sort_values(['|V|'], ascending=False)
         print(df)
         # print(df.to_latex(index=False, float_format='%.2f'))
+
+        # plot

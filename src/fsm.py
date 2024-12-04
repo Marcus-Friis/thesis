@@ -1,4 +1,4 @@
-from graph_utils import get_all_user_graphs, get_all_twitter_user_graphs, get_all_sentiment_user_graphs, get_all_twitter_sentiment_user_graphs
+from utils.graph_utils import get_all_user_graphs, get_all_twitter_user_graphs, get_all_sentiment_user_graphs, get_all_twitter_sentiment_user_graphs
 import igraph as ig
 import os
 

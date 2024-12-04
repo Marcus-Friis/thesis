@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import re
 import json
 import numpy as np
-from graph_utils import load_edges, get_video_graph, get_user_graph, degree_centralization, closeness_centralization, betweenness_centralization, project_graph
+from utils.graph_utils import load_edges, get_video_graph, get_user_graph, degree_centralization, closeness_centralization, betweenness_centralization, project_graph
 
 
 def output_summary_statistics(G: ig.Graph) -> dict:

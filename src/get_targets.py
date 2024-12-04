@@ -2,7 +2,7 @@ if __name__ == '__main__':
     from sys import argv
     import json
     import re
-    from tiktok_utils import request_full
+    from utils.tiktok_utils import request_full
     from time import sleep
 
     if len(argv) < 2:

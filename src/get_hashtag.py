@@ -1,7 +1,7 @@
 if __name__ == '__main__':
     from sys import argv
     import json
-    from tiktok_utils import request_full
+    from utils.tiktok_utils import request_full
 
     start_date = '20240501'
     end_date = '20240531'

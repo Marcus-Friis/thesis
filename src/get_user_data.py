@@ -1,5 +1,5 @@
 import requests
-from tiktok_utils import get_access_token
+from utils.tiktok_utils import get_access_token
 
 access_token = get_access_token()
 

@@ -1,7 +1,7 @@
 if __name__ == '__main__':
     import json
     from time import sleep
-    from tiktok_utils import SourceScraper
+    from utils.tiktok_utils import SourceScraper
     from sys import argv
 
     if len(argv) < 2:
