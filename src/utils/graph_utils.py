@@ -27,6 +27,46 @@ sentiment_value_dict = defaultdict(lambda: 3, {
 #                                             |_|               #
 #################################################################
 
+hashtag_categories = uncapitalized_dict = {
+    "anime": "Shared interest",
+    "booktok": "Shared interest",
+    "gaming": "Shared interest",
+    "gym": "Shared interest",
+    "jazz": "Shared interest",
+    "kpop": "Shared interest",
+    "lgbt": "Shared interest",
+    "makeup": "Shared interest",
+    "minecraft": "Shared interest",
+    "plantsoftiktok": "Shared interest",
+    "tiktoknews": "Shared interest",
+    "asmr": "Entertainment",
+    "catsoftiktok": "Entertainment",
+    "challenge": "Entertainment",
+    "comedy": "Entertainment",
+    "conspiracy": "Entertainment",
+    "dogsoftiktok": "Entertainment",
+    "football": "Entertainment",
+    "learnontiktok": "Entertainment",
+    "movie": "Entertainment",
+    "news": "Entertainment",
+    "science": "Entertainment",
+    "storytime": "Entertainment",
+    "watermelon": "Entertainment",
+    "abortion": "Political",
+    "biden2024": "Political",
+    "blacklivesmatter": "Political",
+    "climatechange": "Political",
+    "election": "Political",
+    "gaza": "Political",
+    "guncontrol": "Political",
+    "israel": "Political",
+    "maga": "Political",
+    "palestine": "Political",
+    "prochoice": "Political",
+    "trump2024": "Political",
+}
+
+
 def load_edges(filepath: str) -> pd.DataFrame:
     # read edges from file
     edges = pd.read_csv(filepath, header=None)
@@ -62,7 +102,9 @@ def get_all_video_graphs(directed=True) -> list:
         edge_file_path = os.path.join(data_path, edge_file)
         edges = load_edges(edge_file_path)
         g = get_video_graph(edges, directed=directed)
-        g['name'] = edge_file.split('_')[0]
+        hashtag_name = edge_file.split('_')[0]
+        g['name'] = hashtag_name
+        g['category'] = hashtag_categories.get(hashtag_name, 'Other')
         graphs.append(g)
     return graphs
 
@@ -76,7 +118,9 @@ def get_all_user_graphs(directed=True) -> list:
         edge_file_path = os.path.join(data_path, edge_file)
         edges = load_edges(edge_file_path)
         g = get_user_graph(edges, directed=directed)
-        g['name'] = edge_file.split('_')[0]
+        hashtag_name = edge_file.split('_')[0]
+        g['name'] = hashtag_name
+        g['category'] = hashtag_categories.get(hashtag_name, 'Other')
         graphs.append(g)
     return graphs
 
@@ -137,6 +181,7 @@ def get_all_sentiment_video_graphs(directed=True) -> list:
         sentiment = load_sentiment(sentiment_file_path)
         g = get_sentiment_video_graph(edges, sentiment, directed=directed)
         g['name'] = hashtag
+        g['category'] = hashtag_categories.get(hashtag, 'Other')
         graphs.append(g)
     return graphs
     
@@ -156,6 +201,7 @@ def get_all_sentiment_user_graphs(directed=True) -> list:
         sentiment = load_sentiment(sentiment_file_path)
         g = get_sentiment_user_graph(edges, sentiment, directed=directed)
         g['name'] = hashtag
+        g['category'] = hashtag_categories.get(hashtag, 'Other')
         graphs.append(g)
     return graphs
 
