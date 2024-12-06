@@ -38,7 +38,6 @@ hashtag_categories = uncapitalized_dict = {
     "makeup": "Shared interest",
     "minecraft": "Shared interest",
     "plantsoftiktok": "Shared interest",
-    "tiktoknews": "Shared interest",
     "asmr": "Entertainment",
     "catsoftiktok": "Entertainment",
     "challenge": "Entertainment",
@@ -51,6 +50,7 @@ hashtag_categories = uncapitalized_dict = {
     "news": "Entertainment",
     "science": "Entertainment",
     "storytime": "Entertainment",
+    "tiktoknews": "Entertainment",
     "watermelon": "Entertainment",
     "abortion": "Political",
     "biden2024": "Political",
@@ -65,7 +65,6 @@ hashtag_categories = uncapitalized_dict = {
     "prochoice": "Political",
     "trump2024": "Political",
 }
-
 
 def load_edges(filepath: str) -> pd.DataFrame:
     # read edges from file
