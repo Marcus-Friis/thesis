@@ -13,52 +13,18 @@ if __name__ == '__main__':
     twitter_lccs = [g.components(mode='weak').giant() for g in twitter_graphs]
 
     all_graphs = {
-        'video': video_graphs,
+        #'video': video_graphs,
         'user': user_graphs,
-        'video_lcc': video_lccs,
-        'user_lcc': user_lccs,
-        'twitter': twitter_graphs,
-        'twitter_lcc': twitter_lccs
-    }
-
-    # categorization of hashtags
-    category_dict = {
-        'anime': 'Shared interest/subculture',
-        'booktok': 'Shared interest/subculture',
-        'football': 'Shared interest/subculture',
-        'gym': 'Shared interest/subculture',
-        'jazz': 'Shared interest/subculture',
-        'kpop': 'Shared interest/subculture',
-        'lgbt': 'Shared interest/subculture',
-        'makeup': 'Shared interest/subculture',
-        'minecraft': 'Shared interest/subculture',
-        'plantsoftiktok': 'Shared interest/subculture',
-        'biden2024': 'Political discussion',
-        'blacklivesmatter': 'Political discussion',
-        'climatechange': 'Political discussion',
-        'conspiracy': 'Political discussion',
-        'election': 'Political discussion',
-        'gaza': 'Political discussion',
-        'israel': 'Political discussion',
-        'maga': 'Political discussion',
-        'palestine': 'Political discussion',
-        'trump2024': 'Political discussion',
-        'asmr': 'Entertainment/knowledge',
-        'challenge': 'Entertainment/knowledge',
-        'comedy': 'Entertainment/knowledge',
-        'learnontiktok': 'Entertainment/knowledge',
-        'movie': 'Entertainment/knowledge',
-        'news': 'Entertainment/knowledge',
-        'science': 'Entertainment/knowledge',
-        'storytime': 'Entertainment/knowledge',
-        'tiktoknews': 'Entertainment/knowledge',
-        'watermelon': 'Entertainment/knowledge'
+        #'video_lcc': video_lccs,
+        #'user_lcc': user_lccs,
+        #'twitter': twitter_graphs,
+        #'twitter_lcc': twitter_lccs
     }
 
     # basic graph statistics
     for label, graphs in all_graphs.items():
         graph_labels = [g['name'] for g in graphs]
-        category = [category_dict.get(g['name'], 'Other') for g in graphs]
+        category = [g['category'] for g in graphs]
         num_nodes = [g.vcount() for g in graphs]
         num_edges = [g.ecount() for g in graphs]
         avg_in_degree = [np.mean(g.indegree()) for g in graphs]
@@ -73,34 +39,74 @@ if __name__ == '__main__':
         avg_path_length = [g.average_path_length() for g in graphs]
         avg_path_length_un = [g.average_path_length(directed=False) for g in graphs]
         degree_assortativity = [g.assortativity_degree() for g in graphs]
-        clustering_coeff = [g.transitivity_undirected() for g in graphs]
+        clustering_coeff = [g.transitivity_undirected(mode='zero') for g in graphs]
         reciprocity = [g.reciprocity() for g in graphs]
         degree_cent = [degree_centralization(g.as_undirected().simplify()) if g.vcount() > 2 else None for g in graphs]
         closeness_cent = [closeness_centralization(g.as_undirected().simplify()) if g.vcount() > 2 else None for g in graphs]
         betweenness_cent = [betweenness_centralization(g.as_undirected().simplify()) if g.vcount() > 2 else None for g in graphs]
 
         df = pd.DataFrame({
-            'Hashtag': graph_labels,
-            'Category': category,
-            '|V|': num_nodes,
-            '|E|': num_edges,
-            '#Self loops': num_self_loops,
-            '#Multi-edges': num_multiple_edges,
-            '#Components': num_components,
-            '#Vertices in LCC': num_nodes_in_lcc,
-            'Density': density,
-            'D': diameter,
-            'D undirected': diameter_un,
-            'L': avg_path_length,
-            'L undirected': avg_path_length_un,
-            'Degree assortativity': degree_assortativity,
-            'C': clustering_coeff,
-            'Reciprocity': reciprocity,
-            'Degree centralization': degree_cent,
-            'closeness_cent': closeness_cent,
-            'betweenness_cent': betweenness_cent
-        }).sort_values(['|V|'], ascending=False)
-        print(df)
-        # print(df.to_latex(index=False, float_format='%.2f'))
+            'hashtag': graph_labels,
+            'category': category,
+            'num_nodes': num_nodes,
+            'num_edges': num_edges,
+            'num_self_loops': num_self_loops,
+            'num_multi_edges': num_multiple_edges,
+            'num_components': num_components,
+            'num_nodes_in_lcc': num_nodes_in_lcc,
+            'density': density,
+            'diameter': diameter,
+            'diameter_un': diameter_un,
+            'avg_path_length': avg_path_length,
+            'avg_path_length_un': avg_path_length_un,
+            'degree_assortativty': degree_assortativity,
+            'clustering': clustering_coeff,
+            'reciprocity': reciprocity,
+            'degree_centralization': degree_cent,
+            'closeness_centralization': closeness_cent,
+            'betweenness_centralization': betweenness_cent
+        }).sort_values(['num_nodes', 'num_edges'], ascending=False)
 
-        # plot
+        latex_header_dict = {
+            'hashtag': 'Hashtag',
+            'category': 'Category',
+            'num_nodes': '$|V|$',
+            'num_edges': '$|E|$',
+            'num_self_loops': '\makecell{\#Self\\\\ -loops}',
+            'num_multi_edges': '\makecell{\#Multi\\\\ -edges}',
+            'num_components': '\#Components',
+            'num_nodes_in_lcc': '\makecell{$|V|$\\\\ in LCC}',
+            'density': 'Density',
+            'diameter': '$D$',
+            'diameter_un': '$D_u$',
+            'avg_path_length': '$L$',
+            'avg_path_length_un': '$L_u$',
+            'degree_assortativty': '\makecell{Degree\\\\ assortativity}',
+            'clustering': '$C_u$',
+            'reciprocity': 'Reciprocity',
+            'degree_centralization': '\makecell{Degree\\\\ centralization}',
+            'closeness_centralization': '\makecell{Closeness\\\\ centralization}',
+            'betweenness_centralization': '\makecell{Betweenness\\\\ centralization}'
+        }
+        
+        cols_to_print = [
+            'hashtag', 
+            'num_nodes', 
+            'num_edges', 
+            'num_self_loops',
+            'num_multi_edges',
+            'density', 
+            'diameter',
+            'diameter_un',
+            'num_components', 
+            'num_nodes_in_lcc', 
+            'clustering',
+            'reciprocity',
+            'degree_assortativty',
+            'degree_centralization'
+        ]
+        
+        latex = df[cols_to_print] \
+            .rename(columns=latex_header_dict)\
+            .to_latex(index=False, float_format='%.2f', escape=False)
+        print(latex)
