@@ -74,8 +74,8 @@ if __name__ == '__main__':
             'category': 'Category',
             'num_nodes': '$|V|$',
             'num_edges': '$|E|$',
-            'num_self_loops': '\makecell{\#Self\\\\ -loops}',
-            'num_multi_edges': '\makecell{\#Multi\\\\ -edges}',
+            'num_self_loops': '\makecell{\#Self-\\\\ loops}',
+            'num_multi_edges': '\makecell{\#Multi-\\\\ edges}',
             'num_components': '\#Components',
             'num_nodes_in_lcc': '\makecell{$|V|$\\\\ in LCC}',
             'density': 'Density',
@@ -98,14 +98,12 @@ if __name__ == '__main__':
             'num_edges', 
             'num_self_loops',
             'num_multi_edges',
-            'density', 
             'diameter',
             'diameter_un',
             'num_components', 
             'num_nodes_in_lcc', 
             'clustering',
             'reciprocity',
-            'degree_assortativty',
             'degree_centralization'
         ]
         
