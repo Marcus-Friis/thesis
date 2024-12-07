@@ -39,6 +39,7 @@ if __name__ == '__main__':
         avg_path_length = [g.average_path_length() for g in graphs]
         avg_path_length_un = [g.average_path_length(directed=False) for g in graphs]
         degree_assortativity = [g.assortativity_degree() for g in graphs]
+        degree_assortativity_un = [g.assortativity_degree(directed=False) for g in graphs]
         clustering_coeff = [g.transitivity_undirected(mode='zero') for g in graphs]
         reciprocity = [g.reciprocity() for g in graphs]
         degree_cent = [degree_centralization(g.as_undirected().simplify()) if g.vcount() > 2 else None for g in graphs]
@@ -60,6 +61,7 @@ if __name__ == '__main__':
             'avg_path_length': avg_path_length,
             'avg_path_length_un': avg_path_length_un,
             'degree_assortativty': degree_assortativity,
+            'degree_assortativity_un': degree_assortativity_un,
             'clustering': clustering_coeff,
             'reciprocity': reciprocity,
             'degree_centralization': degree_cent,
@@ -82,6 +84,7 @@ if __name__ == '__main__':
             'avg_path_length': '$L$',
             'avg_path_length_un': '$L_u$',
             'degree_assortativty': '\makecell{Degree\\\\ assortativity}',
+            'degree_assortativity_un': '\makecell{Degree\\\\ assortativity\\\\ undirected}',
             'clustering': '$C_u$',
             'reciprocity': 'Reciprocity',
             'degree_centralization': '\makecell{Degree\\\\ centralization}',
