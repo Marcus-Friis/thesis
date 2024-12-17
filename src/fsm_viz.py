@@ -42,7 +42,7 @@ def graphs_to_tikz(graphs: list,
         tikz_code += f"\\begin{{minipage}}{{{minipage_width}\\textwidth}}\\begin{{center}}\n"    
         tikz_code += graph_to_tikz(g, layout, scaling) + '\n'
         if support:
-            tikz_code += f"\\\\ $s$: {g['support']}\n"
+            tikz_code += f"\\\\${g['support']}$\n"
         tikz_code += "\\end{center}\n"
         tikz_code += "\\end{minipage}\n"
         tikz_code += f"\\hspace{{{horizontal_space}\\textwidth}}\n"
@@ -78,5 +78,5 @@ if __name__ == '__main__':
     graphs = sorted(graphs, key=lambda x: (-x['support'], x.vcount()))
     graphs = [g for g in graphs if g.vcount() > 0]
     graphs = [g for g in graphs if min_support is None or g['support'] >= min_support]
-    tikz = graphs_to_tikz(graphs, layout_algo=layout, support=True)
+    tikz = graphs_to_tikz(graphs, layout_algo=layout, support=True, scaling=0.9, minipage_width=0.1)
     print(tikz)
