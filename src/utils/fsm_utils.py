@@ -160,11 +160,11 @@ def moss(filepath,
         print(command)
     os.system(command)
 
-def json_to_igraph(json_content: list) -> list:
+def json_to_igraph(json_content: list, directed: bool = True) -> list:
     graphs = []
     for sub in json_content:
         edges = sub['edges']
-        g = ig.Graph.TupleList(edges)
+        g = ig.Graph.TupleList(edges, directed=directed)
         g.es['sentiment_value'] = sub['edge_colors']
         g['support'] = sub['graph_support']
         g['fsm_support'] = sub['fsm_support']
