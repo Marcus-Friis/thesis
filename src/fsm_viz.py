@@ -67,7 +67,8 @@ if __name__ == '__main__':
 
     if '.json' in filepath:
         data = json.load(open(f'../data/fsm/subgraph_data/{filepath}', 'r'))
-        graphs = json_to_igraph(data)
+        directed = 'directed' in filepath
+        graphs = json_to_igraph(data, directed=directed)
     elif '.gspan' in filepath or '.nel' in filepath:
         with open(f'../data/fsm/subgraphs/{filepath}', 'r') as f:
             content = f.read()
