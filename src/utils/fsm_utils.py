@@ -1,4 +1,5 @@
 import igraph as ig
+import json
 import os
 
 def igraph_to_gspan(graphs: list) -> str:
@@ -159,3 +160,16 @@ def moss(filepath,
     if verbose:
         print(command)
     os.system(command)
+
+def json_to_igraph(json_content: list) -> list:
+    graphs = []
+    for sub in json_content:
+        edges = sub['edges']
+        g = ig.Graph.TupleList(edges)
+        g.es['sentiment_value'] = sub['edge_colors']
+        g['support'] = sub['graph_support']
+        g['fsm_support'] = sub['fsm_support']
+        g['twitter_support'] = sub['twitter_support']
+        g['conf_support'] = sub['conf_support']
+        graphs.append(g)
+    return graphs
