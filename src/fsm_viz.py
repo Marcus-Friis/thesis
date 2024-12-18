@@ -1,5 +1,6 @@
-from utils.fsm_utils import gspan_to_igraph, nel_to_igraph
+from utils.fsm_utils import gspan_to_igraph, nel_to_igraph, json_to_igraph
 import igraph as ig
+import json
 
 def graph_to_tikz(g: ig.Graph, layout, scaling: float = 1) -> str:
     is_directed = g.is_directed()
@@ -64,13 +65,16 @@ if __name__ == '__main__':
     if len(argv) > 3:
         layout = argv[3]
 
-    with open(f'../data/fsm/subgraphs/{filepath}', 'r') as f:
-        content = f.read()
-
-    if '.gspan' in filepath:
-        graphs = gspan_to_igraph(content)
-    elif '.nel' in filepath:
-        graphs = nel_to_igraph(content)
+    if '.json' in filepath:
+        data = json.load(open(f'../data/fsm/subgraph_data/{filepath}', 'r'))
+        graphs = json_to_igraph(data)
+    elif '.gspan' in filepath or '.nel' in filepath:
+        with open(f'../data/fsm/subgraphs/{filepath}', 'r') as f:
+            content = f.read()
+        if '.gspan' in filepath:
+            graphs = gspan_to_igraph(content)
+        elif '.nel' in filepath:
+            graphs = nel_to_igraph(content)
     else:
         print("File format not supported")
         exit(1)
@@ -78,5 +82,5 @@ if __name__ == '__main__':
     graphs = sorted(graphs, key=lambda x: (-x['support'], x.vcount()))
     graphs = [g for g in graphs if g.vcount() > 0]
     graphs = [g for g in graphs if min_support is None or g['support'] >= min_support]
-    tikz = graphs_to_tikz(graphs, layout_algo=layout, support=True, scaling=0.9, minipage_width=0.1)
+    tikz = graphs_to_tikz(graphs, layout_algo=layout, support=True, scaling=0.5, minipage_width=0.08)
     print(tikz)

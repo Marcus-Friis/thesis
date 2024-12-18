@@ -1,5 +1,4 @@
 import igraph as ig
-import json
 import os
 
 def igraph_to_gspan(graphs: list) -> str:
