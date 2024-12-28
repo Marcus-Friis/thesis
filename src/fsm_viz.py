@@ -1,6 +1,7 @@
 from utils.fsm_utils import gspan_to_igraph, nel_to_igraph, json_to_igraph
 import igraph as ig
 import json
+from collections import Counter, defaultdict
 
 def graph_to_tikz(g: ig.Graph, layout, scaling: float = 1, twitter: bool = False) -> str:
     is_directed = g.is_directed()
@@ -15,10 +16,19 @@ def graph_to_tikz(g: ig.Graph, layout, scaling: float = 1, twitter: bool = False
         y = y * scaling / max_coord
         tikz_code += f'\t\\Vertex[x={x:.2f}, y={y:.2f}]{{{i}}}\n'
 
-    for i, j in g.get_edgelist():
+    edge_list = g.get_edgelist()
+    edge_counter = Counter(edge_list)
+    edge_bend_dict = defaultdict(lambda : -33)
+    for i, j in edge_list:
+        edge_count = edge_counter[(i, j)]
+        bend_bool = edge_count > 1
+        if bend_bool:
+            edge_bend = edge_bend_dict[(i, j)]
+            edge_bend_dict[(i, j)] += 66
         sentiment = g.es[g.get_eid(i, j)]['sentiment_value']
         edge_color = sentiment_dict[sentiment]
-        edge_style = f'[color={edge_color}{edge_direct}]'
+        edge_bend_style = f',bend={edge_bend}' if bend_bool else ''
+        edge_style = f'[color={edge_color}{edge_direct}{edge_bend_style}]'
         tikz_code += f'\t\\Edge{edge_style}({i})({j})\n'
     tikz_code += '\\end{tikzpicture}'
     return tikz_code
