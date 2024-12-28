@@ -23,7 +23,43 @@ def graph_to_tikz(g: ig.Graph, layout, scaling: float = 1, twitter: bool = False
     tikz_code += '\\end{tikzpicture}'
     return tikz_code
 
-def graphs_to_tikz(graphs: list, 
+def graphs_to_tikz(graphs: list,
+                   layout_algo: str = 'kamada_kawai',
+                   scaling: float = 1,
+                   support: bool = True,
+                   twitter: bool = False,
+                   n_cols: int = 5) -> str:
+    tikz_code = '\\begin{tabular}{'
+    for _ in range(n_cols):
+        tikz_code += 'c'
+    tikz_code += '}\n'
+    for i in range(0, len(graphs), n_cols):
+        for j in range(n_cols):
+            if i + j >= len(graphs):
+                break
+            g = graphs[i + j]
+            if layout_algo == 'kamada_kawai':
+                layout = g.layout_kamada_kawai()
+            elif layout_algo == 'graphopt':
+                layout = g.layout_graphopt()
+            elif layout_algo == 'fruchterman_reingold':
+                layout = g.layout_fruchterman_reingold()
+            else:
+                raise ValueError('Invalid layout algorithm')
+            tikz_code += '\\makecell{'
+            tikz_code += graph_to_tikz(g, layout, scaling) + '\n'
+            if support and twitter:
+                tikz_code += f"\\\\${g['support']} \\hspace{{4pt}} | \\hspace{{4pt}} \\textcolor{{TwitterBlue}}{{{g['twitter_support']}}}$\n"
+            elif support:
+                tikz_code += f"\\\\${g['support']}$\n"
+            tikz_code += '}\n'
+            if j < n_cols - 1:
+                tikz_code += '&'
+        tikz_code += '\\\\\n'
+    tikz_code += '\\end{tabular}'
+    return tikz_code
+
+def graphs_to_tikz_minipage(graphs: list, 
                    layout_algo: str = 'kamada_kawai', 
                    scaling: float = 1, 
                    support: bool = True, 
@@ -88,7 +124,7 @@ if __name__ == '__main__':
         exit(1)
 
     graphs = sorted(graphs, key=lambda x: (-x['support'], x.vcount()))
-    graphs = [g for g in graphs if g.vcount() > 6]
+    graphs = [g for g in graphs if g.vcount() > 0]
     graphs = [g for g in graphs if min_support is None or g['support'] >= min_support]
-    tikz = graphs_to_tikz(graphs, layout_algo=layout, support=True, scaling=0.5, minipage_width=0.08, twitter=twitter)
+    tikz = graphs_to_tikz(graphs, layout_algo=layout, support=True, scaling=0.5, n_cols=7, twitter=twitter)
     print(tikz)
