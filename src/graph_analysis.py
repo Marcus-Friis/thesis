@@ -14,10 +14,10 @@ if __name__ == '__main__':
 
     all_graphs = {
         #'video': video_graphs,
-        'user': user_graphs,
+        #'user': user_graphs,
         #'video_lcc': video_lccs,
         #'user_lcc': user_lccs,
-        #'twitter': twitter_graphs,
+        'twitter': twitter_graphs,
         #'twitter_lcc': twitter_lccs
     }
 
