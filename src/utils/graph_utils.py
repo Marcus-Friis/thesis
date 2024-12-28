@@ -242,6 +242,7 @@ def load_twitter_edges(filepath: str) -> ig.Graph:
 def get_twitter_user_graph(edges: pd.DataFrame, directed=True) -> ig.Graph:
     # create directed graph
     G = ig.Graph.TupleList(edges[['user_id', 'in_reply_to_user_id', 'tweet_id', 'is_retweet', 'is_quote', 'text']].values, directed=directed, edge_attrs=['tweet_id', 'is_retweet', 'is_quote', 'text'])
+    G['category'] = 'Twitter'
     return G
     
 def get_all_twitter_user_graphs(directed=True) -> list:
