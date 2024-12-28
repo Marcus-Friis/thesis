@@ -2,7 +2,7 @@ from utils.fsm_utils import gspan_to_igraph, nel_to_igraph, json_to_igraph
 import igraph as ig
 import json
 
-def graph_to_tikz(g: ig.Graph, layout, scaling: float = 1) -> str:
+def graph_to_tikz(g: ig.Graph, layout, scaling: float = 1, twitter: bool = False) -> str:
     is_directed = g.is_directed()
     edge_direct = ',Direct' if is_directed else ''
     max_coord = max([abs(x) for coor in layout for x in coor])
@@ -27,6 +27,7 @@ def graphs_to_tikz(graphs: list,
                    layout_algo: str = 'kamada_kawai', 
                    scaling: float = 1, 
                    support: bool = True, 
+                   twitter: bool = False,
                    minipage_width: float = 0.15,
                    horizontal_space: float = 0.05) -> str:
     tikz_code = ''
@@ -42,7 +43,9 @@ def graphs_to_tikz(graphs: list,
         
         tikz_code += f"\\begin{{minipage}}{{{minipage_width}\\textwidth}}\\begin{{center}}\n"    
         tikz_code += graph_to_tikz(g, layout, scaling) + '\n'
-        if support:
+        if support and twitter:
+            tikz_code += f"\\\\${g['support']} \\hspace{{4pt}} | \\hspace{{4pt}} \\textcolor{{TwitterBlue}}{{{g['twitter_support']}}}$\n"
+        elif support:
             tikz_code += f"\\\\${g['support']}$\n"
         tikz_code += "\\end{center}\n"
         tikz_code += "\\end{minipage}\n"
@@ -53,7 +56,7 @@ if __name__ == '__main__':
     from sys import argv
 
     if len(argv) < 2:
-        print(f"Usage: {argv[0]} <nel or gspan file> [min support] [layout algo]")
+        print(f"Usage: {argv[0]} <nel or gspan file> [min support] [layout algo] [twitter support]")
         exit(1)
     filepath = argv[1]
 
@@ -64,6 +67,10 @@ if __name__ == '__main__':
     layout = 'kamada_kawai'
     if len(argv) > 3:
         layout = argv[3]
+        
+    twitter = False
+    if len(argv) > 4:
+        twitter = bool(argv[4])
 
     if '.json' in filepath:
         data = json.load(open(f'../data/fsm/subgraph_data/{filepath}', 'r'))
@@ -81,7 +88,7 @@ if __name__ == '__main__':
         exit(1)
 
     graphs = sorted(graphs, key=lambda x: (-x['support'], x.vcount()))
-    graphs = [g for g in graphs if g.vcount() > 0]
+    graphs = [g for g in graphs if g.vcount() > 6]
     graphs = [g for g in graphs if min_support is None or g['support'] >= min_support]
-    tikz = graphs_to_tikz(graphs, layout_algo=layout, support=True, scaling=0.5, minipage_width=0.08)
+    tikz = graphs_to_tikz(graphs, layout_algo=layout, support=True, scaling=0.5, minipage_width=0.08, twitter=twitter)
     print(tikz)
