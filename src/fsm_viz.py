@@ -28,8 +28,11 @@ def graphs_to_tikz(graphs: list,
                    scaling: float = 1,
                    support: bool = True,
                    twitter: bool = False,
-                   n_cols: int = 5) -> str:
-    tikz_code = '\\begin{tabular}{'
+                   n_cols: int = 5,
+                   tabcolsep: int = 9,
+                   row_spacing: float = 0.9) -> str:
+    tikz_code = f'\setlength{{\\tabcolsep}}{{{tabcolsep}pt}}\n'
+    tikz_code += '\\begin{tabular}{'
     for _ in range(n_cols):
         tikz_code += 'c'
     tikz_code += '}\n'
@@ -55,7 +58,7 @@ def graphs_to_tikz(graphs: list,
             tikz_code += '}\n'
             if j < n_cols - 1:
                 tikz_code += '&'
-        tikz_code += '\\\\\n'
+        tikz_code += f'\\\\[{row_spacing}cm]\n'
     tikz_code += '\\end{tabular}'
     return tikz_code
 
