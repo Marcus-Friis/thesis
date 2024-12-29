@@ -19,13 +19,14 @@ def graph_to_tikz(g: ig.Graph, layout, scaling: float = 1, twitter: bool = False
     edge_list = g.get_edgelist()
     edge_counter = Counter(edge_list)
     edge_bend_dict = defaultdict(lambda : -33)
-    for i, j in edge_list:
+    for e in g.es:
+        i, j = e.tuple
         edge_count = edge_counter[(i, j)]
         bend_bool = edge_count > 1
         if bend_bool:
             edge_bend = edge_bend_dict[(i, j)]
             edge_bend_dict[(i, j)] += 66
-        sentiment = g.es[g.get_eid(i, j)]['sentiment_value']
+        sentiment = e['sentiment_value']
         edge_color = sentiment_dict[sentiment]
         edge_bend_style = f',bend={edge_bend}' if bend_bool else ''
         edge_style = f'[color={edge_color}{edge_direct}{edge_bend_style}]'
@@ -148,7 +149,7 @@ if __name__ == '__main__':
     from sys import argv
 
     if len(argv) < 2:
-        print(f"Usage: {argv[0]} <nel or gspan file> [min support] [layout algo] [twitter support]")
+        print(f"Usage: {argv[0]} <nel, gspan or json file> [min support] [layout algo] [twitter support]")
         exit(1)
     filepath = argv[1]
 
