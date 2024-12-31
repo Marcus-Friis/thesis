@@ -16,8 +16,8 @@ if __name__ == '__main__':
         #'video': video_graphs,
         #'user': user_graphs,
         #'video_lcc': video_lccs,
-        #'user_lcc': user_lccs,
-        'twitter': twitter_graphs,
+        'user_lcc': user_lccs,
+        #'twitter': twitter_graphs,
         #'twitter_lcc': twitter_lccs
     }
 
@@ -61,13 +61,13 @@ if __name__ == '__main__':
             'avg_path_length': avg_path_length,
             'avg_path_length_un': avg_path_length_un,
             'degree_assortativty': degree_assortativity,
-            'degree_assortativity_un': degree_assortativity_un,
+            # 'degree_assortativity_un': degree_assortativity_un,
             'clustering': clustering_coeff,
             'reciprocity': reciprocity,
             'degree_centralization': degree_cent,
             'closeness_centralization': closeness_cent,
             'betweenness_centralization': betweenness_cent
-        }).sort_values(['num_nodes', 'num_edges'], ascending=False)
+        }).sort_values('hashtag') #.sort_values(['num_nodes', 'num_edges'], ascending=False)
 
         latex_header_dict = {
             'hashtag': 'Hashtag',
@@ -93,19 +93,25 @@ if __name__ == '__main__':
         }
         
         cols_to_print = [
-            'hashtag', 
+            'hashtag',
+            # 'category', 
             'num_nodes', 
             'num_edges', 
-            'num_self_loops',
-            'num_multi_edges',
-            'diameter',
-            'diameter_un',
-            'num_components', 
-            'num_nodes_in_lcc', 
+            #'num_components', 
+            #'diameter',
+            #'diameter_un',
+            'avg_path_length',
+            'avg_path_length_un',
             'clustering',
             'reciprocity',
             'degree_centralization'
         ]
+        
+        # full table
+        # cols_to_print = df.columns  # [col for col in df.columns if col != 'hashtag']
+        
+        # aggregate rows by category
+        # df = df.groupby('category').mean().reset_index()
         
         latex = df[cols_to_print] \
             .rename(columns=latex_header_dict)\
