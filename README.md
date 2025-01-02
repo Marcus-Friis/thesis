@@ -10,93 +10,6 @@ TikTok StitchGraph is a collection of 36 graphs representing user and video rela
 
 <img src="figures/user_graphs_filtered/maga-user-graph-filtered.svg" width="300">
 
-## Project pipeline
-
-
-
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#4f98ca', 'edgeLabelBackground':'#2b2b2b', 'nodeTextColor': '#ffffff', 'background': '#1e1e1e'}}}%%
-
-graph TD
-    
-    %% Define each step in the pipeline
-
-    A[🤓 Start: Setup TikTok API Access] 
-    AA[🔷Twitter/X edgelist & graph creation]
-    B[📝Collect Hashtag Videos using get_hashtag.py]
-    C[🤏Extract edges using get_edges.py]
-    D[🤏Extract targets using get_targets.py]
-    E[📎Combine sources & targets using compose_vertices_files.py]
-    F[(TikTokFile storage)]
-    FF[(Twitter/X storage)]
-    G[🔽Download Videos using download_tiktok_vidoes.py]
-    H[📈Perform Graph Analysis using graph_analysis.py <br> obtaining metrics and plots]
-    I[✂Split videos into stichee and stitcher]
-    J[🗣️Get Transcriptions]
-    K[🙈Perform Sentiment Analysis]
-    L[📊Embed the graphs]
-    M[👨‍🤝‍👨🏽Perform Cluster Analysis]
-    N["⛏️Transactional Graph Mining<br>
-    *This is done on:*<br>
-    - Raw TikTok/Twitter Graph<br>
-    - TikTok/Twitter graph with sentiment edges"]
-
-    Final(((Final findings & dataset)))
-    
-
-    %% I dont know the alphabet
-    %% MNOPQRTSUVXYZ
-
-    %% Connect the steps together
-
-    A --> B
-    AA --> FF
-    B --> C
-    C --> D
-    D --> E
-    E --> F
-    F --> G
-    F --> H
-    FF --> H
-    FF --> L
-    FF --> N
-    G --> I
-    I --> J
-    J --> K
-    F --> L
-    L --> M
-    F --> N
-    K --> N
-
-    N --> Final
-    M --> Final
-    H --> Final
-   %% Add hrefs to the steps
-
-
-    click A href "https://github.com/Marcus-Friis/thesis/tree/cleanup?tab=readme-ov-file#tiktok-api" "click A"
-
-    click B href "https://github.com/Marcus-Friis/thesis/tree/cleanup?tab=readme-ov-file#get-hashtag-stitches" "click B"
-
-    click C href "https://github.com/Marcus-Friis/thesis?tab=readme-ov-file#stitch-edge-scraper" "click C"
-
-    click D href "https://github.com/Marcus-Friis/thesis?tab=readme-ov-file#extract-targets" "click D"
-
-    click E "https://github.com/Marcus-Friis/thesis?tab=readme-ov-file#script-1-stitcher-and-stitchee-data-processing" "click E"
-
-    click F "https://github.com/Marcus-Friis/thesis/tree/main/data" "click F"
-
-    click G "https://github.com/Marcus-Friis/thesis?tab=readme-ov-file#helper-script-for-quickly-downloading-videos" "click G"
-
-    click H "https://github.com/Marcus-Friis/thesis?tab=readme-ov-file#graph-analysis" "click H"
-
-    click I "https://github.com/Marcus-Friis/thesis?tab=readme-ov-file#split-videos-into-sticher-and-stichee" "click I"
-
-    %%click J "" "click J"
-
-
-```
-
 # TikTok API
 ### Getting started
 The [TikTok API documentaiton](https://developers.tiktok.com/doc/about-research-api/) describes how to use it. We have created a [notebook](/notebooks/1.0-mahf-tiktok-api-fun.ipynb) to explore the use of this API. 
@@ -326,7 +239,90 @@ The `tiktok_utils` script is not designed to be a standalone tool, but rather a 
 This utility module streamlines video data collection and scraping for TikTok, serving as the core component behind these scripts.
 
 
+## Project pipeline
 
+```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#4f98ca', 'edgeLabelBackground':'#2b2b2b', 'nodeTextColor': '#ffffff', 'background': '#1e1e1e'}}}%%
+
+graph TD
+    
+    %% Define each step in the pipeline
+
+    A[🤓 Start: Setup TikTok API Access] 
+    AA[🔷Twitter/X edgelist & graph creation]
+    B[📝Collect Hashtag Videos using get_hashtag.py]
+    C[🤏Extract edges using get_edges.py]
+    D[🤏Extract targets using get_targets.py]
+    E[📎Combine sources & targets using compose_vertices_files.py]
+    F[(TikTokFile storage)]
+    FF[(Twitter/X storage)]
+    G[🔽Download Videos using download_tiktok_vidoes.py]
+    H[📈Perform Graph Analysis using graph_analysis.py <br> obtaining metrics and plots]
+    I[✂Split videos into stichee and stitcher]
+    J[🗣️Get Transcriptions]
+    K[🙈Perform Sentiment Analysis]
+    L[📊Embed the graphs]
+    M[👨‍🤝‍👨🏽Perform Cluster Analysis]
+    N["⛏️Transactional Graph Mining<br>
+    *This is done on:*<br>
+    - Raw TikTok/Twitter Graph<br>
+    - TikTok/Twitter graph with sentiment edges"]
+
+    Final(((Final findings & dataset)))
+    
+
+    %% I dont know the alphabet
+    %% MNOPQRTSUVXYZ
+
+    %% Connect the steps together
+
+    A --> B
+    AA --> FF
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    F --> H
+    FF --> H
+    FF --> L
+    FF --> N
+    G --> I
+    I --> J
+    J --> K
+    F --> L
+    L --> M
+    F --> N
+    K --> N
+
+    N --> Final
+    M --> Final
+    H --> Final
+   %% Add hrefs to the steps
+
+
+    click A href "https://github.com/Marcus-Friis/thesis/tree/cleanup?tab=readme-ov-file#tiktok-api" "click A"
+
+    click B href "https://github.com/Marcus-Friis/thesis/tree/cleanup?tab=readme-ov-file#get-hashtag-stitches" "click B"
+
+    click C href "https://github.com/Marcus-Friis/thesis?tab=readme-ov-file#stitch-edge-scraper" "click C"
+
+    click D href "https://github.com/Marcus-Friis/thesis?tab=readme-ov-file#extract-targets" "click D"
+
+    click E "https://github.com/Marcus-Friis/thesis?tab=readme-ov-file#script-1-stitcher-and-stitchee-data-processing" "click E"
+
+    click F "https://github.com/Marcus-Friis/thesis/tree/main/data" "click F"
+
+    click G "https://github.com/Marcus-Friis/thesis?tab=readme-ov-file#helper-script-for-quickly-downloading-videos" "click G"
+
+    click H "https://github.com/Marcus-Friis/thesis?tab=readme-ov-file#graph-analysis" "click H"
+
+    click I "https://github.com/Marcus-Friis/thesis?tab=readme-ov-file#split-videos-into-sticher-and-stichee" "click I"
+
+    %%click J "" "click J"
+
+
+```
 
 
 ## (NOT UPDATED) How Argument Parsing Works with sys.argv
