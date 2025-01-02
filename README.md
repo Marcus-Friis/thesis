@@ -1,24 +1,12 @@
 # TikTok StitchGraph 🎵 
 
-We present TikTok StitchGraph: a collection of 36 graphs based on TikTok stitches.
-With its rapid growth and widespread popularity, TikTok presents a compelling
-platform for study. Its recently introduced research API offers an opportunity to
-explore the intricacies of its content-remixing stitch feature. Leveraging this, in
-combination with web scraping, we construct graphs detailing stitch relations from
-both a video- and user-centric perspective. Specifically, we focus on user multidigraphs,
-with vertices representing users and edges representing directed stitch
-relations. From the user graphs, we characterize common communication patterns
-of the stitch using frequent subgraph mining, finding a preference for stars and
-star-like structures, an aversion towards cyclic structures, and directional disposition
-favoring in- and out-stars over mixed-direction structures. These structures
-are augmented with sentiment labels in the form of edge attributes. However, the
-added complexity yields no new insights. Furthermore, no discovered subgraph
-is statistically significant under a configuration null model. Using these subgraphs
-for graph-level embeddings together with Graph2Vec, we show no clear distinction
-between topologies for different hashtag topic categories. Lastly, comparing
-StitchGraph to Twitter reply networks reveal no major findings with the subgraph
-analysis and graph embeddings. The dataset and methodology demonstrate one
-approach to comprising and analyzing network structures from TikTok.
+TikTok StitchGraph is a collection of 36 graphs representing user and video relationships through TikTok's stitch feature. Built using the TikTok research API and web scraping, these graphs explore stitch patterns of users. Key findings include:
+
+* A preference for star-like structures and an aversion to cyclic patterns.
+* Sentiment labels as edge attributes, which yielded no additional insights.
+* Subgraph analysis showing no statistically significant patterns under a null model.
+* Graph embeddings (via Graph2Vec) revealing no clear distinctions in topology across hashtag topic categories.
+* Comparisons with Twitter reply networks also showed no major findings. This dataset provides a novel approach for studying TikTok network structures and content remixing behaviors.
 
 <img src="figures/user_graphs_filtered/maga-user-graph-filtered.svg" width="300">
 
