@@ -1,8 +1,8 @@
-# TikTok Stitch Graph 🎵
+# TikTok StitchGraph 🎵
 
 In recent times, with the introduction of TikTok, Instagram reels, YouTube Shorts etc., short-form videos have become one of the main mediums for public discourse. This poses an interesting challenge, as understanding the contents of these videos analytically requires analyzing both the visual, auditory, and textual components of the content. Furthermore, platforms such as TikTok allows for responding to other videos through *“stitches”*, creating a network-like structure, where videos can respond to other videos. Fully grasping the nature of such a network requires understanding both the topological structure of the TikTok stitch network, along with the individual contents of each video. That is what this project aims to explore. Using video content, how can we improve our understanding of how people communicate using stitches? To this end, we will use a combination of image processing, NLP methods and network analysis. 
 
-<\<img src="figures/user_graphs_filtered/maga-user-graph-filtered.svg" width="300">
+<img src="figures/user_graphs_filtered/maga-user-graph-filtered.svg" width="300">
 
 ## Project pipeline
 
