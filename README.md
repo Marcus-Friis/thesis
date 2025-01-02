@@ -1,12 +1,6 @@
 # TikTok StitchGraph 🎵 
 
-TikTok StitchGraph is a collection of 36 graphs representing user and video relationships through TikTok's stitch feature. Built using the TikTok research API and web scraping, these graphs explore stitch patterns of users. Key findings include:
-
-* A preference for star-like structures and an aversion to cyclic patterns.
-* Sentiment labels as edge attributes, which yielded no additional insights.
-* Subgraph analysis showing no statistically significant patterns under a null model.
-* Graph embeddings (via Graph2Vec) revealing no clear distinctions in topology across hashtag topic categories.
-* Comparisons with Twitter reply networks also showed no major findings. This dataset provides a novel approach for studying TikTok network structures and content remixing behaviors.
+TikTok StitchGraph is a collection of 36 graphs representing user and video relationships through TikTok's stitch feature. Built using the TikTok research API and web scraping, these graphs explore stitch patterns of users. 
 
 <img src="figures/user_graphs_filtered/maga-user-graph-filtered.svg" width="300">
 
