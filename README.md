@@ -1,4 +1,4 @@
-# TikTok StitchGraph 🎵 Characterizing communication patterns on TikTok through a collection of interaction networks
+# TikTok StitchGraph 🎵 
 
 We present TikTok StitchGraph: a collection of 36 graphs based on TikTok stitches.
 With its rapid growth and widespread popularity, TikTok presents a compelling
