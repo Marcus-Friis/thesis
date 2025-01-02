@@ -1,6 +1,24 @@
-# TikTok StitchGraph 🎵
+# TikTok StitchGraph 🎵 Characterizing communication patterns on TikTok through a collection of interaction networks
 
-In recent times, with the introduction of TikTok, Instagram reels, YouTube Shorts etc., short-form videos have become one of the main mediums for public discourse. This poses an interesting challenge, as understanding the contents of these videos analytically requires analyzing both the visual, auditory, and textual components of the content. Furthermore, platforms such as TikTok allows for responding to other videos through *“stitches”*, creating a network-like structure, where videos can respond to other videos. Fully grasping the nature of such a network requires understanding both the topological structure of the TikTok stitch network, along with the individual contents of each video. That is what this project aims to explore. Using video content, how can we improve our understanding of how people communicate using stitches? To this end, we will use a combination of image processing, NLP methods and network analysis. 
+We present TikTok StitchGraph: a collection of 36 graphs based on TikTok stitches.
+With its rapid growth and widespread popularity, TikTok presents a compelling
+platform for study. Its recently introduced research API offers an opportunity to
+explore the intricacies of its content-remixing stitch feature. Leveraging this, in
+combination with web scraping, we construct graphs detailing stitch relations from
+both a video- and user-centric perspective. Specifically, we focus on user multidigraphs,
+with vertices representing users and edges representing directed stitch
+relations. From the user graphs, we characterize common communication patterns
+of the stitch using frequent subgraph mining, finding a preference for stars and
+star-like structures, an aversion towards cyclic structures, and directional disposition
+favoring in- and out-stars over mixed-direction structures. These structures
+are augmented with sentiment labels in the form of edge attributes. However, the
+added complexity yields no new insights. Furthermore, no discovered subgraph
+is statistically significant under a configuration null model. Using these subgraphs
+for graph-level embeddings together with Graph2Vec, we show no clear distinction
+between topologies for different hashtag topic categories. Lastly, comparing
+StitchGraph to Twitter reply networks reveal no major findings with the subgraph
+analysis and graph embeddings. The dataset and methodology demonstrate one
+approach to comprising and analyzing network structures from TikTok.
 
 <img src="figures/user_graphs_filtered/maga-user-graph-filtered.svg" width="300">
 
